@@ -1,27 +1,57 @@
 <?php
-// Algoritmo de ejemplo - Alex
-$numeros = [10, 25, 3, 45, 7];
+// Algoritmo de ejemplo - Alex con Arrays Asociativos
 
-// Encontrar el mayor número
-$mayor = $numeros[0];
-foreach ($numeros as $num) {
-    if ($num > $mayor) {
-        $mayor = $num;
+define("EDAD_MINIMA", 18);
+
+// Declaración de un arreglo (nombre => edad)
+$personas = [
+    "Ana" => 23,
+    "Luis" => 30,
+    "Carla" => 17,
+    "Pedro" => 25,
+    "Laura" => 40
+];
+
+// Variables para almacenar datos
+$edades = [];
+$adultos = 0;
+$totalEdades = 0;
+$cantidadPersonas = count($personas);
+
+foreach ($personas as $persona => $edad) {
+    $edades[] = $edad;
+    $totalEdades += $edad;
+
+    if ($edad >= EDAD_MINIMA) {
+        $adultos++;
+        echo $persona . " es mayor de edad\n";
+    } else {
+        echo $persona . " es menor de edad\n";
     }
 }
 
-echo "El número mayor es: $mayor\n";
-
-// Validación con if-else
-if ($mayor > 20) {
-    echo "El número mayor es mayor que 20\n";
-} elseif ($mayor == 20) {
-    echo "El número mayor es igual a 20\n";
+// Calculamos el promedio de edad
+if ($cantidadPersonas > 0) {
+    $promedio = $totalEdades / $cantidadPersonas;
 } else {
-    echo "El número mayor es menor que 20\n";
+    $promedio = 0;
 }
 
-// Variable string
-$mensaje = "Hola mundo PHP";
-echo $mensaje . "\n";
+echo "\nCantidad de personas: " . $cantidadPersonas;
+echo "\nCantidad de adultos: " . $adultos;
+echo "\nPromedio de edad: " . $promedio . "\n";
+
+$estadisticas = [
+    "total_personas" => $cantidadPersonas,
+    "adultos" => $adultos,
+    "menores" => $cantidadPersonas - $adultos,
+    "promedio_edad" => $promedio,
+    "edad_minima_adulto" => EDAD_MINIMA
+];
+
+echo "\n=== ESTADÍSTICAS ===\n";
+foreach ($estadisticas as $clave => $valor) {
+    echo ucfirst(str_replace("_", " ", $clave)) . ": " . $valor . "\n";
+}
+
 ?>

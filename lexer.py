@@ -5,13 +5,13 @@ from datetime import datetime
 
 # Definir tokens para PHP
 tokens = [
-    # Tokens básicos (para que funcione el analizador)
+    # Definicion de Tokens básicos para mi analizador lexico
     'VARIABLE',
     'NUMERO',
     'CADENA',
     'IDENTIFICADOR',
 
-    # Operadores básicos (para que funcione el analizador)
+    # Definicion de operadores básicos
     'MAS',
     'MENOS',
     'MULTIPLICAR',
@@ -37,10 +37,11 @@ tokens = [
     'FLECHA',
     'DOBLE_DOS_PUNTOS',
     'CONCATENAR',
+    'ARRAY_ASOCIATIVO',
     # === FIN CONTRIBUCIÓN ALEX ===
 ]
 
-# Palabras reservadas (mantenidas como estaban)
+# Definicion de palabras reservadas
 reserved = {
     'if': 'IF',
     'else': 'ELSE',
@@ -59,11 +60,13 @@ reserved = {
     'echo': 'ECHO',
     'print': 'PRINT',
     'array': 'ARRAY',
+    'define': 'DEFINE',
+    'count': 'COUNT',
 }
 
 tokens += list(reserved.values())
 
-# Tokens básicos (implementación simple para que funcione)
+# Implementacion de mis Tokens básicos
 def t_VARIABLE(t):
     r'\$[a-zA-Z_][a-zA-Z_0-9]*'
     return t
@@ -80,7 +83,7 @@ def t_CADENA(t):
     r'\"([^\\\n]|(\\.))*?\"'
     return t
 
-# Operadores básicos
+# Definicion de mis tokens para los operadores básicos
 t_MAS = r'\+'
 t_MENOS = r'-'
 t_MULTIPLICAR = r'\*'
@@ -94,18 +97,19 @@ t_MAYOR_IGUAL = r'>='
 t_MENOR_IGUAL = r'<='
 
 # === INICIO CONTRIBUCIÓN ALEX - Delimitadores y estructura ===
-t_PAREN_IZQ = r'\('         # Paréntesis izquierdo (
-t_PAREN_DER = r'\)'         # Paréntesis derecho )
-t_LLAVE_IZQ = r'\{'         # Llave izquierda {
-t_LLAVE_DER = r'\}'         # Llave derecha }
-t_CORCHETE_IZQ = r'\['      # Corchete izquierdo [
-t_CORCHETE_DER = r'\]'      # Corchete derecho ]
-t_PUNTO_COMA = r';'         # Punto y coma ;
-t_COMA = r','               # Coma ,
-t_PUNTO = r'\.'             # Punto .
-t_FLECHA = r'->'            # Flecha -> (para objetos)
-t_DOBLE_DOS_PUNTOS = r'::'  # Doble dos puntos :: (para clases estáticas)
-t_CONCATENAR = r'\.'        # Concatenación . (en PHP)
+t_PAREN_IZQ = r'\('
+t_PAREN_DER = r'\)'
+t_LLAVE_IZQ = r'\{'
+t_LLAVE_DER = r'\}'
+t_CORCHETE_IZQ = r'\['
+t_CORCHETE_DER = r'\]'
+t_PUNTO_COMA = r';'
+t_COMA = r','
+t_PUNTO = r'\.'
+t_FLECHA = r'->'
+t_DOBLE_DOS_PUNTOS = r'::'
+t_ARRAY_ASOCIATIVO = r'=>'
+t_CONCATENAR = r'\.'
 # === FIN CONTRIBUCIÓN ALEX ===
 
 def t_IDENTIFICADOR(t):
@@ -113,19 +117,19 @@ def t_IDENTIFICADOR(t):
     t.type = reserved.get(t.value, 'IDENTIFICADOR')
     return t
 
-# Ignorar espacios, tabs y saltos de línea
+# Este es un token para ignorar espacios, tabs y saltos de línea y su implementación
 t_ignore = ' \t'
 
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-# Ignorar comentarios de una línea
+# Este es un token para ignorar comentarios de una línea y su implementacion
 def t_comment(t):
     r'//.*'
     pass
 
-# Manejo de errores
+# implementacion de mi token para el manejo de errores
 def t_error(t):
     print(f"Carácter ilegal '{t.value[0]}' en línea {t.lineno}")
     t.lexer.skip(1)
@@ -140,10 +144,10 @@ def analyze_file(filename, contributor_name="Alex"):
             data = file.read()
 
         # Generar nombre del log con el nombre del contribuidor
+
         timestamp = datetime.now().strftime("%d-%m-%Y-%Hh%M")
         log_filename = f"logs/lexico-{contributor_name}-{timestamp}.txt"
 
-        # Crear directorio logs si no existe
         os.makedirs('logs', exist_ok=True)
 
         lexer.input(data)
@@ -160,7 +164,6 @@ def analyze_file(filename, contributor_name="Alex"):
             tokens_found.append(f"Token: {tok.type}, Valor: '{tok.value}', Línea: {tok.lineno}")
             print(f"Token: {tok.type}, Valor: '{tok.value}', Línea: {tok.lineno}")
 
-        # Escribir log
         with open(log_filename, 'w', encoding='utf-8') as log_file:
             log_file.write(f"ANÁLISIS LÉXICO - {filename}\n")
             log_file.write(f"Contribución de: {contributor_name}\n")
@@ -172,6 +175,9 @@ def analyze_file(filename, contributor_name="Alex"):
                 log_file.write(token + "\n")
 
             log_file.write(f"\nTotal tokens: {len(tokens_found)}\n")
+
+            alex_tokens = [t for t in tokens_found if any(delim in t for delim in ['PAREN_IZQ', 'PAREN_DER', 'LLAVE_IZQ', 'LLAVE_DER', 'CORCHETE_IZQ', 'CORCHETE_DER', 'PUNTO_COMA', 'COMA', 'PUNTO', 'FLECHA', 'DOBLE_DOS_PUNTOS', 'CONCATENAR', 'ARRAY_ASOCIATIVO'])]
+            log_file.write(f"Tokens de delimitadores (contribución Alex): {len(alex_tokens)}\n")
 
         print(f"Log generado: {log_filename}")
         return log_filename
@@ -198,7 +204,6 @@ if __name__ == "__main__":
         }
     }
 
-    # Verificar argumentos de línea de comandos
     if len(sys.argv) > 1:
         nombre = sys.argv[1].lower()
         if nombre in algoritmos:
@@ -216,7 +221,6 @@ if __name__ == "__main__":
         print("python lexer.py nehemias  # Para probar algoritmo de Nehemias")
         print("\nO ejecuta todos:")
 
-        # Ejecutar todos los algoritmos
         for nombre, config in algoritmos.items():
             if os.path.exists(config["archivo"]):
                 print(f"\n--- Analizando {nombre.upper()} ---")
