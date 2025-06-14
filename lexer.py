@@ -142,50 +142,78 @@ def t_error(t):
     print(f"Carácter ilegal '{t.value[0]}' en línea {t.lineno}")
     t.lexer.skip(1)
 
-# Construir el lexer
-lexer = lex.lex()
 
-def analyze_file(filename, contributor_name="Alex"):
-    """Analiza un archivo PHP y genera log de tokens"""
+def analyze_file(filename, github_user):
+    lexer = lex.lex()
     try:
         with open(filename, 'r', encoding='utf-8') as file:
             data = file.read()
 
-        # Generar nombre del log con el nombre del contribuidor
+        # Genera nombre del log con el nombre del contribuidor
 
         timestamp = datetime.now().strftime("%d-%m-%Y-%Hh%M")
-        log_filename = f"logs/lexico-{contributor_name}-{timestamp}.txt"
+        log_filename = f"logs/lexico-{github_user}-{timestamp}.txt"
 
         os.makedirs('logs', exist_ok=True)
-
         lexer.input(data)
-
-        tokens_found = []
+        tokens_reconocidos = []
 
         print(f"Analizando archivo: {filename}")
-        print(f"Contribuidor: {contributor_name}")
+        print(f"github_user: {github_user}")
 
-        while True:
-            tok = lexer.token()
-            if not tok:
-                break
-            tokens_found.append(f"Token: {tok.type}, Valor: '{tok.value}', Línea: {tok.lineno}")
-            print(f"Token: {tok.type}, Valor: '{tok.value}', Línea: {tok.lineno}")
+        condicion=True
+        while condicion:
+            token = lexer.token()
+            if token is not None:
+                tokens_reconocidos.append(f"Token: {token.type}, Valor: '{token.value}', Línea: {token.lineno}")
+            else:
+                condicion=False
 
         with open(log_filename, 'w', encoding='utf-8') as log_file:
             log_file.write(f"ANÁLISIS LÉXICO - {filename}\n")
-            log_file.write(f"Contribución de: {contributor_name}\n")
+            log_file.write(f"Contribución de: {github_user}\n")
             log_file.write(f"Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n")
             log_file.write("="*50 + "\n\n")
 
             log_file.write("TOKENS RECONOCIDOS:\n")
-            for token in tokens_found:
+            for token in tokens_reconocidos:
                 log_file.write(token + "\n")
+            log_file.write(f"\nTotal tokens: {len(tokens_reconocidos)}\n")
 
-            log_file.write(f"\nTotal tokens: {len(tokens_found)}\n")
+            
 
-            alex_tokens = [t for t in tokens_found if any(delim in t for delim in ['PAREN_IZQ', 'PAREN_DER', 'LLAVE_IZQ', 'LLAVE_DER', 'CORCHETE_IZQ', 'CORCHETE_DER', 'PUNTO_COMA', 'COMA', 'PUNTO', 'FLECHA', 'DOBLE_DOS_PUNTOS', 'ARRAY_ASOCIATIVO'])]
-            log_file.write(f"Tokens de delimitadores (contribución Alex): {len(alex_tokens)}\n")
+            tokens_Alex = [
+                    'PAREN_IZQ', 'PAREN_DER', 'LLAVE_IZQ', 'LLAVE_DER',
+                    'CORCHETE_IZQ', 'CORCHETE_DER', 'PUNTO_COMA', 'COMA',
+                    'PUNTO', 'FLECHA', 'DOBLE_DOS_PUNTOS', 'ARRAY_ASOCIATIVO'
+            ]
+            tokens_Fernando = [
+                'VARIABLE', 'NUMERO', 'CADENA', 'IDENTIFICADOR'
+            ]
+            tokens_Nehemias = [
+                'MAS', 'MENOS', 'MULTIPLICAR', 'DIVIDIR', 'ASIGNAR',
+                'IGUAL', 'NO_IGUAL', 'MAYOR', 'MENOR', 'MAYOR_IGUAL',
+                'MENOR_IGUAL'
+            ]
+                
+            cantidad_contribucion_Alex=0
+            for tok in tokens_reconocidos:
+                if tok.split(",")[0].split(":")[1].strip() in tokens_Alex:
+                    cantidad_contribucion_Alex += 1
+            log_file.write(f"Tokens construidos (contribución Alex): {cantidad_contribucion_Alex}\n")
+
+            cantidad_contribucion_Fernando=0
+            for tok in tokens_reconocidos:
+                if tok.split(",")[0].split(":")[1].strip() in tokens_Fernando:
+                    cantidad_contribucion_Fernando += 1
+            log_file.write(f"Tokens construidos (contribución Fernando): {cantidad_contribucion_Fernando}\n")
+
+            cantidad_contribucion_Nehemias=0
+            for tok in tokens_reconocidos:
+                if tok.split(",")[0].split(":")[1].strip() in tokens_Nehemias:
+                    cantidad_contribucion_Nehemias += 1
+            log_file.write(f"Tokens construidos (contribución Nehemias): {cantidad_contribucion_Nehemias}\n")
+            
 
         print(f"Log generado: {log_filename}")
         return log_filename
@@ -198,40 +226,24 @@ def analyze_file(filename, contributor_name="Alex"):
 if __name__ == "__main__":
     # Mapeo de archivos y contribuidores
     algoritmos = {
-        "alex": {
+        "Alex": {
             "archivo": "algoritmos/algortimo_Alex.php",
-            "contribuidor": "Alex"
+            "github":"Alex-Benites"
         },
-        "fernando": {
+        "Fernando": {
             "archivo": "algoritmos/algoritmo_Fernando.php",
-            "contribuidor": "Fernando"
+            "github":"fzavala2003" 
+
         },
-        "nehemias": {
+        "Nehemias": {
             "archivo": "algoritmos/algoritmo_Nehemias.php",
-            "contribuidor": "Nehemias"
+            "github":"NLindao2004"
         }
     }
 
-    if len(sys.argv) > 1:
-        nombre = sys.argv[1].lower()
-        if nombre in algoritmos:
-            config = algoritmos[nombre]
-            if os.path.exists(config["archivo"]):
-                analyze_file(config["archivo"], config["contribuidor"])
-            else:
-                print(f"Archivo no encontrado: {config['archivo']}")
-        else:
-            print(f"Nombre no válido. Usa: {', '.join(algoritmos.keys())}")
+for nombre, config in algoritmos.items():
+    if os.path.exists(config["archivo"]):
+        print(f"\n--- ANALIZANDO {nombre.upper()} ---")
+        analyze_file(config["archivo"], config["github"])
     else:
-        print("Uso:")
-        print("python lexer.py alex      # Para probar algoritmo de Alex")
-        print("python lexer.py fernando  # Para probar algoritmo de Fernando")
-        print("python lexer.py nehemias  # Para probar algoritmo de Nehemias")
-        print("\nO ejecuta todos:")
-
-        for nombre, config in algoritmos.items():
-            if os.path.exists(config["archivo"]):
-                print(f"\n--- Analizando {nombre.upper()} ---")
-                analyze_file(config["archivo"], config["contribuidor"])
-            else:
-                print(f"Archivo no encontrado: {config['archivo']}")
+        print(f"Archivo no encontrado: {config['archivo']}")
