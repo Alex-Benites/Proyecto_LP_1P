@@ -1,39 +1,225 @@
-# clase de introduccion nomas
-
 import ply.lex as lex
-import ply.yacc as yacc
+import os
+import sys
+from datetime import datetime
 
-# Definir tokens
-tokens = ['NUMBER', 'PLUS', 'MINUS']
+# Definir tokens para PHP
+tokens = [
+    # Tokens básicos (para que funcione el analizador)
+    'VARIABLE',
+    'NUMERO',
+    'CADENA',
+    'IDENTIFICADOR',
 
-# Reglas del lexer
-t_PLUS = r'\+'
-t_MINUS = r'-'
+    # Operadores básicos (para que funcione el analizador)
+    'MAS',
+    'MENOS',
+    'MULTIPLICAR',
+    'DIVIDIR',
+    'ASIGNAR',
+    'IGUAL',
+    'NO_IGUAL',
+    'MAYOR',
+    'MENOR',
+    'MAYOR_IGUAL',
+    'MENOR_IGUAL',
 
-def t_NUMBER(t):
-    r'\d+'
-    t.value = int(t.value)
+    # === INICIO CONTRIBUCIÓN ALEX - Delimitadores y estructura ===
+    'PAREN_IZQ',
+    'PAREN_DER',
+    'LLAVE_IZQ',
+    'LLAVE_DER',
+    'CORCHETE_IZQ',
+    'CORCHETE_DER',
+    'PUNTO_COMA',
+    'COMA',
+    'PUNTO',
+    'FLECHA',
+    'DOBLE_DOS_PUNTOS',
+    'CONCATENAR',
+    # === FIN CONTRIBUCIÓN ALEX ===
+]
+
+# Palabras reservadas (mantenidas como estaban)
+reserved = {
+    'if': 'IF',
+    'else': 'ELSE',
+    'elseif': 'ELSEIF',
+    'while': 'WHILE',
+    'for': 'FOR',
+    'foreach': 'FOREACH',
+    'as': 'AS',
+    'function': 'FUNCTION',
+    'class': 'CLASS',
+    'public': 'PUBLIC',
+    'private': 'PRIVATE',
+    'protected': 'PROTECTED',
+    'return': 'RETURN',
+    'new': 'NEW',
+    'echo': 'ECHO',
+    'print': 'PRINT',
+    'array': 'ARRAY',
+}
+
+tokens += list(reserved.values())
+
+# Tokens básicos (implementación simple para que funcione)
+def t_VARIABLE(t):
+    r'\$[a-zA-Z_][a-zA-Z_0-9]*'
     return t
 
-# Ignorar espacios y tabs
+def t_NUMERO(t):
+    r'\d+(\.\d+)?'
+    try:
+        t.value = float(t.value) if '.' in t.value else int(t.value)
+    except ValueError:
+        t.value = 0
+    return t
+
+def t_CADENA(t):
+    r'\"([^\\\n]|(\\.))*?\"'
+    return t
+
+# Operadores básicos
+t_MAS = r'\+'
+t_MENOS = r'-'
+t_MULTIPLICAR = r'\*'
+t_DIVIDIR = r'/'
+t_ASIGNAR = r'='
+t_IGUAL = r'=='
+t_NO_IGUAL = r'!='
+t_MAYOR = r'>'
+t_MENOR = r'<'
+t_MAYOR_IGUAL = r'>='
+t_MENOR_IGUAL = r'<='
+
+# === INICIO CONTRIBUCIÓN ALEX - Delimitadores y estructura ===
+t_PAREN_IZQ = r'\('         # Paréntesis izquierdo (
+t_PAREN_DER = r'\)'         # Paréntesis derecho )
+t_LLAVE_IZQ = r'\{'         # Llave izquierda {
+t_LLAVE_DER = r'\}'         # Llave derecha }
+t_CORCHETE_IZQ = r'\['      # Corchete izquierdo [
+t_CORCHETE_DER = r'\]'      # Corchete derecho ]
+t_PUNTO_COMA = r';'         # Punto y coma ;
+t_COMA = r','               # Coma ,
+t_PUNTO = r'\.'             # Punto .
+t_FLECHA = r'->'            # Flecha -> (para objetos)
+t_DOBLE_DOS_PUNTOS = r'::'  # Doble dos puntos :: (para clases estáticas)
+t_CONCATENAR = r'\.'        # Concatenación . (en PHP)
+# === FIN CONTRIBUCIÓN ALEX ===
+
+def t_IDENTIFICADOR(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value, 'IDENTIFICADOR')
+    return t
+
+# Ignorar espacios, tabs y saltos de línea
 t_ignore = ' \t'
 
-# Manejo de errores (obligatorio en PLY)
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
+
+# Ignorar comentarios de una línea
+def t_comment(t):
+    r'//.*'
+    pass
+
+# Manejo de errores
 def t_error(t):
-    print(f"Carácter ilegal '{t.value[0]}'")
+    print(f"Carácter ilegal '{t.value[0]}' en línea {t.lineno}")
     t.lexer.skip(1)
 
 # Construir el lexer
 lexer = lex.lex()
 
-# Probar el lexer
-if __name__ == "__main__":
-    data = "3 + 5 - 2"
-    lexer.input(data)
+def analyze_file(filename, contributor_name="Alex"):
+    """Analiza un archivo PHP y genera log de tokens"""
+    try:
+        with open(filename, 'r', encoding='utf-8') as file:
+            data = file.read()
 
-    print(f"Analizando: {data}")
-    while True:
-        tok = lexer.token()
-        if not tok:
-            break
-        print(f"Token: {tok.type}, Valor: {tok.value}")
+        # Generar nombre del log con el nombre del contribuidor
+        timestamp = datetime.now().strftime("%d-%m-%Y-%Hh%M")
+        log_filename = f"logs/lexico-{contributor_name}-{timestamp}.txt"
+
+        # Crear directorio logs si no existe
+        os.makedirs('logs', exist_ok=True)
+
+        lexer.input(data)
+
+        tokens_found = []
+
+        print(f"Analizando archivo: {filename}")
+        print(f"Contribuidor: {contributor_name}")
+
+        while True:
+            tok = lexer.token()
+            if not tok:
+                break
+            tokens_found.append(f"Token: {tok.type}, Valor: '{tok.value}', Línea: {tok.lineno}")
+            print(f"Token: {tok.type}, Valor: '{tok.value}', Línea: {tok.lineno}")
+
+        # Escribir log
+        with open(log_filename, 'w', encoding='utf-8') as log_file:
+            log_file.write(f"ANÁLISIS LÉXICO - {filename}\n")
+            log_file.write(f"Contribución de: {contributor_name}\n")
+            log_file.write(f"Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n")
+            log_file.write("="*50 + "\n\n")
+
+            log_file.write("TOKENS RECONOCIDOS:\n")
+            for token in tokens_found:
+                log_file.write(token + "\n")
+
+            log_file.write(f"\nTotal tokens: {len(tokens_found)}\n")
+
+        print(f"Log generado: {log_filename}")
+        return log_filename
+
+    except FileNotFoundError:
+        print(f"Error: No se pudo encontrar el archivo {filename}")
+    except Exception as e:
+        print(f"Error al procesar el archivo: {e}")
+
+if __name__ == "__main__":
+    # Mapeo de archivos y contribuidores
+    algoritmos = {
+        "alex": {
+            "archivo": "algoritmos/algortimo_Alex.php",
+            "contribuidor": "Alex"
+        },
+        "fernando": {
+            "archivo": "algoritmos/algoritmo_Fernando.php",
+            "contribuidor": "Fernando"
+        },
+        "nehemias": {
+            "archivo": "algoritmos/algoritmo_Nehemias.php",
+            "contribuidor": "Nehemias"
+        }
+    }
+
+    # Verificar argumentos de línea de comandos
+    if len(sys.argv) > 1:
+        nombre = sys.argv[1].lower()
+        if nombre in algoritmos:
+            config = algoritmos[nombre]
+            if os.path.exists(config["archivo"]):
+                analyze_file(config["archivo"], config["contribuidor"])
+            else:
+                print(f"Archivo no encontrado: {config['archivo']}")
+        else:
+            print(f"Nombre no válido. Usa: {', '.join(algoritmos.keys())}")
+    else:
+        print("Uso:")
+        print("python lexer.py alex      # Para probar algoritmo de Alex")
+        print("python lexer.py fernando  # Para probar algoritmo de Fernando")
+        print("python lexer.py nehemias  # Para probar algoritmo de Nehemias")
+        print("\nO ejecuta todos:")
+
+        # Ejecutar todos los algoritmos
+        for nombre, config in algoritmos.items():
+            if os.path.exists(config["archivo"]):
+                print(f"\n--- Analizando {nombre.upper()} ---")
+                analyze_file(config["archivo"], config["contribuidor"])
+            else:
+                print(f"Archivo no encontrado: {config['archivo']}")

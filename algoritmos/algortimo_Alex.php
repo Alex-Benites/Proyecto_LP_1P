@@ -1,5 +1,4 @@
 <?php
-<?php
 // Algoritmo de ejemplo - Alex
 $numeros = [10, 25, 3, 45, 7];
 

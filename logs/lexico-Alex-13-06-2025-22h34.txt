@@ -1,0 +1,92 @@
+ANÁLISIS LÉXICO - algoritmos/algortimo_Alex.php
+Contribución de: Alex
+Fecha: 13/06/2025 22:34:55
+==================================================
+
+TOKENS RECONOCIDOS:
+Token: MENOR, Valor: '<', Línea: 1
+Token: IDENTIFICADOR, Valor: 'php', Línea: 1
+Token: VARIABLE, Valor: '$numeros', Línea: 3
+Token: ASIGNAR, Valor: '=', Línea: 3
+Token: CORCHETE_IZQ, Valor: '[', Línea: 3
+Token: NUMERO, Valor: '10', Línea: 3
+Token: COMA, Valor: ',', Línea: 3
+Token: NUMERO, Valor: '25', Línea: 3
+Token: COMA, Valor: ',', Línea: 3
+Token: NUMERO, Valor: '3', Línea: 3
+Token: COMA, Valor: ',', Línea: 3
+Token: NUMERO, Valor: '45', Línea: 3
+Token: COMA, Valor: ',', Línea: 3
+Token: NUMERO, Valor: '7', Línea: 3
+Token: CORCHETE_DER, Valor: ']', Línea: 3
+Token: PUNTO_COMA, Valor: ';', Línea: 3
+Token: VARIABLE, Valor: '$mayor', Línea: 6
+Token: ASIGNAR, Valor: '=', Línea: 6
+Token: VARIABLE, Valor: '$numeros', Línea: 6
+Token: CORCHETE_IZQ, Valor: '[', Línea: 6
+Token: NUMERO, Valor: '0', Línea: 6
+Token: CORCHETE_DER, Valor: ']', Línea: 6
+Token: PUNTO_COMA, Valor: ';', Línea: 6
+Token: FOREACH, Valor: 'foreach', Línea: 7
+Token: PAREN_IZQ, Valor: '(', Línea: 7
+Token: VARIABLE, Valor: '$numeros', Línea: 7
+Token: AS, Valor: 'as', Línea: 7
+Token: VARIABLE, Valor: '$num', Línea: 7
+Token: PAREN_DER, Valor: ')', Línea: 7
+Token: LLAVE_IZQ, Valor: '{', Línea: 7
+Token: IF, Valor: 'if', Línea: 8
+Token: PAREN_IZQ, Valor: '(', Línea: 8
+Token: VARIABLE, Valor: '$num', Línea: 8
+Token: MAYOR, Valor: '>', Línea: 8
+Token: VARIABLE, Valor: '$mayor', Línea: 8
+Token: PAREN_DER, Valor: ')', Línea: 8
+Token: LLAVE_IZQ, Valor: '{', Línea: 8
+Token: VARIABLE, Valor: '$mayor', Línea: 9
+Token: ASIGNAR, Valor: '=', Línea: 9
+Token: VARIABLE, Valor: '$num', Línea: 9
+Token: PUNTO_COMA, Valor: ';', Línea: 9
+Token: LLAVE_DER, Valor: '}', Línea: 10
+Token: LLAVE_DER, Valor: '}', Línea: 11
+Token: ECHO, Valor: 'echo', Línea: 13
+Token: CADENA, Valor: '"El número mayor es: $mayor\n"', Línea: 13
+Token: PUNTO_COMA, Valor: ';', Línea: 13
+Token: IF, Valor: 'if', Línea: 16
+Token: PAREN_IZQ, Valor: '(', Línea: 16
+Token: VARIABLE, Valor: '$mayor', Línea: 16
+Token: MAYOR, Valor: '>', Línea: 16
+Token: NUMERO, Valor: '20', Línea: 16
+Token: PAREN_DER, Valor: ')', Línea: 16
+Token: LLAVE_IZQ, Valor: '{', Línea: 16
+Token: ECHO, Valor: 'echo', Línea: 17
+Token: CADENA, Valor: '"El número mayor es mayor que 20\n"', Línea: 17
+Token: PUNTO_COMA, Valor: ';', Línea: 17
+Token: LLAVE_DER, Valor: '}', Línea: 18
+Token: ELSEIF, Valor: 'elseif', Línea: 18
+Token: PAREN_IZQ, Valor: '(', Línea: 18
+Token: VARIABLE, Valor: '$mayor', Línea: 18
+Token: IGUAL, Valor: '==', Línea: 18
+Token: NUMERO, Valor: '20', Línea: 18
+Token: PAREN_DER, Valor: ')', Línea: 18
+Token: LLAVE_IZQ, Valor: '{', Línea: 18
+Token: ECHO, Valor: 'echo', Línea: 19
+Token: CADENA, Valor: '"El número mayor es igual a 20\n"', Línea: 19
+Token: PUNTO_COMA, Valor: ';', Línea: 19
+Token: LLAVE_DER, Valor: '}', Línea: 20
+Token: ELSE, Valor: 'else', Línea: 20
+Token: LLAVE_IZQ, Valor: '{', Línea: 20
+Token: ECHO, Valor: 'echo', Línea: 21
+Token: CADENA, Valor: '"El número mayor es menor que 20\n"', Línea: 21
+Token: PUNTO_COMA, Valor: ';', Línea: 21
+Token: LLAVE_DER, Valor: '}', Línea: 22
+Token: VARIABLE, Valor: '$mensaje', Línea: 25
+Token: ASIGNAR, Valor: '=', Línea: 25
+Token: CADENA, Valor: '"Hola mundo PHP"', Línea: 25
+Token: PUNTO_COMA, Valor: ';', Línea: 25
+Token: ECHO, Valor: 'echo', Línea: 26
+Token: VARIABLE, Valor: '$mensaje', Línea: 26
+Token: PUNTO, Valor: '.', Línea: 26
+Token: CADENA, Valor: '"\n"', Línea: 26
+Token: PUNTO_COMA, Valor: ';', Línea: 26
+Token: MAYOR, Valor: '>', Línea: 27
+
+Total tokens: 84
