@@ -163,6 +163,7 @@ def analyze_file(filename, github_user):
         print(f"Analizando archivo: {filename}")
         print(f"github_user: {github_user}")
 
+        # Iniciar el análisis léxico
         condicion=True
         while condicion:
             token = lexer.token()
