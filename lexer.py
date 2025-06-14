@@ -5,12 +5,14 @@ from datetime import datetime
 
 # Definir tokens para PHP
 tokens = [
-    # Definicion de Tokens básicos para mi analizador lexico
+    # === INICIO CONTRIBUCIÓN FERNANDO - Tokens básicos ===
     'VARIABLE',
     'NUMERO',
     'CADENA',
     'IDENTIFICADOR',
+    # === FIN CONTRIBUCIÓN FERNANDO ===
 
+    # === INICIO CONTRIBUCIÓN NEHEMIAS - Operadores ===
     # Definicion de operadores básicos
     'MAS',
     'MENOS',
@@ -23,6 +25,7 @@ tokens = [
     'MENOR',
     'MAYOR_IGUAL',
     'MENOR_IGUAL',
+    # === FIN CONTRIBUCIÓN NEHEMIAS ===
 
     # === INICIO CONTRIBUCIÓN ALEX - Delimitadores y estructura ===
     'PAREN_IZQ',
@@ -36,7 +39,6 @@ tokens = [
     'PUNTO',
     'FLECHA',
     'DOBLE_DOS_PUNTOS',
-    'CONCATENAR',
     'ARRAY_ASOCIATIVO',
     # === FIN CONTRIBUCIÓN ALEX ===
 ]
@@ -66,7 +68,8 @@ reserved = {
 
 tokens += list(reserved.values())
 
-# Implementacion de mis Tokens básicos
+# === INICIO CONTRIBUCIÓN FERNANDO - Tokens básicos ===
+# Implementacion de los tokens básicos
 def t_VARIABLE(t):
     r'\$[a-zA-Z_][a-zA-Z_0-9]*'
     return t
@@ -83,6 +86,14 @@ def t_CADENA(t):
     r'\"([^\\\n]|(\\.))*?\"'
     return t
 
+def t_IDENTIFICADOR(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value, 'IDENTIFICADOR')
+    return t
+# === FIN CONTRIBUCIÓN FERNANDO ===
+
+
+# === INICIO CONTRIBUCIÓN NEHEMIAS - Operadores ===
 # Definicion de mis tokens para los operadores básicos
 t_MAS = r'\+'
 t_MENOS = r'-'
@@ -95,6 +106,7 @@ t_MAYOR = r'>'
 t_MENOR = r'<'
 t_MAYOR_IGUAL = r'>='
 t_MENOR_IGUAL = r'<='
+# === FIN CONTRIBUCIÓN NEHEMIAS ===
 
 # === INICIO CONTRIBUCIÓN ALEX - Delimitadores y estructura ===
 t_PAREN_IZQ = r'\('
@@ -109,13 +121,9 @@ t_PUNTO = r'\.'
 t_FLECHA = r'->'
 t_DOBLE_DOS_PUNTOS = r'::'
 t_ARRAY_ASOCIATIVO = r'=>'
-t_CONCATENAR = r'\.'
 # === FIN CONTRIBUCIÓN ALEX ===
 
-def t_IDENTIFICADOR(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reserved.get(t.value, 'IDENTIFICADOR')
-    return t
+
 
 # Este es un token para ignorar espacios, tabs y saltos de línea y su implementación
 t_ignore = ' \t'
@@ -176,7 +184,7 @@ def analyze_file(filename, contributor_name="Alex"):
 
             log_file.write(f"\nTotal tokens: {len(tokens_found)}\n")
 
-            alex_tokens = [t for t in tokens_found if any(delim in t for delim in ['PAREN_IZQ', 'PAREN_DER', 'LLAVE_IZQ', 'LLAVE_DER', 'CORCHETE_IZQ', 'CORCHETE_DER', 'PUNTO_COMA', 'COMA', 'PUNTO', 'FLECHA', 'DOBLE_DOS_PUNTOS', 'CONCATENAR', 'ARRAY_ASOCIATIVO'])]
+            alex_tokens = [t for t in tokens_found if any(delim in t for delim in ['PAREN_IZQ', 'PAREN_DER', 'LLAVE_IZQ', 'LLAVE_DER', 'CORCHETE_IZQ', 'CORCHETE_DER', 'PUNTO_COMA', 'COMA', 'PUNTO', 'FLECHA', 'DOBLE_DOS_PUNTOS', 'ARRAY_ASOCIATIVO'])]
             log_file.write(f"Tokens de delimitadores (contribución Alex): {len(alex_tokens)}\n")
 
         print(f"Log generado: {log_filename}")
