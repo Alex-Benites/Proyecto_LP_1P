@@ -138,8 +138,10 @@ def t_comment(t):
     pass
 
 # implementacion de mi token para el manejo de errores
+errores_lexicos=[]
 def t_error(t):
     print(f"Carácter ilegal '{t.value[0]}' en línea {t.lineno}")
+    errores_lexicos.append(f"{t.value[0]} en línea {t.lineno}")
     t.lexer.skip(1)
 
 
@@ -178,42 +180,14 @@ def analyze_file(filename, github_user):
             log_file.write("TOKENS RECONOCIDOS:\n")
             for token in tokens_reconocidos:
                 log_file.write(token + "\n")
-            log_file.write(f"\nTotal tokens: {len(tokens_reconocidos)}\n")
-
+            log_file.write("\nERRORES LÉXICOS:\n")
+            if errores_lexicos != []:
+                for error in errores_lexicos:
+                    log_file.write(f"{error}\n")
             
-
-            tokens_Alex = [
-                    'PAREN_IZQ', 'PAREN_DER', 'LLAVE_IZQ', 'LLAVE_DER',
-                    'CORCHETE_IZQ', 'CORCHETE_DER', 'PUNTO_COMA', 'COMA',
-                    'PUNTO', 'FLECHA', 'DOBLE_DOS_PUNTOS', 'ARRAY_ASOCIATIVO'
-            ]
-            tokens_Fernando = [
-                'VARIABLE', 'NUMERO', 'CADENA', 'IDENTIFICADOR'
-            ]
-            tokens_Nehemias = [
-                'MAS', 'MENOS', 'MULTIPLICAR', 'DIVIDIR', 'ASIGNAR',
-                'IGUAL', 'NO_IGUAL', 'MAYOR', 'MENOR', 'MAYOR_IGUAL',
-                'MENOR_IGUAL'
-            ]
-                
-            cantidad_contribucion_Alex=0
-            for tok in tokens_reconocidos:
-                if tok.split(",")[0].split(":")[1].strip() in tokens_Alex:
-                    cantidad_contribucion_Alex += 1
-            log_file.write(f"Tokens construidos (contribución Alex): {cantidad_contribucion_Alex}\n")
-
-            cantidad_contribucion_Fernando=0
-            for tok in tokens_reconocidos:
-                if tok.split(",")[0].split(":")[1].strip() in tokens_Fernando:
-                    cantidad_contribucion_Fernando += 1
-            log_file.write(f"Tokens construidos (contribución Fernando): {cantidad_contribucion_Fernando}\n")
-
-            cantidad_contribucion_Nehemias=0
-            for tok in tokens_reconocidos:
-                if tok.split(",")[0].split(":")[1].strip() in tokens_Nehemias:
-                    cantidad_contribucion_Nehemias += 1
-            log_file.write(f"Tokens construidos (contribución Nehemias): {cantidad_contribucion_Nehemias}\n")
-            
+            log_file.write(f"\nTotal tokens reconocidos: {len(tokens_reconocidos)}\n")
+            log_file.write(f"Total errores léxicos: {len(errores_lexicos)}\n")
+            errores_lexicos.clear()  
 
         print(f"Log generado: {log_filename}")
         return log_filename
