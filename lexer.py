@@ -64,7 +64,7 @@ reserved = {
     'array': 'ARRAY',
     'define': 'DEFINE',
     'count': 'COUNT',
-    'interrogacion': 'INTERROGACION',
+    'tag_inicio': 'TAG_INICIO',
 }
 
 tokens += list(reserved.values())
@@ -96,7 +96,7 @@ def t_IDENTIFICADOR(t):
 
 # === INICIO CONTRIBUCIÓN NEHEMIAS - Operadores ===
 # Definicion de mis tokens para los operadores básicos
-t_INTERROGACION=r'\?'
+t_TAG_INICIO=r'<\?php'
 t_MAS = r'\+'
 t_MENOS = r'-'
 t_MULTIPLICAR = r'\*'
