@@ -64,6 +64,7 @@ reserved = {
     'array': 'ARRAY',
     'define': 'DEFINE',
     'count': 'COUNT',
+    'interrogacion': 'INTERROGACION',
 }
 
 tokens += list(reserved.values())
@@ -95,6 +96,7 @@ def t_IDENTIFICADOR(t):
 
 # === INICIO CONTRIBUCIÓN NEHEMIAS - Operadores ===
 # Definicion de mis tokens para los operadores básicos
+t_INTERROGACION=r'\?'
 t_MAS = r'\+'
 t_MENOS = r'-'
 t_MULTIPLICAR = r'\*'
@@ -125,25 +127,26 @@ t_ARRAY_ASOCIATIVO = r'=>'
 
 
 
-# Este es un token para ignorar espacios, tabs y saltos de línea y su implementación
+# ====Inicio contribucion Daniel Zavala====
+
 t_ignore = ' \t'
 
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-# Este es un token para ignorar comentarios de una línea y su implementacion
+
 def t_comment(t):
     r'//.*'
     pass
 
-# implementacion de mi token para el manejo de errores
 errores_lexicos=[]
 def t_error(t):
     print(f"Carácter ilegal '{t.value[0]}' en línea {t.lineno}")
     errores_lexicos.append(f"{t.value[0]} en línea {t.lineno}")
     t.lexer.skip(1)
 
+#===Fin contribucion Daniel Zavala====
 
 def analyze_file(filename, github_user):
     lexer = lex.lex()
