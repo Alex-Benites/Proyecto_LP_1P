@@ -1,0 +1,31 @@
+<programa> ::= "<" "php" ">" <sentencias> "<" "/" "php" ">"
+
+<sentencias> ::= <sentencia> | <sentencias> <sentencia>
+
+<sentencia> ::= <impresion> | <asignacion> | <input>
+
+<impresion> ::= "echo" <expresion> ";" | "print" <expresion> ";"
+
+<input> ::= <variable> "=" "readline" "(" ")" ";" 
+          | <variable> "=" "readline" "(" <cadena> ")" ";"
+
+<asignacion> ::= <variable> "=" <expresion> ";"
+
+<expresion> ::= <expresion> "+" <expresion>
+              | <expresion> "-" <expresion>
+              | <expresion> "*" <expresion>
+              | <expresion> "/" <expresion>
+              | "(" <expresion> ")"
+              | <numero>
+              | <variable>
+              | <cadena>
+
+<variable> ::= "$" <identificador>
+<numero> ::= <digito> | <numero> <digito>
+<cadena> ::= "\"" <caracteres> "\""
+<identificador> ::= <letra> | <identificador> <letra_o_digito>
+<letra_o_digito> ::= <letra> | <digito>
+<letra> ::= "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+<digito> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<caracteres> ::= <caracter> | <caracteres> <caracter>
+<caracter> ::= <letra> | <digito> | " "

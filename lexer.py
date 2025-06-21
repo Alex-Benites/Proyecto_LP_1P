@@ -25,6 +25,7 @@ tokens = [
     'MENOR',
     'MAYOR_IGUAL',
     'MENOR_IGUAL',
+    'TAG_INICIO',
     # === FIN CONTRIBUCIÓN NEHEMIAS ===
 
     # === INICIO CONTRIBUCIÓN ALEX - Delimitadores y estructura ===
@@ -61,10 +62,7 @@ reserved = {
     'new': 'NEW',
     'echo': 'ECHO',
     'print': 'PRINT',
-    'array': 'ARRAY',
-    'define': 'DEFINE',
-    'count': 'COUNT',
-    'tag_inicio': 'TAG_INICIO',
+    'readline': 'READLINE',
 }
 
 tokens += list(reserved.values())
@@ -148,29 +146,29 @@ def t_error(t):
 
 #===Fin contribucion Daniel Zavala====
 
+# CREAR EL LEXER GLOBAL 
+lexer = lex.lex(debug=True)
+
 #Todos contribuimos
 def analyze_file(filename, github_user):
-    lexer = lex.lex()
+    local_lexer = lex.lex()  # Usar lexer local para esta función
     try:
         with open(filename, 'r', encoding='utf-8') as file:
             data = file.read()
-
-        # Genera nombre del log con el nombre del contribuidor
 
         timestamp = datetime.now().strftime("%d-%m-%Y-%Hh%M")
         log_filename = f"logs/lexico-{github_user}-{timestamp}.txt"
 
         os.makedirs('logs', exist_ok=True)
-        lexer.input(data)
+        local_lexer.input(data)  # Cambiar a local_lexer
         tokens_reconocidos = []
 
         print(f"Analizando archivo: {filename}")
         print(f"github_user: {github_user}")
 
-        # Iniciar el análisis léxico
         condicion=True
         while condicion:
-            token = lexer.token()
+            token = local_lexer.token()  # Cambiar a local_lexer
             if token is not None:
                 tokens_reconocidos.append(f"Token: {token.type}, Valor: '{token.value}', Línea: {token.lineno}")
             else:
@@ -220,9 +218,9 @@ if __name__ == "__main__":
         }
     }
 
-for nombre, config in algoritmos.items():
-    if os.path.exists(config["archivo"]):
-        print(f"\n--- ANALIZANDO {nombre.upper()} ---")
-        analyze_file(config["archivo"], config["github"])
-    else:
-        print(f"Archivo no encontrado: {config['archivo']}")
+    for nombre, config in algoritmos.items():
+        if os.path.exists(config["archivo"]):
+            print(f"\n--- ANALIZANDO {nombre.upper()} ---")
+            analyze_file(config["archivo"], config["github"])
+        else:
+            print(f"Archivo no encontrado: {config['archivo']}")

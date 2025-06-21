@@ -1,12 +1,10 @@
 ANÁLISIS LÉXICO - algoritmos/algoritmo_Nehemias.php
 Contribución de: NLindao2004
-Fecha: 14/06/2025 19:38:01
+Fecha: 16/06/2025 11:12:55
 ==================================================
 
 TOKENS RECONOCIDOS:
-Token: MENOR, Valor: '<', Línea: 1
-Token: INTERROGACION, Valor: '?', Línea: 1
-Token: IDENTIFICADOR, Valor: 'php', Línea: 1
+Token: TAG_INICIO, Valor: '<?php', Línea: 1
 Token: DEFINE, Valor: 'define', Línea: 3
 Token: PAREN_IZQ, Valor: '(', Línea: 3
 Token: CADENA, Valor: '"EDAD_MINIMA"', Línea: 3
@@ -189,5 +187,5 @@ Token: PUNTO_COMA, Valor: ';', Línea: 44
 
 ERRORES LÉXICOS:
 
-Total tokens reconocidos: 182
+Total tokens reconocidos: 180
 Total errores léxicos: 0
