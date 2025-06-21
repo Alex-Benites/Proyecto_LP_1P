@@ -1,44 +1,51 @@
 <?php
-// Constante que define la edad mínima para ser considerado adulto
-define("EDAD_MINIMA", 18);
-// Declaración de un arreglo con datos de personas (nombre y edad)
-$personas = [
-    ["nombre" => "Ana", "edad" => 23],
-    ["nombre" => "Luis", "edad" => 30],
-    ["nombre" => "Carla", "edad" => 17],
-    ["nombre" => "Pedro", "edad" => 25],
-    ["nombre" => "Laura", "edad" => 40],
-];
-// Variables para almacenar datos
-$edades = []; // Arreglo para guardar las edades
-$adultos = 0; // Contador de adultos
-$totalEdades = 0; // Suma total de todas las edades
-$cantidadPersonas = count($personas); // Número total de personas
+<?php
+// Algoritmo de Pila (LIFO - Last In, First Out)
+// Contribuidor: NLindao2004
 
-// Recorremos el arreglo para analizar a cada persona
-foreach ($personas as $persona) {
-    // Agregamos la edad al arreglo de edades
-    $edades[] = $persona["edad"];
-    // Sumamos la edad al total
-    $totalEdades += $persona["edad"];
+// Definir tamaño máximo de la pila
+define("TAMAÑO_MAXIMO", 5);
 
-    // Verificamos si es mayor de edad
-    if ($persona["edad"] >= EDAD_MINIMA) {
-        $adultos++;
-        echo $persona["nombre"] . " es mayor de edad\n";
-    } else {
-        echo $persona["nombre"] . " es menor de edad\n";
-    }
+// Declarar la pila como array vacío
+$pila = [];
+
+// Variable para el tope de la pila
+$tope = 0;
+
+// Agregar elementos a la pila (PUSH)
+$elemento1 = 10;
+$pila[] = $elemento1;
+$tope = $tope + 1;
+
+$elemento2 = 20;
+$pila[] = $elemento2;
+$tope = $tope + 1;
+
+$elemento3 = 30;
+$pila[] = $elemento3;
+$tope = $tope + 1;
+
+// Mostrar estado de la pila
+echo "Elementos en la pila: ";
+echo $tope;
+
+// Remover elemento de la pila (POP)
+$elementoRemovido = $pila[$tope];
+$tope = $tope - 1;
+
+echo "Elemento removido: ";
+echo $elementoRemovido;
+
+// Mostrar nuevo estado
+echo "Nuevo tope: ";
+echo $tope;
+
+// Verificar si la pila está vacía
+$estaVacia = 0;
+if ($tope == 0) {
+    $estaVacia = 1;
 }
 
-// Calculamos el promedio de edad (evitando división por cero)
-if ($cantidadPersonas > 0) {
-    $promedio = $totalEdades / $cantidadPersonas;
-} else {
-    $promedio = 0;
-}
-
-// Mostramos resultados finales
-echo "\nCantidad de personas: " . $cantidadPersonas;
-echo "\nCantidad de adultos: " . $adultos;
-echo "\nPromedio de edad: " . $promedio . "\n";
+echo "Pila vacia: ";
+echo $estaVacia;
+?>

@@ -1,0 +1,122 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ARRAY_ASOCIATIVO
+    AS
+    CLASS
+    DOBLE_DOS_PUNTOS
+    ECHO
+    ELSE
+    ELSEIF
+    FLECHA
+    FOR
+    FOREACH
+    FUNCTION
+    IF
+    IGUAL
+    LLAVE_DER
+    LLAVE_IZQ
+    MAYOR
+    MAYOR_IGUAL
+    MENOR
+    MENOR_IGUAL
+    NEW
+    NO_IGUAL
+    PRINT
+    PRIVATE
+    PROTECTED
+    PUBLIC
+    PUNTO
+    READLINE
+    RETURN
+    WHILE
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> TAG_INICIO sentencias
+Rule 2     programa -> sentencias
+Rule 3     sentencias -> sentencia
+Rule 4     sentencias -> sentencias sentencia
+Rule 5     sentencia -> asignacion
+Rule 6     sentencia -> declaracion_define
+Rule 7     sentencia -> expresion PUNTO_COMA
+Rule 8     asignacion -> VARIABLE ASIGNAR expresion PUNTO_COMA
+Rule 9     declaracion_define -> DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA
+Rule 10    expresion -> expresion MAS expresion
+Rule 11    expresion -> expresion MENOS expresion
+Rule 12    expresion -> expresion MULTIPLICAR expresion
+Rule 13    expresion -> expresion DIVIDIR expresion
+Rule 14    expresion -> PAREN_IZQ expresion PAREN_DER
+Rule 15    expresion -> NUMERO
+Rule 16    expresion -> CADENA
+Rule 17    expresion -> VARIABLE
+Rule 18    expresion -> IDENTIFICADOR
+Rule 19    expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER
+Rule 20    expresion -> CORCHETE_IZQ CORCHETE_DER
+Rule 21    lista_elementos -> expresion
+Rule 22    lista_elementos -> lista_elementos COMA expresion
+Rule 23    empty -> <empty>
+
+Terminals, with rules where they appear
+
+ARRAY_ASOCIATIVO     : 
+AS                   : 
+ASIGNAR              : 8
+CADENA               : 9 16
+CLASS                : 
+COMA                 : 9 22
+CORCHETE_DER         : 19 20
+CORCHETE_IZQ         : 19 20
+DIVIDIR              : 13
+DOBLE_DOS_PUNTOS     : 
+ECHO                 : 
+ELSE                 : 
+ELSEIF               : 
+FLECHA               : 
+FOR                  : 
+FOREACH              : 
+FUNCTION             : 
+IDENTIFICADOR        : 18
+IF                   : 
+IGUAL                : 
+LLAVE_DER            : 
+LLAVE_IZQ            : 
+MAS                  : 10
+MAYOR                : 
+MAYOR_IGUAL          : 
+MENOR                : 
+MENOR_IGUAL          : 
+MENOS                : 11
+MULTIPLICAR          : 12
+NEW                  : 
+NO_IGUAL             : 
+NUMERO               : 15
+PAREN_DER            : 9 14
+PAREN_IZQ            : 9 14
+PRINT                : 
+PRIVATE              : 
+PROTECTED            : 
+PUBLIC               : 
+PUNTO                : 
+PUNTO_COMA           : 7 8 9
+READLINE             : 
+RETURN               : 
+TAG_INICIO           : 1
+VARIABLE             : 8 17
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+DEFINE               : 9
+asignacion           : 5
+declaracion_define   : 6
+empty                : 
+expresion            : 7 8 9 10 10 11 11 12 12 13 13 14 21 22
+lista_elementos      : 19 22
+programa             : 0
+sentencia            : 3 4
+sentencias           : 1 2 4
+

@@ -26,6 +26,7 @@ tokens = [
     'MAYOR_IGUAL',
     'MENOR_IGUAL',
     'TAG_INICIO',
+    'TAG_FIN',
     # === FIN CONTRIBUCIÓN NEHEMIAS ===
 
     # === INICIO CONTRIBUCIÓN ALEX - Delimitadores y estructura ===
@@ -63,6 +64,7 @@ reserved = {
     'echo': 'ECHO',
     'print': 'PRINT',
     'readline': 'READLINE',
+    'define': 'DEFINE'
 }
 
 tokens += list(reserved.values())
@@ -94,7 +96,14 @@ def t_IDENTIFICADOR(t):
 
 # === INICIO CONTRIBUCIÓN NEHEMIAS - Operadores ===
 # Definicion de mis tokens para los operadores básicos
-t_TAG_INICIO=r'<\?php'
+def t_TAG_INICIO(t):
+    r'<\?php'
+    return t
+
+def t_TAG_FIN(t):  
+    r'\?>'
+    return t
+
 t_MAS = r'\+'
 t_MENOS = r'-'
 t_MULTIPLICAR = r'\*'
@@ -203,15 +212,15 @@ def analyze_file(filename, github_user):
 if __name__ == "__main__":
     # Mapeo de archivos y contribuidores
     algoritmos = {
-        "Alex": {
-            "archivo": "algoritmos/algortimo_Alex.php",
-            "github":"Alex-Benites"
-        },
-        "Fernando": {
-            "archivo": "algoritmos/algoritmo_Fernando.php",
-            "github":"fzavala2003" 
+       # "Alex": {
+        #    "archivo": "algoritmos/algortimo_Alex.php",
+        #    "github":"Alex-Benites"
+        #},
+        #"Fernando": {
+        #    "archivo": "algoritmos/algoritmo_Fernando.php",
+        #    "github":"fzavala2003" 
 
-        },
+        #},
         "Nehemias": {
             "archivo": "algoritmos/algoritmo_Nehemias.php",
             "github":"NLindao2004"
