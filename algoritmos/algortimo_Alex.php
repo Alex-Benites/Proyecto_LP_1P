@@ -1,57 +1,37 @@
 <?php
-// Algoritmo de ejemplo - Alex con Arrays Asociativos
+// Algoritmo que simula el comportamiento de una cola en PHP
 
-define("EDAD_MINIMA", 18);
+// Creamos la cola como un arreglo vacío
+$cola = [];
 
-// Declaración de un arreglo (nombre => edad)
-$personas = [
-    "Ana" => 23,
-    "Luis" => 30,
-    "Carla" => 17,
-    "Pedro" => 25,
-    "Laura" => 40
-];
+// Mostramos estado inicial
+echo "Estado inicial de la cola:\n";
+print_r($cola);
 
-// Variables para almacenar datos
-$edades = [];
-$adultos = 0;
-$totalEdades = 0;
-$cantidadPersonas = count($personas);
+// Agregamos elementos a la cola (ENQUEUE - al final)
+$cola[] = "Cliente 1";
+$cola[] = "Cliente 2";
+$cola[] = "Cliente 3";
 
-foreach ($personas as $persona => $edad) {
-    $edades[] = $edad;
-    $totalEdades += $edad;
+echo "\nEstado de la cola después de hacer ENQUEUE:\n";
+print_r($cola);
 
-    if ($edad >= EDAD_MINIMA) {
-        $adultos++;
-        echo $persona . " es mayor de edad\n";
-    } else {
-        echo $persona . " es menor de edad\n";
-    }
-}
+// Atendemos al primer cliente (DEQUEUE - al inicio)
+$clienteAtendido = array_shift($cola);
 
-// Calculamos el promedio de edad
-if ($cantidadPersonas > 0) {
-    $promedio = $totalEdades / $cantidadPersonas;
+echo "\nCliente atendido (DEQUEUE): " . $clienteAtendido . "\n";
+echo "Estado de la cola después del DEQUEUE:\n";
+print_r($cola);
+
+// Verificamos si la cola está vacía
+if (empty($cola)) {
+    echo "\nLa cola está vacía.\n";
 } else {
-    $promedio = 0;
+    echo "\nQuedan " . count($cola) . " clientes en la cola.\n";
 }
 
-echo "\nCantidad de personas: " . $cantidadPersonas;
-echo "\nCantidad de adultos: " . $adultos;
-echo "\nPromedio de edad: " . $promedio . "\n";
+// Accedemos al siguiente cliente sin retirarlo
+$siguienteCliente = $cola[0]; // Primer elemento de la cola
 
-$estadisticas = [
-    "total_personas" => $cantidadPersonas,
-    "adultos" => $adultos,
-    "menores" => $cantidadPersonas - $adultos,
-    "promedio_edad" => $promedio,
-    "edad_minima_adulto" => EDAD_MINIMA
-];
-
-echo "\n=== ESTADÍSTICAS ===\n";
-foreach ($estadisticas as $clave => $valor) {
-    echo ucfirst(str_replace("_", " ", $clave)) . ": " . $valor . "\n";
-}
-
+echo "\nEl siguiente cliente en la cola es: " . $siguienteCliente . "\n";
 ?>

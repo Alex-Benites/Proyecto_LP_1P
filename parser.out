@@ -11,6 +11,7 @@ Unused terminals:
     FLECHA
     FOR
     FOREACH
+    FUNCION
     FUNCTION
     NEW
     PRINT
@@ -79,6 +80,7 @@ ELSEIF               :
 FLECHA               : 
 FOR                  : 
 FOREACH              : 
+FUNCION              : 
 FUNCTION             : 
 IDENTIFICADOR        : 29
 IF                   : 14

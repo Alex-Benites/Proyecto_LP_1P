@@ -42,3 +42,10 @@ if ($cantidadPersonas > 0) {
 echo "\nCantidad de personas: " . $cantidadPersonas;
 echo "\nCantidad de adultos: " . $adultos;
 echo "\nPromedio de edad: " . $promedio . "\n";
+
+//definicion de funcion
+function sumar($num1, $num2) {
+    $resultado = $num1 + $num2;
+    return $resultado;
+}
+

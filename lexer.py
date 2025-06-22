@@ -25,6 +25,7 @@ tokens = [
     'MAYOR_IGUAL',
     'MENOR_IGUAL',
     'TAG_INICIO',
+    "TAG_FIN",
     # === FIN CONTRIBUCIÓN NEHEMIAS ===
 
     # === INICIO CONTRIBUCIÓN ALEX - Delimitadores y estructura ===
@@ -97,7 +98,7 @@ def t_IDENTIFICADOR(t):
 # Definicion de mis tokens para los operadores básicos
 t_FUNCTION = r'function'
 t_TAG_INICIO=r'<\?php'
-t_TAG_FINAL=r'\?>'
+t_TAG_FIN=r'\?>'
 t_MAS = r'\+'
 t_MENOS = r'-'
 t_MULTIPLICAR = r'\*'
