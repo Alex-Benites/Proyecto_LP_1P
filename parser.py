@@ -174,9 +174,9 @@ def p_expresion_acceso_array(p):
     '''expresion : VARIABLE CORCHETE_IZQ expresion CORCHETE_DER'''
     p[0] = ('acceso_array', p[1], p[3])
 
-# === CONTRIBUCIÓN ALEX - Estructuras avanzadas con delimitadores ===
+# CONTRIBUCIÓN ALEX - Estructuras avanzadas con delimitadores
 
-# 1. ARRAYS ASOCIATIVOS (tu especialidad)
+# 1. ARRAYS ASOCIATIVOS
 def p_expresion_array_asociativo(p):
     '''expresion : CORCHETE_IZQ lista_elementos_asociativos CORCHETE_DER'''
     p[0] = ('array_asociativo', p[2])
@@ -194,7 +194,7 @@ def p_elemento_asociativo(p):
     '''elemento_asociativo : expresion ARRAY_ASOCIATIVO expresion'''
     p[0] = ('par_clave_valor', p[1], p[3])
 
-# 2. FOREACH (estructura de control con arrays asociativos)
+# 2. FOREACH - estructura de control con arrays asociativos
 def p_sentencia_foreach(p):
     '''sentencia_foreach : FOREACH PAREN_IZQ VARIABLE AS VARIABLE ARRAY_ASOCIATIVO VARIABLE PAREN_DER LLAVE_IZQ sentencias LLAVE_DER'''
     p[0] = ('foreach_asociativo', p[3], p[5], p[7], p[10])
@@ -203,7 +203,7 @@ def p_sentencia_foreach_simple(p):
     '''sentencia_foreach : FOREACH PAREN_IZQ VARIABLE AS VARIABLE PAREN_DER LLAVE_IZQ sentencias LLAVE_DER'''
     p[0] = ('foreach_simple', p[3], p[5], p[8])
 
-# 3. FUNCIONES (definición y llamada con paréntesis)
+# 3. FUNCIONES - definición y llamada con paréntesis
 def p_declaracion_funcion(p):
     '''declaracion_funcion : FUNCTION IDENTIFICADOR PAREN_IZQ parametros PAREN_DER LLAVE_IZQ sentencias LLAVE_DER
                            | FUNCTION IDENTIFICADOR PAREN_IZQ PAREN_DER LLAVE_IZQ sentencias LLAVE_DER'''
@@ -247,7 +247,7 @@ def p_sentencia_if_elseif(p):
     '''sentencia_if : IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER ELSEIF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER'''
     p[0] = ('if_elseif', p[3], p[6], p[10], p[13])
 
-# 5. INGRESO DE DATOS (readline)
+# 5. INGRESO DE DATOS - simulado con readline
 def p_sentencia_readline(p):
     '''sentencia_readline : VARIABLE ASIGNAR READLINE PAREN_IZQ PAREN_DER PUNTO_COMA'''
     p[0] = ('readline', p[1])

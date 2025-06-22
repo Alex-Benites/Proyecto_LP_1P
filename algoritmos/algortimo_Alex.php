@@ -18,7 +18,7 @@ $adultos = 0;
 $totalEdades = 0;
 $cantidadPersonas = count($personas);
 
-// === AGREGADO: Función personalizada (contribución Alex) ===
+// AGREGADO: Función personalizada "contribución Alex"
 function calcularEdadPromedio($arrayPersonas) {
     $suma = 0;
     $contador = 0;
@@ -46,7 +46,7 @@ foreach ($personas as $persona => $edad) {
 // Calculamos el promedio de edad (usando nuestra función)
 $promedio = calcularEdadPromedio($personas);
 
-// === AGREGADO: Estructura if-elseif-else completa ===
+// AGREGADO: Estructura if-elseif-else completa "Contribución Alex"
 if ($promedio >= 30) {
     echo "\nGrupo de edad: Adultos jóvenes\n";
 } elseif ($promedio >= 25) {
@@ -74,11 +74,11 @@ foreach ($estadisticas as $clave => $valor) {
     echo ucfirst(str_replace("_", " ", $clave)) . ": " . $valor . "\n";
 }
 
-// === AGREGADO: Ingreso de datos simulado (para cumplir requisitos) ===
+// AGREGADO: Ingreso de datos simulado
 echo "\n=== SIMULACIÓN DE INGRESO DE DATOS ===\n";
 // En PHP real sería: $nuevoNombre = readline("Ingrese nombre: ");
-$nuevoNombre = "Carlos"; // Simulado para el analizador
-$nuevaEdad = 28; // Simulado
+$nuevoNombre = "Carlos";
+$nuevaEdad = 28;
 
 echo "Agregando persona: " . $nuevoNombre . " con edad " . $nuevaEdad . "\n";
 $personas[$nuevoNombre] = $nuevaEdad;
