@@ -38,9 +38,14 @@ def p_asignacion(p):
     '''asignacion : VARIABLE ASIGNAR expresion PUNTO_COMA'''
     p[0] = ('asignacion', p[1], p[3])
 
+
+# contribucion de Alex - inicio
+
 def p_asignacion_array(p):
     '''asignacion_array : VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA'''
     p[0] = ('asignacion_array', p[1], p[5])
+
+# contribucion de Alex - fin
 
 def p_declaracion_define(p):
     '''declaracion_define : DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA'''
@@ -50,6 +55,9 @@ def p_sentencia_echo(p):
     '''sentencia_echo : ECHO expresion PUNTO_COMA'''
     p[0] = ('echo', p[2])
 
+
+# contribucion de Alex - inicio
+
 def p_sentencia_if(p):
     '''sentencia_if : IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER
                     | IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER ELSE LLAVE_IZQ sentencias LLAVE_DER'''
@@ -58,14 +66,20 @@ def p_sentencia_if(p):
     else:
         p[0] = ('if_else', p[3], p[6], p[10])  # if con else
 
+# contribucion de Alex - fin
+
 def p_condicion(p):
     '''condicion : expresion IGUAL expresion
                  | expresion NO_IGUAL expresion
                  | expresion MAYOR expresion
                  | expresion MENOR expresion
                  | expresion MAYOR_IGUAL expresion
-                 | expresion MENOR_IGUAL expresion'''
-    p[0] = ('condicion', p[2], p[1], p[3])
+                 | expresion MENOR_IGUAL expresion
+                 | IDENTIFICADOR PAREN_IZQ lista_argumentos PAREN_DER'''
+    if len(p) == 4:
+        p[0] = ('condicion', p[2], p[1], p[3])
+    else:
+        p[0] = ('condicion_funcion', p[1], p[3])
 
 def p_expresion_binaria(p):
     '''expresion : expresion MAS expresion
@@ -90,9 +104,13 @@ def p_expresion_llamada_funcion(p):
     '''expresion : IDENTIFICADOR PAREN_IZQ lista_argumentos PAREN_DER'''
     p[0] = ('llamada_funcion', p[1], p[3])
 
+# contribucion de Alex - inicio
+
 def p_expresion_array(p):
     '''expresion : CORCHETE_IZQ elementos_array_coma_opt CORCHETE_DER'''
     p[0] = ('array', p[2])
+
+# contribucion de Alex - fin
 
 def p_elementos_array_coma_opt(p):
     '''elementos_array_coma_opt : elementos_array
