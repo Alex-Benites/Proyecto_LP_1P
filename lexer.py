@@ -1,6 +1,5 @@
 import ply.lex as lex
 import os
-import sys
 from datetime import datetime
 
 # Definir tokens para PHP
@@ -26,6 +25,7 @@ tokens = [
     'MAYOR_IGUAL',
     'MENOR_IGUAL',
     'TAG_INICIO',
+    'TAG_FINAL',
     # === FIN CONTRIBUCIÓN NEHEMIAS ===
 
     # === INICIO CONTRIBUCIÓN ALEX - Delimitadores y estructura ===
@@ -41,6 +41,7 @@ tokens = [
     'FLECHA',
     'DOBLE_DOS_PUNTOS',
     'ARRAY_ASOCIATIVO',
+    'FUNCION'
     # === FIN CONTRIBUCIÓN ALEX ===
 ]
 
@@ -94,7 +95,9 @@ def t_IDENTIFICADOR(t):
 
 # === INICIO CONTRIBUCIÓN NEHEMIAS - Operadores ===
 # Definicion de mis tokens para los operadores básicos
+t_FUNCTION = r'function'
 t_TAG_INICIO=r'<\?php'
+t_TAG_FINAL=r'\?>'
 t_MAS = r'\+'
 t_MENOS = r'-'
 t_MULTIPLICAR = r'\*'
@@ -106,6 +109,8 @@ t_MAYOR = r'>'
 t_MENOR = r'<'
 t_MAYOR_IGUAL = r'>='
 t_MENOR_IGUAL = r'<='
+
+
 # === FIN CONTRIBUCIÓN NEHEMIAS ===
 
 # === INICIO CONTRIBUCIÓN ALEX - Delimitadores y estructura ===
