@@ -25,7 +25,6 @@ tokens = [
     'MAYOR_IGUAL',
     'MENOR_IGUAL',
     'TAG_INICIO',
-    'TAG_FINAL',
     # === FIN CONTRIBUCIÓN NEHEMIAS ===
 
     # === INICIO CONTRIBUCIÓN ALEX - Delimitadores y estructura ===
@@ -64,6 +63,7 @@ reserved = {
     'echo': 'ECHO',
     'print': 'PRINT',
     'readline': 'READLINE',
+    'define': 'DEFINE'
 }
 
 tokens += list(reserved.values())
@@ -208,15 +208,15 @@ def analyze_file(filename, github_user):
 if __name__ == "__main__":
     # Mapeo de archivos y contribuidores
     algoritmos = {
-        "Alex": {
-            "archivo": "algoritmos/algortimo_Alex.php",
-            "github":"Alex-Benites"
-        },
-        "Fernando": {
-            "archivo": "algoritmos/algoritmo_Fernando.php",
-            "github":"fzavala2003" 
+       # "Alex": {
+        #    "archivo": "algoritmos/algortimo_Alex.php",
+        #    "github":"Alex-Benites"
+        #},
+        #"Fernando": {
+        #    "archivo": "algoritmos/algoritmo_Fernando.php",
+        #    "github":"fzavala2003" 
 
-        },
+        #},
         "Nehemias": {
             "archivo": "algoritmos/algoritmo_Nehemias.php",
             "github":"NLindao2004"
@@ -229,3 +229,4 @@ if __name__ == "__main__":
             analyze_file(config["archivo"], config["github"])
         else:
             print(f"Archivo no encontrado: {config['archivo']}")
+

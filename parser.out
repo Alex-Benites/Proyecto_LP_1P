@@ -1,0 +1,1542 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ARRAY_ASOCIATIVO
+    AS
+    CLASS
+    DOBLE_DOS_PUNTOS
+    ELSE
+    ELSEIF
+    FLECHA
+    FOR
+    FOREACH
+    FUNCTION
+    NEW
+    PRINT
+    PRIVATE
+    PROTECTED
+    PUBLIC
+    PUNTO
+    READLINE
+    RETURN
+    WHILE
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> TAG_INICIO sentencias TAG_FIN
+Rule 2     programa -> TAG_INICIO sentencias
+Rule 3     sentencias -> sentencia
+Rule 4     sentencias -> sentencias sentencia
+Rule 5     sentencia -> asignacion
+Rule 6     sentencia -> declaracion_define
+Rule 7     sentencia -> sentencia_echo
+Rule 8     sentencia -> asignacion_array
+Rule 9     sentencia -> sentencia_if
+Rule 10    asignacion -> VARIABLE ASIGNAR expresion PUNTO_COMA
+Rule 11    asignacion_array -> VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA
+Rule 12    declaracion_define -> DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA
+Rule 13    sentencia_echo -> ECHO expresion PUNTO_COMA
+Rule 14    sentencia_if -> IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER
+Rule 15    condicion -> expresion IGUAL expresion
+Rule 16    condicion -> expresion NO_IGUAL expresion
+Rule 17    condicion -> expresion MAYOR expresion
+Rule 18    condicion -> expresion MENOR expresion
+Rule 19    condicion -> expresion MAYOR_IGUAL expresion
+Rule 20    condicion -> expresion MENOR_IGUAL expresion
+Rule 21    expresion -> expresion MAS expresion
+Rule 22    expresion -> expresion MENOS expresion
+Rule 23    expresion -> expresion MULTIPLICAR expresion
+Rule 24    expresion -> expresion DIVIDIR expresion
+Rule 25    expresion -> PAREN_IZQ expresion PAREN_DER
+Rule 26    expresion -> NUMERO
+Rule 27    expresion -> CADENA
+Rule 28    expresion -> VARIABLE
+Rule 29    expresion -> IDENTIFICADOR
+Rule 30    expresion -> CORCHETE_IZQ CORCHETE_DER
+Rule 31    expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER
+Rule 32    lista_elementos -> expresion
+Rule 33    lista_elementos -> lista_elementos COMA expresion
+Rule 34    expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+Terminals, with rules where they appear
+
+ARRAY_ASOCIATIVO     : 
+AS                   : 
+ASIGNAR              : 10 11
+CADENA               : 12 27
+CLASS                : 
+COMA                 : 12 33
+CORCHETE_DER         : 11 30 31 34
+CORCHETE_IZQ         : 11 30 31 34
+DEFINE               : 12
+DIVIDIR              : 24
+DOBLE_DOS_PUNTOS     : 
+ECHO                 : 13
+ELSE                 : 
+ELSEIF               : 
+FLECHA               : 
+FOR                  : 
+FOREACH              : 
+FUNCTION             : 
+IDENTIFICADOR        : 29
+IF                   : 14
+IGUAL                : 15
+LLAVE_DER            : 14
+LLAVE_IZQ            : 14
+MAS                  : 21
+MAYOR                : 17
+MAYOR_IGUAL          : 19
+MENOR                : 18
+MENOR_IGUAL          : 20
+MENOS                : 22
+MULTIPLICAR          : 23
+NEW                  : 
+NO_IGUAL             : 16
+NUMERO               : 26
+PAREN_DER            : 12 14 25
+PAREN_IZQ            : 12 14 25
+PRINT                : 
+PRIVATE              : 
+PROTECTED            : 
+PUBLIC               : 
+PUNTO                : 
+PUNTO_COMA           : 10 11 12 13
+READLINE             : 
+RETURN               : 
+TAG_FIN              : 1
+TAG_INICIO           : 1 2
+VARIABLE             : 10 11 28 34
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+asignacion           : 5
+asignacion_array     : 8
+condicion            : 14
+declaracion_define   : 6
+expresion            : 10 11 12 13 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 32 33 34
+lista_elementos      : 31 33
+programa             : 0
+sentencia            : 3 4
+sentencia_echo       : 7
+sentencia_if         : 9
+sentencias           : 1 2 4 14
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . TAG_INICIO sentencias TAG_FIN
+    (2) programa -> . TAG_INICIO sentencias
+
+    TAG_INICIO      shift and go to state 2
+
+    programa                       shift and go to state 1
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> TAG_INICIO . sentencias TAG_FIN
+    (2) programa -> TAG_INICIO . sentencias
+    (3) sentencias -> . sentencia
+    (4) sentencias -> . sentencias sentencia
+    (5) sentencia -> . asignacion
+    (6) sentencia -> . declaracion_define
+    (7) sentencia -> . sentencia_echo
+    (8) sentencia -> . asignacion_array
+    (9) sentencia -> . sentencia_if
+    (10) asignacion -> . VARIABLE ASIGNAR expresion PUNTO_COMA
+    (12) declaracion_define -> . DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA
+    (13) sentencia_echo -> . ECHO expresion PUNTO_COMA
+    (11) asignacion_array -> . VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA
+    (14) sentencia_if -> . IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER
+
+    VARIABLE        shift and go to state 10
+    DEFINE          shift and go to state 11
+    ECHO            shift and go to state 12
+    IF              shift and go to state 13
+
+    sentencias                     shift and go to state 3
+    sentencia                      shift and go to state 4
+    asignacion                     shift and go to state 5
+    declaracion_define             shift and go to state 6
+    sentencia_echo                 shift and go to state 7
+    asignacion_array               shift and go to state 8
+    sentencia_if                   shift and go to state 9
+
+state 3
+
+    (1) programa -> TAG_INICIO sentencias . TAG_FIN
+    (2) programa -> TAG_INICIO sentencias .
+    (4) sentencias -> sentencias . sentencia
+    (5) sentencia -> . asignacion
+    (6) sentencia -> . declaracion_define
+    (7) sentencia -> . sentencia_echo
+    (8) sentencia -> . asignacion_array
+    (9) sentencia -> . sentencia_if
+    (10) asignacion -> . VARIABLE ASIGNAR expresion PUNTO_COMA
+    (12) declaracion_define -> . DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA
+    (13) sentencia_echo -> . ECHO expresion PUNTO_COMA
+    (11) asignacion_array -> . VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA
+    (14) sentencia_if -> . IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER
+
+    TAG_FIN         shift and go to state 14
+    $end            reduce using rule 2 (programa -> TAG_INICIO sentencias .)
+    VARIABLE        shift and go to state 10
+    DEFINE          shift and go to state 11
+    ECHO            shift and go to state 12
+    IF              shift and go to state 13
+
+    sentencia                      shift and go to state 15
+    asignacion                     shift and go to state 5
+    declaracion_define             shift and go to state 6
+    sentencia_echo                 shift and go to state 7
+    asignacion_array               shift and go to state 8
+    sentencia_if                   shift and go to state 9
+
+state 4
+
+    (3) sentencias -> sentencia .
+
+    TAG_FIN         reduce using rule 3 (sentencias -> sentencia .)
+    VARIABLE        reduce using rule 3 (sentencias -> sentencia .)
+    DEFINE          reduce using rule 3 (sentencias -> sentencia .)
+    ECHO            reduce using rule 3 (sentencias -> sentencia .)
+    IF              reduce using rule 3 (sentencias -> sentencia .)
+    $end            reduce using rule 3 (sentencias -> sentencia .)
+    LLAVE_DER       reduce using rule 3 (sentencias -> sentencia .)
+
+
+state 5
+
+    (5) sentencia -> asignacion .
+
+    TAG_FIN         reduce using rule 5 (sentencia -> asignacion .)
+    VARIABLE        reduce using rule 5 (sentencia -> asignacion .)
+    DEFINE          reduce using rule 5 (sentencia -> asignacion .)
+    ECHO            reduce using rule 5 (sentencia -> asignacion .)
+    IF              reduce using rule 5 (sentencia -> asignacion .)
+    $end            reduce using rule 5 (sentencia -> asignacion .)
+    LLAVE_DER       reduce using rule 5 (sentencia -> asignacion .)
+
+
+state 6
+
+    (6) sentencia -> declaracion_define .
+
+    TAG_FIN         reduce using rule 6 (sentencia -> declaracion_define .)
+    VARIABLE        reduce using rule 6 (sentencia -> declaracion_define .)
+    DEFINE          reduce using rule 6 (sentencia -> declaracion_define .)
+    ECHO            reduce using rule 6 (sentencia -> declaracion_define .)
+    IF              reduce using rule 6 (sentencia -> declaracion_define .)
+    $end            reduce using rule 6 (sentencia -> declaracion_define .)
+    LLAVE_DER       reduce using rule 6 (sentencia -> declaracion_define .)
+
+
+state 7
+
+    (7) sentencia -> sentencia_echo .
+
+    TAG_FIN         reduce using rule 7 (sentencia -> sentencia_echo .)
+    VARIABLE        reduce using rule 7 (sentencia -> sentencia_echo .)
+    DEFINE          reduce using rule 7 (sentencia -> sentencia_echo .)
+    ECHO            reduce using rule 7 (sentencia -> sentencia_echo .)
+    IF              reduce using rule 7 (sentencia -> sentencia_echo .)
+    $end            reduce using rule 7 (sentencia -> sentencia_echo .)
+    LLAVE_DER       reduce using rule 7 (sentencia -> sentencia_echo .)
+
+
+state 8
+
+    (8) sentencia -> asignacion_array .
+
+    TAG_FIN         reduce using rule 8 (sentencia -> asignacion_array .)
+    VARIABLE        reduce using rule 8 (sentencia -> asignacion_array .)
+    DEFINE          reduce using rule 8 (sentencia -> asignacion_array .)
+    ECHO            reduce using rule 8 (sentencia -> asignacion_array .)
+    IF              reduce using rule 8 (sentencia -> asignacion_array .)
+    $end            reduce using rule 8 (sentencia -> asignacion_array .)
+    LLAVE_DER       reduce using rule 8 (sentencia -> asignacion_array .)
+
+
+state 9
+
+    (9) sentencia -> sentencia_if .
+
+    TAG_FIN         reduce using rule 9 (sentencia -> sentencia_if .)
+    VARIABLE        reduce using rule 9 (sentencia -> sentencia_if .)
+    DEFINE          reduce using rule 9 (sentencia -> sentencia_if .)
+    ECHO            reduce using rule 9 (sentencia -> sentencia_if .)
+    IF              reduce using rule 9 (sentencia -> sentencia_if .)
+    $end            reduce using rule 9 (sentencia -> sentencia_if .)
+    LLAVE_DER       reduce using rule 9 (sentencia -> sentencia_if .)
+
+
+state 10
+
+    (10) asignacion -> VARIABLE . ASIGNAR expresion PUNTO_COMA
+    (11) asignacion_array -> VARIABLE . CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA
+
+    ASIGNAR         shift and go to state 16
+    CORCHETE_IZQ    shift and go to state 17
+
+
+state 11
+
+    (12) declaracion_define -> DEFINE . PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA
+
+    PAREN_IZQ       shift and go to state 18
+
+
+state 12
+
+    (13) sentencia_echo -> ECHO . expresion PUNTO_COMA
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 19
+
+state 13
+
+    (14) sentencia_if -> IF . PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER
+
+    PAREN_IZQ       shift and go to state 26
+
+
+state 14
+
+    (1) programa -> TAG_INICIO sentencias TAG_FIN .
+
+    $end            reduce using rule 1 (programa -> TAG_INICIO sentencias TAG_FIN .)
+
+
+state 15
+
+    (4) sentencias -> sentencias sentencia .
+
+    TAG_FIN         reduce using rule 4 (sentencias -> sentencias sentencia .)
+    VARIABLE        reduce using rule 4 (sentencias -> sentencias sentencia .)
+    DEFINE          reduce using rule 4 (sentencias -> sentencias sentencia .)
+    ECHO            reduce using rule 4 (sentencias -> sentencias sentencia .)
+    IF              reduce using rule 4 (sentencias -> sentencias sentencia .)
+    $end            reduce using rule 4 (sentencias -> sentencias sentencia .)
+    LLAVE_DER       reduce using rule 4 (sentencias -> sentencias sentencia .)
+
+
+state 16
+
+    (10) asignacion -> VARIABLE ASIGNAR . expresion PUNTO_COMA
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 27
+
+state 17
+
+    (11) asignacion_array -> VARIABLE CORCHETE_IZQ . CORCHETE_DER ASIGNAR expresion PUNTO_COMA
+
+    CORCHETE_DER    shift and go to state 28
+
+
+state 18
+
+    (12) declaracion_define -> DEFINE PAREN_IZQ . CADENA COMA expresion PAREN_DER PUNTO_COMA
+
+    CADENA          shift and go to state 29
+
+
+state 19
+
+    (13) sentencia_echo -> ECHO expresion . PUNTO_COMA
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    PUNTO_COMA      shift and go to state 30
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 20
+
+    (25) expresion -> PAREN_IZQ . expresion PAREN_DER
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 35
+
+state 21
+
+    (26) expresion -> NUMERO .
+
+    PUNTO_COMA      reduce using rule 26 (expresion -> NUMERO .)
+    MAS             reduce using rule 26 (expresion -> NUMERO .)
+    MENOS           reduce using rule 26 (expresion -> NUMERO .)
+    MULTIPLICAR     reduce using rule 26 (expresion -> NUMERO .)
+    DIVIDIR         reduce using rule 26 (expresion -> NUMERO .)
+    PAREN_DER       reduce using rule 26 (expresion -> NUMERO .)
+    CORCHETE_DER    reduce using rule 26 (expresion -> NUMERO .)
+    COMA            reduce using rule 26 (expresion -> NUMERO .)
+    IGUAL           reduce using rule 26 (expresion -> NUMERO .)
+    NO_IGUAL        reduce using rule 26 (expresion -> NUMERO .)
+    MAYOR           reduce using rule 26 (expresion -> NUMERO .)
+    MENOR           reduce using rule 26 (expresion -> NUMERO .)
+    MAYOR_IGUAL     reduce using rule 26 (expresion -> NUMERO .)
+    MENOR_IGUAL     reduce using rule 26 (expresion -> NUMERO .)
+
+
+state 22
+
+    (27) expresion -> CADENA .
+
+    PUNTO_COMA      reduce using rule 27 (expresion -> CADENA .)
+    MAS             reduce using rule 27 (expresion -> CADENA .)
+    MENOS           reduce using rule 27 (expresion -> CADENA .)
+    MULTIPLICAR     reduce using rule 27 (expresion -> CADENA .)
+    DIVIDIR         reduce using rule 27 (expresion -> CADENA .)
+    PAREN_DER       reduce using rule 27 (expresion -> CADENA .)
+    CORCHETE_DER    reduce using rule 27 (expresion -> CADENA .)
+    COMA            reduce using rule 27 (expresion -> CADENA .)
+    IGUAL           reduce using rule 27 (expresion -> CADENA .)
+    NO_IGUAL        reduce using rule 27 (expresion -> CADENA .)
+    MAYOR           reduce using rule 27 (expresion -> CADENA .)
+    MENOR           reduce using rule 27 (expresion -> CADENA .)
+    MAYOR_IGUAL     reduce using rule 27 (expresion -> CADENA .)
+    MENOR_IGUAL     reduce using rule 27 (expresion -> CADENA .)
+
+
+state 23
+
+    (28) expresion -> VARIABLE .
+    (34) expresion -> VARIABLE . CORCHETE_IZQ expresion CORCHETE_DER
+
+    PUNTO_COMA      reduce using rule 28 (expresion -> VARIABLE .)
+    MAS             reduce using rule 28 (expresion -> VARIABLE .)
+    MENOS           reduce using rule 28 (expresion -> VARIABLE .)
+    MULTIPLICAR     reduce using rule 28 (expresion -> VARIABLE .)
+    DIVIDIR         reduce using rule 28 (expresion -> VARIABLE .)
+    PAREN_DER       reduce using rule 28 (expresion -> VARIABLE .)
+    CORCHETE_DER    reduce using rule 28 (expresion -> VARIABLE .)
+    COMA            reduce using rule 28 (expresion -> VARIABLE .)
+    IGUAL           reduce using rule 28 (expresion -> VARIABLE .)
+    NO_IGUAL        reduce using rule 28 (expresion -> VARIABLE .)
+    MAYOR           reduce using rule 28 (expresion -> VARIABLE .)
+    MENOR           reduce using rule 28 (expresion -> VARIABLE .)
+    MAYOR_IGUAL     reduce using rule 28 (expresion -> VARIABLE .)
+    MENOR_IGUAL     reduce using rule 28 (expresion -> VARIABLE .)
+    CORCHETE_IZQ    shift and go to state 36
+
+
+state 24
+
+    (29) expresion -> IDENTIFICADOR .
+
+    PUNTO_COMA      reduce using rule 29 (expresion -> IDENTIFICADOR .)
+    MAS             reduce using rule 29 (expresion -> IDENTIFICADOR .)
+    MENOS           reduce using rule 29 (expresion -> IDENTIFICADOR .)
+    MULTIPLICAR     reduce using rule 29 (expresion -> IDENTIFICADOR .)
+    DIVIDIR         reduce using rule 29 (expresion -> IDENTIFICADOR .)
+    PAREN_DER       reduce using rule 29 (expresion -> IDENTIFICADOR .)
+    CORCHETE_DER    reduce using rule 29 (expresion -> IDENTIFICADOR .)
+    COMA            reduce using rule 29 (expresion -> IDENTIFICADOR .)
+    IGUAL           reduce using rule 29 (expresion -> IDENTIFICADOR .)
+    NO_IGUAL        reduce using rule 29 (expresion -> IDENTIFICADOR .)
+    MAYOR           reduce using rule 29 (expresion -> IDENTIFICADOR .)
+    MENOR           reduce using rule 29 (expresion -> IDENTIFICADOR .)
+    MAYOR_IGUAL     reduce using rule 29 (expresion -> IDENTIFICADOR .)
+    MENOR_IGUAL     reduce using rule 29 (expresion -> IDENTIFICADOR .)
+
+
+state 25
+
+    (30) expresion -> CORCHETE_IZQ . CORCHETE_DER
+    (31) expresion -> CORCHETE_IZQ . lista_elementos CORCHETE_DER
+    (32) lista_elementos -> . expresion
+    (33) lista_elementos -> . lista_elementos COMA expresion
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    CORCHETE_DER    shift and go to state 37
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    lista_elementos                shift and go to state 38
+    expresion                      shift and go to state 39
+
+state 26
+
+    (14) sentencia_if -> IF PAREN_IZQ . condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER
+    (15) condicion -> . expresion IGUAL expresion
+    (16) condicion -> . expresion NO_IGUAL expresion
+    (17) condicion -> . expresion MAYOR expresion
+    (18) condicion -> . expresion MENOR expresion
+    (19) condicion -> . expresion MAYOR_IGUAL expresion
+    (20) condicion -> . expresion MENOR_IGUAL expresion
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    condicion                      shift and go to state 40
+    expresion                      shift and go to state 41
+
+state 27
+
+    (10) asignacion -> VARIABLE ASIGNAR expresion . PUNTO_COMA
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    PUNTO_COMA      shift and go to state 42
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 28
+
+    (11) asignacion_array -> VARIABLE CORCHETE_IZQ CORCHETE_DER . ASIGNAR expresion PUNTO_COMA
+
+    ASIGNAR         shift and go to state 43
+
+
+state 29
+
+    (12) declaracion_define -> DEFINE PAREN_IZQ CADENA . COMA expresion PAREN_DER PUNTO_COMA
+
+    COMA            shift and go to state 44
+
+
+state 30
+
+    (13) sentencia_echo -> ECHO expresion PUNTO_COMA .
+
+    TAG_FIN         reduce using rule 13 (sentencia_echo -> ECHO expresion PUNTO_COMA .)
+    VARIABLE        reduce using rule 13 (sentencia_echo -> ECHO expresion PUNTO_COMA .)
+    DEFINE          reduce using rule 13 (sentencia_echo -> ECHO expresion PUNTO_COMA .)
+    ECHO            reduce using rule 13 (sentencia_echo -> ECHO expresion PUNTO_COMA .)
+    IF              reduce using rule 13 (sentencia_echo -> ECHO expresion PUNTO_COMA .)
+    $end            reduce using rule 13 (sentencia_echo -> ECHO expresion PUNTO_COMA .)
+    LLAVE_DER       reduce using rule 13 (sentencia_echo -> ECHO expresion PUNTO_COMA .)
+
+
+state 31
+
+    (21) expresion -> expresion MAS . expresion
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 45
+
+state 32
+
+    (22) expresion -> expresion MENOS . expresion
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 46
+
+state 33
+
+    (23) expresion -> expresion MULTIPLICAR . expresion
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 47
+
+state 34
+
+    (24) expresion -> expresion DIVIDIR . expresion
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 48
+
+state 35
+
+    (25) expresion -> PAREN_IZQ expresion . PAREN_DER
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    PAREN_DER       shift and go to state 49
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 36
+
+    (34) expresion -> VARIABLE CORCHETE_IZQ . expresion CORCHETE_DER
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 50
+
+state 37
+
+    (30) expresion -> CORCHETE_IZQ CORCHETE_DER .
+
+    PUNTO_COMA      reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+    MAS             reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+    MENOS           reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+    MULTIPLICAR     reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+    DIVIDIR         reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+    PAREN_DER       reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+    CORCHETE_DER    reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+    COMA            reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+    IGUAL           reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+    NO_IGUAL        reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+    MAYOR           reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+    MENOR           reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+    MAYOR_IGUAL     reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+    MENOR_IGUAL     reduce using rule 30 (expresion -> CORCHETE_IZQ CORCHETE_DER .)
+
+
+state 38
+
+    (31) expresion -> CORCHETE_IZQ lista_elementos . CORCHETE_DER
+    (33) lista_elementos -> lista_elementos . COMA expresion
+
+    CORCHETE_DER    shift and go to state 51
+    COMA            shift and go to state 52
+
+
+state 39
+
+    (32) lista_elementos -> expresion .
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    CORCHETE_DER    reduce using rule 32 (lista_elementos -> expresion .)
+    COMA            reduce using rule 32 (lista_elementos -> expresion .)
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 40
+
+    (14) sentencia_if -> IF PAREN_IZQ condicion . PAREN_DER LLAVE_IZQ sentencias LLAVE_DER
+
+    PAREN_DER       shift and go to state 53
+
+
+state 41
+
+    (15) condicion -> expresion . IGUAL expresion
+    (16) condicion -> expresion . NO_IGUAL expresion
+    (17) condicion -> expresion . MAYOR expresion
+    (18) condicion -> expresion . MENOR expresion
+    (19) condicion -> expresion . MAYOR_IGUAL expresion
+    (20) condicion -> expresion . MENOR_IGUAL expresion
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    IGUAL           shift and go to state 54
+    NO_IGUAL        shift and go to state 55
+    MAYOR           shift and go to state 56
+    MENOR           shift and go to state 57
+    MAYOR_IGUAL     shift and go to state 58
+    MENOR_IGUAL     shift and go to state 59
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 42
+
+    (10) asignacion -> VARIABLE ASIGNAR expresion PUNTO_COMA .
+
+    TAG_FIN         reduce using rule 10 (asignacion -> VARIABLE ASIGNAR expresion PUNTO_COMA .)
+    VARIABLE        reduce using rule 10 (asignacion -> VARIABLE ASIGNAR expresion PUNTO_COMA .)
+    DEFINE          reduce using rule 10 (asignacion -> VARIABLE ASIGNAR expresion PUNTO_COMA .)
+    ECHO            reduce using rule 10 (asignacion -> VARIABLE ASIGNAR expresion PUNTO_COMA .)
+    IF              reduce using rule 10 (asignacion -> VARIABLE ASIGNAR expresion PUNTO_COMA .)
+    $end            reduce using rule 10 (asignacion -> VARIABLE ASIGNAR expresion PUNTO_COMA .)
+    LLAVE_DER       reduce using rule 10 (asignacion -> VARIABLE ASIGNAR expresion PUNTO_COMA .)
+
+
+state 43
+
+    (11) asignacion_array -> VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR . expresion PUNTO_COMA
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 60
+
+state 44
+
+    (12) declaracion_define -> DEFINE PAREN_IZQ CADENA COMA . expresion PAREN_DER PUNTO_COMA
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 61
+
+state 45
+
+    (21) expresion -> expresion MAS expresion .
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+  ! shift/reduce conflict for MAS resolved as shift
+  ! shift/reduce conflict for MENOS resolved as shift
+  ! shift/reduce conflict for MULTIPLICAR resolved as shift
+  ! shift/reduce conflict for DIVIDIR resolved as shift
+    PUNTO_COMA      reduce using rule 21 (expresion -> expresion MAS expresion .)
+    PAREN_DER       reduce using rule 21 (expresion -> expresion MAS expresion .)
+    CORCHETE_DER    reduce using rule 21 (expresion -> expresion MAS expresion .)
+    COMA            reduce using rule 21 (expresion -> expresion MAS expresion .)
+    IGUAL           reduce using rule 21 (expresion -> expresion MAS expresion .)
+    NO_IGUAL        reduce using rule 21 (expresion -> expresion MAS expresion .)
+    MAYOR           reduce using rule 21 (expresion -> expresion MAS expresion .)
+    MENOR           reduce using rule 21 (expresion -> expresion MAS expresion .)
+    MAYOR_IGUAL     reduce using rule 21 (expresion -> expresion MAS expresion .)
+    MENOR_IGUAL     reduce using rule 21 (expresion -> expresion MAS expresion .)
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+  ! MAS             [ reduce using rule 21 (expresion -> expresion MAS expresion .) ]
+  ! MENOS           [ reduce using rule 21 (expresion -> expresion MAS expresion .) ]
+  ! MULTIPLICAR     [ reduce using rule 21 (expresion -> expresion MAS expresion .) ]
+  ! DIVIDIR         [ reduce using rule 21 (expresion -> expresion MAS expresion .) ]
+
+
+state 46
+
+    (22) expresion -> expresion MENOS expresion .
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+  ! shift/reduce conflict for MAS resolved as shift
+  ! shift/reduce conflict for MENOS resolved as shift
+  ! shift/reduce conflict for MULTIPLICAR resolved as shift
+  ! shift/reduce conflict for DIVIDIR resolved as shift
+    PUNTO_COMA      reduce using rule 22 (expresion -> expresion MENOS expresion .)
+    PAREN_DER       reduce using rule 22 (expresion -> expresion MENOS expresion .)
+    CORCHETE_DER    reduce using rule 22 (expresion -> expresion MENOS expresion .)
+    COMA            reduce using rule 22 (expresion -> expresion MENOS expresion .)
+    IGUAL           reduce using rule 22 (expresion -> expresion MENOS expresion .)
+    NO_IGUAL        reduce using rule 22 (expresion -> expresion MENOS expresion .)
+    MAYOR           reduce using rule 22 (expresion -> expresion MENOS expresion .)
+    MENOR           reduce using rule 22 (expresion -> expresion MENOS expresion .)
+    MAYOR_IGUAL     reduce using rule 22 (expresion -> expresion MENOS expresion .)
+    MENOR_IGUAL     reduce using rule 22 (expresion -> expresion MENOS expresion .)
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+  ! MAS             [ reduce using rule 22 (expresion -> expresion MENOS expresion .) ]
+  ! MENOS           [ reduce using rule 22 (expresion -> expresion MENOS expresion .) ]
+  ! MULTIPLICAR     [ reduce using rule 22 (expresion -> expresion MENOS expresion .) ]
+  ! DIVIDIR         [ reduce using rule 22 (expresion -> expresion MENOS expresion .) ]
+
+
+state 47
+
+    (23) expresion -> expresion MULTIPLICAR expresion .
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+  ! shift/reduce conflict for MAS resolved as shift
+  ! shift/reduce conflict for MENOS resolved as shift
+  ! shift/reduce conflict for MULTIPLICAR resolved as shift
+  ! shift/reduce conflict for DIVIDIR resolved as shift
+    PUNTO_COMA      reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .)
+    PAREN_DER       reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .)
+    CORCHETE_DER    reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .)
+    COMA            reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .)
+    IGUAL           reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .)
+    NO_IGUAL        reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .)
+    MAYOR           reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .)
+    MENOR           reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .)
+    MAYOR_IGUAL     reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .)
+    MENOR_IGUAL     reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .)
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+  ! MAS             [ reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .) ]
+  ! MENOS           [ reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .) ]
+  ! MULTIPLICAR     [ reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .) ]
+  ! DIVIDIR         [ reduce using rule 23 (expresion -> expresion MULTIPLICAR expresion .) ]
+
+
+state 48
+
+    (24) expresion -> expresion DIVIDIR expresion .
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+  ! shift/reduce conflict for MAS resolved as shift
+  ! shift/reduce conflict for MENOS resolved as shift
+  ! shift/reduce conflict for MULTIPLICAR resolved as shift
+  ! shift/reduce conflict for DIVIDIR resolved as shift
+    PUNTO_COMA      reduce using rule 24 (expresion -> expresion DIVIDIR expresion .)
+    PAREN_DER       reduce using rule 24 (expresion -> expresion DIVIDIR expresion .)
+    CORCHETE_DER    reduce using rule 24 (expresion -> expresion DIVIDIR expresion .)
+    COMA            reduce using rule 24 (expresion -> expresion DIVIDIR expresion .)
+    IGUAL           reduce using rule 24 (expresion -> expresion DIVIDIR expresion .)
+    NO_IGUAL        reduce using rule 24 (expresion -> expresion DIVIDIR expresion .)
+    MAYOR           reduce using rule 24 (expresion -> expresion DIVIDIR expresion .)
+    MENOR           reduce using rule 24 (expresion -> expresion DIVIDIR expresion .)
+    MAYOR_IGUAL     reduce using rule 24 (expresion -> expresion DIVIDIR expresion .)
+    MENOR_IGUAL     reduce using rule 24 (expresion -> expresion DIVIDIR expresion .)
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+  ! MAS             [ reduce using rule 24 (expresion -> expresion DIVIDIR expresion .) ]
+  ! MENOS           [ reduce using rule 24 (expresion -> expresion DIVIDIR expresion .) ]
+  ! MULTIPLICAR     [ reduce using rule 24 (expresion -> expresion DIVIDIR expresion .) ]
+  ! DIVIDIR         [ reduce using rule 24 (expresion -> expresion DIVIDIR expresion .) ]
+
+
+state 49
+
+    (25) expresion -> PAREN_IZQ expresion PAREN_DER .
+
+    PUNTO_COMA      reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+    MAS             reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+    MENOS           reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+    MULTIPLICAR     reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+    DIVIDIR         reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+    PAREN_DER       reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+    CORCHETE_DER    reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+    COMA            reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+    IGUAL           reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+    NO_IGUAL        reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+    MAYOR           reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+    MENOR           reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+    MAYOR_IGUAL     reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+    MENOR_IGUAL     reduce using rule 25 (expresion -> PAREN_IZQ expresion PAREN_DER .)
+
+
+state 50
+
+    (34) expresion -> VARIABLE CORCHETE_IZQ expresion . CORCHETE_DER
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    CORCHETE_DER    shift and go to state 62
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 51
+
+    (31) expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .
+
+    PUNTO_COMA      reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+    MAS             reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+    MENOS           reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+    MULTIPLICAR     reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+    DIVIDIR         reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+    PAREN_DER       reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+    CORCHETE_DER    reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+    COMA            reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+    IGUAL           reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+    NO_IGUAL        reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+    MAYOR           reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+    MENOR           reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+    MAYOR_IGUAL     reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+    MENOR_IGUAL     reduce using rule 31 (expresion -> CORCHETE_IZQ lista_elementos CORCHETE_DER .)
+
+
+state 52
+
+    (33) lista_elementos -> lista_elementos COMA . expresion
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 63
+
+state 53
+
+    (14) sentencia_if -> IF PAREN_IZQ condicion PAREN_DER . LLAVE_IZQ sentencias LLAVE_DER
+
+    LLAVE_IZQ       shift and go to state 64
+
+
+state 54
+
+    (15) condicion -> expresion IGUAL . expresion
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 65
+
+state 55
+
+    (16) condicion -> expresion NO_IGUAL . expresion
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 66
+
+state 56
+
+    (17) condicion -> expresion MAYOR . expresion
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 67
+
+state 57
+
+    (18) condicion -> expresion MENOR . expresion
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 68
+
+state 58
+
+    (19) condicion -> expresion MAYOR_IGUAL . expresion
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 69
+
+state 59
+
+    (20) condicion -> expresion MENOR_IGUAL . expresion
+    (21) expresion -> . expresion MAS expresion
+    (22) expresion -> . expresion MENOS expresion
+    (23) expresion -> . expresion MULTIPLICAR expresion
+    (24) expresion -> . expresion DIVIDIR expresion
+    (25) expresion -> . PAREN_IZQ expresion PAREN_DER
+    (26) expresion -> . NUMERO
+    (27) expresion -> . CADENA
+    (28) expresion -> . VARIABLE
+    (29) expresion -> . IDENTIFICADOR
+    (30) expresion -> . CORCHETE_IZQ CORCHETE_DER
+    (31) expresion -> . CORCHETE_IZQ lista_elementos CORCHETE_DER
+    (34) expresion -> . VARIABLE CORCHETE_IZQ expresion CORCHETE_DER
+
+    PAREN_IZQ       shift and go to state 20
+    NUMERO          shift and go to state 21
+    CADENA          shift and go to state 22
+    VARIABLE        shift and go to state 23
+    IDENTIFICADOR   shift and go to state 24
+    CORCHETE_IZQ    shift and go to state 25
+
+    expresion                      shift and go to state 70
+
+state 60
+
+    (11) asignacion_array -> VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion . PUNTO_COMA
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    PUNTO_COMA      shift and go to state 71
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 61
+
+    (12) declaracion_define -> DEFINE PAREN_IZQ CADENA COMA expresion . PAREN_DER PUNTO_COMA
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    PAREN_DER       shift and go to state 72
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 62
+
+    (34) expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .
+
+    PUNTO_COMA      reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+    MAS             reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+    MENOS           reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+    MULTIPLICAR     reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+    DIVIDIR         reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+    PAREN_DER       reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+    CORCHETE_DER    reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+    COMA            reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+    IGUAL           reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+    NO_IGUAL        reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+    MAYOR           reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+    MENOR           reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+    MAYOR_IGUAL     reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+    MENOR_IGUAL     reduce using rule 34 (expresion -> VARIABLE CORCHETE_IZQ expresion CORCHETE_DER .)
+
+
+state 63
+
+    (33) lista_elementos -> lista_elementos COMA expresion .
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    CORCHETE_DER    reduce using rule 33 (lista_elementos -> lista_elementos COMA expresion .)
+    COMA            reduce using rule 33 (lista_elementos -> lista_elementos COMA expresion .)
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 64
+
+    (14) sentencia_if -> IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ . sentencias LLAVE_DER
+    (3) sentencias -> . sentencia
+    (4) sentencias -> . sentencias sentencia
+    (5) sentencia -> . asignacion
+    (6) sentencia -> . declaracion_define
+    (7) sentencia -> . sentencia_echo
+    (8) sentencia -> . asignacion_array
+    (9) sentencia -> . sentencia_if
+    (10) asignacion -> . VARIABLE ASIGNAR expresion PUNTO_COMA
+    (12) declaracion_define -> . DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA
+    (13) sentencia_echo -> . ECHO expresion PUNTO_COMA
+    (11) asignacion_array -> . VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA
+    (14) sentencia_if -> . IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER
+
+    VARIABLE        shift and go to state 10
+    DEFINE          shift and go to state 11
+    ECHO            shift and go to state 12
+    IF              shift and go to state 13
+
+    sentencias                     shift and go to state 73
+    sentencia                      shift and go to state 4
+    asignacion                     shift and go to state 5
+    declaracion_define             shift and go to state 6
+    sentencia_echo                 shift and go to state 7
+    asignacion_array               shift and go to state 8
+    sentencia_if                   shift and go to state 9
+
+state 65
+
+    (15) condicion -> expresion IGUAL expresion .
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    PAREN_DER       reduce using rule 15 (condicion -> expresion IGUAL expresion .)
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 66
+
+    (16) condicion -> expresion NO_IGUAL expresion .
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    PAREN_DER       reduce using rule 16 (condicion -> expresion NO_IGUAL expresion .)
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 67
+
+    (17) condicion -> expresion MAYOR expresion .
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    PAREN_DER       reduce using rule 17 (condicion -> expresion MAYOR expresion .)
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 68
+
+    (18) condicion -> expresion MENOR expresion .
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    PAREN_DER       reduce using rule 18 (condicion -> expresion MENOR expresion .)
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 69
+
+    (19) condicion -> expresion MAYOR_IGUAL expresion .
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    PAREN_DER       reduce using rule 19 (condicion -> expresion MAYOR_IGUAL expresion .)
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 70
+
+    (20) condicion -> expresion MENOR_IGUAL expresion .
+    (21) expresion -> expresion . MAS expresion
+    (22) expresion -> expresion . MENOS expresion
+    (23) expresion -> expresion . MULTIPLICAR expresion
+    (24) expresion -> expresion . DIVIDIR expresion
+
+    PAREN_DER       reduce using rule 20 (condicion -> expresion MENOR_IGUAL expresion .)
+    MAS             shift and go to state 31
+    MENOS           shift and go to state 32
+    MULTIPLICAR     shift and go to state 33
+    DIVIDIR         shift and go to state 34
+
+
+state 71
+
+    (11) asignacion_array -> VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA .
+
+    TAG_FIN         reduce using rule 11 (asignacion_array -> VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA .)
+    VARIABLE        reduce using rule 11 (asignacion_array -> VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA .)
+    DEFINE          reduce using rule 11 (asignacion_array -> VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA .)
+    ECHO            reduce using rule 11 (asignacion_array -> VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA .)
+    IF              reduce using rule 11 (asignacion_array -> VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA .)
+    $end            reduce using rule 11 (asignacion_array -> VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA .)
+    LLAVE_DER       reduce using rule 11 (asignacion_array -> VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA .)
+
+
+state 72
+
+    (12) declaracion_define -> DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER . PUNTO_COMA
+
+    PUNTO_COMA      shift and go to state 74
+
+
+state 73
+
+    (14) sentencia_if -> IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias . LLAVE_DER
+    (4) sentencias -> sentencias . sentencia
+    (5) sentencia -> . asignacion
+    (6) sentencia -> . declaracion_define
+    (7) sentencia -> . sentencia_echo
+    (8) sentencia -> . asignacion_array
+    (9) sentencia -> . sentencia_if
+    (10) asignacion -> . VARIABLE ASIGNAR expresion PUNTO_COMA
+    (12) declaracion_define -> . DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA
+    (13) sentencia_echo -> . ECHO expresion PUNTO_COMA
+    (11) asignacion_array -> . VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA
+    (14) sentencia_if -> . IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER
+
+    LLAVE_DER       shift and go to state 75
+    VARIABLE        shift and go to state 10
+    DEFINE          shift and go to state 11
+    ECHO            shift and go to state 12
+    IF              shift and go to state 13
+
+    sentencia                      shift and go to state 15
+    asignacion                     shift and go to state 5
+    declaracion_define             shift and go to state 6
+    sentencia_echo                 shift and go to state 7
+    asignacion_array               shift and go to state 8
+    sentencia_if                   shift and go to state 9
+
+state 74
+
+    (12) declaracion_define -> DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA .
+
+    TAG_FIN         reduce using rule 12 (declaracion_define -> DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA .)
+    VARIABLE        reduce using rule 12 (declaracion_define -> DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA .)
+    DEFINE          reduce using rule 12 (declaracion_define -> DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA .)
+    ECHO            reduce using rule 12 (declaracion_define -> DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA .)
+    IF              reduce using rule 12 (declaracion_define -> DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA .)
+    $end            reduce using rule 12 (declaracion_define -> DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA .)
+    LLAVE_DER       reduce using rule 12 (declaracion_define -> DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA .)
+
+
+state 75
+
+    (14) sentencia_if -> IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER .
+
+    TAG_FIN         reduce using rule 14 (sentencia_if -> IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER .)
+    VARIABLE        reduce using rule 14 (sentencia_if -> IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER .)
+    DEFINE          reduce using rule 14 (sentencia_if -> IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER .)
+    ECHO            reduce using rule 14 (sentencia_if -> IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER .)
+    IF              reduce using rule 14 (sentencia_if -> IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER .)
+    $end            reduce using rule 14 (sentencia_if -> IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER .)
+    LLAVE_DER       reduce using rule 14 (sentencia_if -> IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for MAS in state 45 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 45 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLICAR in state 45 resolved as shift
+WARNING: shift/reduce conflict for DIVIDIR in state 45 resolved as shift
+WARNING: shift/reduce conflict for MAS in state 46 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 46 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLICAR in state 46 resolved as shift
+WARNING: shift/reduce conflict for DIVIDIR in state 46 resolved as shift
+WARNING: shift/reduce conflict for MAS in state 47 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 47 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLICAR in state 47 resolved as shift
+WARNING: shift/reduce conflict for DIVIDIR in state 47 resolved as shift
+WARNING: shift/reduce conflict for MAS in state 48 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 48 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLICAR in state 48 resolved as shift
+WARNING: shift/reduce conflict for DIVIDIR in state 48 resolved as shift
