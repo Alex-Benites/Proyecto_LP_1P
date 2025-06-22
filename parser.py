@@ -34,8 +34,81 @@ def p_sentencia(p):
                  | declaracion_define
                  | sentencia_echo
                  | asignacion_array
-                 | sentencia_if'''
+                 | sentencia_if
+                 | sentencia_foreach
+                 | sentencia_funcion
+                 | sentencia_return
+                 | sentencia_llamada_funcion
+                 | sentencia_incremento
+                 | sentencia_comentario'''
     p[0] = p[1]
+
+# FOREACH
+def p_sentencia_foreach(p):
+    '''sentencia_foreach : FOREACH PAREN_IZQ VARIABLE AS ASIGNAR VARIABLE PAREN_DER LLAVE_IZQ sentencias LLAVE_DER
+                         | FOREACH PAREN_IZQ VARIABLE AS VARIABLE PAREN_DER LLAVE_IZQ sentencias LLAVE_DER'''
+    if len(p) == 11:
+        p[0] = ('foreach', p[3], p[6], p[9])
+    else:
+        p[0] = ('foreach', p[3], p[5], p[8])
+
+# FUNCIONES
+def p_sentencia_funcion(p):
+    '''sentencia_funcion : FUNCTION IDENTIFICADOR PAREN_IZQ parametros_funcion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER'''
+    p[0] = ('funcion', p[2], p[4], p[7])
+
+def p_parametros_funcion(p):
+    '''parametros_funcion : VARIABLE
+                         | parametros_funcion COMA VARIABLE
+                         | '''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    elif len(p) == 4:
+        p[1].append(p[3])
+        p[0] = p[1]
+    else:
+        p[0] = []
+
+def p_sentencia_return(p):
+    '''sentencia_return : RETURN expresion PUNTO_COMA'''
+    p[0] = ('return', p[2])
+
+# LLAMADA A FUNCIONES
+def p_sentencia_llamada_funcion(p):
+    '''sentencia_llamada_funcion : IDENTIFICADOR PAREN_IZQ lista_argumentos PAREN_DER PUNTO_COMA'''
+    p[0] = ('llamada_funcion', p[1], p[3])
+
+def p_lista_argumentos(p):
+    '''lista_argumentos : expresion
+                       | lista_argumentos COMA expresion
+                       | '''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    elif len(p) == 4:
+        p[1].append(p[3])
+        p[0] = p[1]
+    else:
+        p[0] = []
+
+# ACCESO A ARRAYS ASOCIATIVOS
+def p_expresion_acceso_array_asociativo(p):
+    '''expresion : VARIABLE CORCHETE_IZQ CADENA CORCHETE_DER'''
+    p[0] = ('acceso_array_asociativo', p[1], p[3])
+
+# INCREMENTO
+def p_sentencia_incremento(p):
+    '''sentencia_incremento : VARIABLE MAS MAS PUNTO_COMA'''
+    p[0] = ('incremento', p[1])
+
+# CONCATENACIÓN
+def p_expresion_concatenacion(p):
+    '''expresion : expresion PUNTO expresion'''
+    p[0] = ('concatenacion', p[1], p[3])
+
+# COMENTARIOS (opcional, ignora)
+def p_sentencia_comentario(p):
+    '''sentencia_comentario : '''
+    pass
 
 # 4. ASIGNACIÓN DE VARIABLES
 def p_asignacion(p):
