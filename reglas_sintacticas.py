@@ -40,11 +40,11 @@ def analizar_sintactico(archivo_php, github_user):
         
         # Determinar estado del análisis
         if errores_sintacticos:
-            estado_analisis = "❌ ANÁLISIS FALLIDO"
-            print(f"❌ Se encontraron {len(errores_sintacticos)} errores sintácticos")
+            estado_analisis = " ANÁLISIS FALLIDO"
+            print(f" Se encontraron {len(errores_sintacticos)} errores sintácticos")
         else:
             estado_analisis = "✅ ANÁLISIS EXITOSO"
-            print("✅ Análisis sintáctico completado sin errores")
+            print(" Análisis sintáctico completado sin errores")
         
         # Generar log del análisis sintáctico
         _generar_log_sintactico(
@@ -57,7 +57,7 @@ def analizar_sintactico(archivo_php, github_user):
             resultado
         )
         
-        print(f"📝 Log sintáctico generado: {log_filename}")
+        print(f" Log sintáctico generado: {log_filename}")
         
         return {
             'exito': len(errores_sintacticos) == 0,
@@ -68,11 +68,11 @@ def analizar_sintactico(archivo_php, github_user):
         }
         
     except FileNotFoundError:
-        error_msg = f"❌ Error: No se encontró el archivo '{archivo_php}'"
+        error_msg = f" Error: No se encontró el archivo '{archivo_php}'"
         print(error_msg)
         return {'exito': False, 'errores': [error_msg], 'total_errores': 1}
     except Exception as e:
-        error_msg = f"❌ Error durante el análisis: {e}"
+        error_msg = f" Error durante el análisis: {e}"
         print(error_msg)
         return {'exito': False, 'errores': [error_msg], 'total_errores': 1}
 
@@ -115,7 +115,7 @@ def _generar_log_sintactico(log_filename, archivo_php, github_user, estado_anali
             log_file.write("3. Asegurar que las variables empiecen con '$'\n")
             log_file.write("4. Verificar la sintaxis de arrays y asignaciones\n")
         else:
-            log_file.write("✅ NO SE ENCONTRARON ERRORES SINTÁCTICOS\n")
+            log_file.write(" NO SE ENCONTRARON ERRORES SINTÁCTICOS\n")
             log_file.write("El código cumple con las reglas gramaticales definidas.\n")
             log_file.write("Todas las construcciones sintácticas son válidas.\n")
         
@@ -155,11 +155,11 @@ def analizar_multiples_archivos(archivos_y_usuarios):
     archivos_exitosos = 0
     
     print("\n" + "="*70)
-    print("📊 ANÁLISIS SINTÁCTICO MÚLTIPLE")
+    print(" ANÁLISIS SINTÁCTICO MÚLTIPLE")
     print("="*70)
     
     for archivo, usuario in archivos_y_usuarios:
-        print(f"\n🔍 Analizando: {archivo} (por {usuario})")
+        print(f"\n Analizando: {archivo} (por {usuario})")
         resultado = analizar_sintactico(archivo, usuario)
         resultados[archivo] = resultado
         
@@ -170,12 +170,12 @@ def analizar_multiples_archivos(archivos_y_usuarios):
     
     # Resumen final
     print("\n" + "="*70)
-    print("📈 RESUMEN FINAL")
+    print(" RESUMEN FINAL")
     print("="*70)
-    print(f"📄 Archivos analizados: {len(archivos_y_usuarios)}")
-    print(f"✅ Archivos exitosos: {archivos_exitosos}")
-    print(f"❌ Archivos con errores: {len(archivos_y_usuarios) - archivos_exitosos}")
-    print(f"🐛 Total errores: {total_errores}")
+    print(f" Archivos analizados: {len(archivos_y_usuarios)}")
+    print(f" Archivos exitosos: {archivos_exitosos}")
+    print(f" Archivos con errores: {len(archivos_y_usuarios) - archivos_exitosos}")
+    print(f" Total errores: {total_errores}")
     print("="*70)
     
     return resultados

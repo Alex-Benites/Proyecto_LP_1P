@@ -233,3 +233,4 @@ if __name__ == "__main__":
             analyze_file(config["archivo"], config["github"])
         else:
             print(f"Archivo no encontrado: {config['archivo']}")
+

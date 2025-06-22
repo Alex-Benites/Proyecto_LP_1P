@@ -7,7 +7,7 @@ start = 'programa'
 # Lista global para almacenar errores sintácticos
 errores_sintacticos = []
 
-# === REGLAS GRAMATICALES PARA EL ALGORITMO DE NEHEMIAS ===
+# === REGLAS GRAMATICALES EXTENDIDAS ===
 
 # 1. PROGRAMA PRINCIPAL
 def p_programa(p):
@@ -28,12 +28,13 @@ def p_sentencias(p):
         p[1].append(p[2])
         p[0] = p[1]
 
-# 3. TIPOS DE SENTENCIAS
+# 3. TIPOS DE SENTENCIAS 
 def p_sentencia(p):
     '''sentencia : asignacion
                  | declaracion_define
                  | sentencia_echo
-                 | asignacion_array'''
+                 | asignacion_array
+                 | sentencia_if'''
     p[0] = p[1]
 
 # 4. ASIGNACIÓN DE VARIABLES
@@ -41,7 +42,7 @@ def p_asignacion(p):
     '''asignacion : VARIABLE ASIGNAR expresion PUNTO_COMA'''
     p[0] = ('asignacion', p[1], p[3])
 
-# 5. ASIGNACIÓN A ARRAYS (para $pila[] = $elemento1;)
+# 5. ASIGNACIÓN A ARRAYS
 def p_asignacion_array(p):
     '''asignacion_array : VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA'''
     p[0] = ('asignacion_array', p[1], p[5])
@@ -56,7 +57,22 @@ def p_sentencia_echo(p):
     '''sentencia_echo : ECHO expresion PUNTO_COMA'''
     p[0] = ('echo', p[2])
 
-# 8. EXPRESIONES ARITMÉTICAS
+# 8. SENTENCIA IF
+def p_sentencia_if(p):
+    '''sentencia_if : IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER'''
+    p[0] = ('if', p[3], p[6])
+
+# 9. CONDICIONES
+def p_condicion(p):
+    '''condicion : expresion IGUAL expresion
+                 | expresion NO_IGUAL expresion
+                 | expresion MAYOR expresion
+                 | expresion MENOR expresion
+                 | expresion MAYOR_IGUAL expresion
+                 | expresion MENOR_IGUAL expresion'''
+    p[0] = ('condicion', p[2], p[1], p[3])
+
+# 10. EXPRESIONES ARITMÉTICAS
 def p_expresion_binaria(p):
     '''expresion : expresion MAS expresion
                  | expresion MENOS expresion
@@ -75,12 +91,12 @@ def p_expresion_simple(p):
                  | IDENTIFICADOR'''
     p[0] = ('literal', p[1])
 
-# 9. ARRAYS VACÍOS (para $pila = [];)
+# 11. ARRAYS VACÍOS
 def p_expresion_array_vacio(p):
     '''expresion : CORCHETE_IZQ CORCHETE_DER'''
     p[0] = ('array_vacio', [])
 
-# 10. ARRAYS CON ELEMENTOS
+# 12. ARRAYS CON ELEMENTOS
 def p_expresion_array(p):
     '''expresion : CORCHETE_IZQ lista_elementos CORCHETE_DER'''
     p[0] = ('array', p[2])
@@ -93,6 +109,11 @@ def p_lista_elementos(p):
     else:
         p[1].append(p[3])
         p[0] = p[1]
+
+# 13. ACCESO A ELEMENTOS DE UN ARRAY
+def p_expresion_acceso_array(p):
+    '''expresion : VARIABLE CORCHETE_IZQ expresion CORCHETE_DER'''
+    p[0] = ('acceso_array', p[1], p[3])
 
 # === MANEJO DE ERRORES ===
 def p_error(p):

@@ -1,5 +1,4 @@
 <?php
-<?php
 // Algoritmo de Pila (LIFO - Last In, First Out)
 // Contribuidor: NLindao2004
 
