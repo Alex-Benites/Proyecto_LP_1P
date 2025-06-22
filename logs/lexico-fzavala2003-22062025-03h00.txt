@@ -1,0 +1,250 @@
+ANÁLISIS LÉXICO - algoritmos/algoritmo_Fernando.php
+Contribución de: fzavala2003
+Fecha: 22/06/2025 03:00:32
+============================================================
+
+ESTADO DEL ANÁLISIS:  ANÁLISIS EXITOSO
+
+TOKENS ENCONTRADOS:
+----------------------------------------
+  1. Token: TAG_INICIO      | Valor: '<?php' | Línea: 1
+  2. Token: DEFINE          | Valor: 'define' | Línea: 3
+  3. Token: PAREN_IZQ       | Valor: '(' | Línea: 3
+  4. Token: CADENA          | Valor: '"EDAD_MINIMA"' | Línea: 3
+  5. Token: COMA            | Valor: ',' | Línea: 3
+  6. Token: NUMERO          | Valor: '18' | Línea: 3
+  7. Token: PAREN_DER       | Valor: ')' | Línea: 3
+  8. Token: PUNTO_COMA      | Valor: ';' | Línea: 3
+  9. Token: VARIABLE        | Valor: '$personas' | Línea: 5
+ 10. Token: ASIGNAR         | Valor: '=' | Línea: 5
+ 11. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 5
+ 12. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 6
+ 13. Token: CADENA          | Valor: '"nombre"' | Línea: 6
+ 14. Token: ARRAY_ASOCIATIVO | Valor: '=>' | Línea: 6
+ 15. Token: CADENA          | Valor: '"Ana"' | Línea: 6
+ 16. Token: COMA            | Valor: ',' | Línea: 6
+ 17. Token: CADENA          | Valor: '"edad"' | Línea: 6
+ 18. Token: ARRAY_ASOCIATIVO | Valor: '=>' | Línea: 6
+ 19. Token: NUMERO          | Valor: '23' | Línea: 6
+ 20. Token: CORCHETE_DER    | Valor: ']' | Línea: 6
+ 21. Token: COMA            | Valor: ',' | Línea: 6
+ 22. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 7
+ 23. Token: CADENA          | Valor: '"nombre"' | Línea: 7
+ 24. Token: ARRAY_ASOCIATIVO | Valor: '=>' | Línea: 7
+ 25. Token: CADENA          | Valor: '"Luis"' | Línea: 7
+ 26. Token: COMA            | Valor: ',' | Línea: 7
+ 27. Token: CADENA          | Valor: '"edad"' | Línea: 7
+ 28. Token: ARRAY_ASOCIATIVO | Valor: '=>' | Línea: 7
+ 29. Token: NUMERO          | Valor: '30' | Línea: 7
+ 30. Token: CORCHETE_DER    | Valor: ']' | Línea: 7
+ 31. Token: COMA            | Valor: ',' | Línea: 7
+ 32. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 8
+ 33. Token: CADENA          | Valor: '"nombre"' | Línea: 8
+ 34. Token: ARRAY_ASOCIATIVO | Valor: '=>' | Línea: 8
+ 35. Token: CADENA          | Valor: '"Carla"' | Línea: 8
+ 36. Token: COMA            | Valor: ',' | Línea: 8
+ 37. Token: CADENA          | Valor: '"edad"' | Línea: 8
+ 38. Token: ARRAY_ASOCIATIVO | Valor: '=>' | Línea: 8
+ 39. Token: NUMERO          | Valor: '17' | Línea: 8
+ 40. Token: CORCHETE_DER    | Valor: ']' | Línea: 8
+ 41. Token: COMA            | Valor: ',' | Línea: 8
+ 42. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 9
+ 43. Token: CADENA          | Valor: '"nombre"' | Línea: 9
+ 44. Token: ARRAY_ASOCIATIVO | Valor: '=>' | Línea: 9
+ 45. Token: CADENA          | Valor: '"Pedro"' | Línea: 9
+ 46. Token: COMA            | Valor: ',' | Línea: 9
+ 47. Token: CADENA          | Valor: '"edad"' | Línea: 9
+ 48. Token: ARRAY_ASOCIATIVO | Valor: '=>' | Línea: 9
+ 49. Token: NUMERO          | Valor: '25' | Línea: 9
+ 50. Token: CORCHETE_DER    | Valor: ']' | Línea: 9
+ 51. Token: COMA            | Valor: ',' | Línea: 9
+ 52. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 10
+ 53. Token: CADENA          | Valor: '"nombre"' | Línea: 10
+ 54. Token: ARRAY_ASOCIATIVO | Valor: '=>' | Línea: 10
+ 55. Token: CADENA          | Valor: '"Laura"' | Línea: 10
+ 56. Token: COMA            | Valor: ',' | Línea: 10
+ 57. Token: CADENA          | Valor: '"edad"' | Línea: 10
+ 58. Token: ARRAY_ASOCIATIVO | Valor: '=>' | Línea: 10
+ 59. Token: NUMERO          | Valor: '40' | Línea: 10
+ 60. Token: CORCHETE_DER    | Valor: ']' | Línea: 10
+ 61. Token: COMA            | Valor: ',' | Línea: 10
+ 62. Token: CORCHETE_DER    | Valor: ']' | Línea: 11
+ 63. Token: PUNTO_COMA      | Valor: ';' | Línea: 11
+ 64. Token: VARIABLE        | Valor: '$edades' | Línea: 13
+ 65. Token: ASIGNAR         | Valor: '=' | Línea: 13
+ 66. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 13
+ 67. Token: CORCHETE_DER    | Valor: ']' | Línea: 13
+ 68. Token: PUNTO_COMA      | Valor: ';' | Línea: 13
+ 69. Token: VARIABLE        | Valor: '$adultos' | Línea: 14
+ 70. Token: ASIGNAR         | Valor: '=' | Línea: 14
+ 71. Token: NUMERO          | Valor: '0' | Línea: 14
+ 72. Token: PUNTO_COMA      | Valor: ';' | Línea: 14
+ 73. Token: VARIABLE        | Valor: '$totalEdades' | Línea: 15
+ 74. Token: ASIGNAR         | Valor: '=' | Línea: 15
+ 75. Token: NUMERO          | Valor: '0' | Línea: 15
+ 76. Token: PUNTO_COMA      | Valor: ';' | Línea: 15
+ 77. Token: VARIABLE        | Valor: '$cantidadPersonas' | Línea: 16
+ 78. Token: ASIGNAR         | Valor: '=' | Línea: 16
+ 79. Token: IDENTIFICADOR   | Valor: 'count' | Línea: 16
+ 80. Token: PAREN_IZQ       | Valor: '(' | Línea: 16
+ 81. Token: VARIABLE        | Valor: '$personas' | Línea: 16
+ 82. Token: PAREN_DER       | Valor: ')' | Línea: 16
+ 83. Token: PUNTO_COMA      | Valor: ';' | Línea: 16
+ 84. Token: FOREACH         | Valor: 'foreach' | Línea: 19
+ 85. Token: PAREN_IZQ       | Valor: '(' | Línea: 19
+ 86. Token: VARIABLE        | Valor: '$personas' | Línea: 19
+ 87. Token: AS              | Valor: 'as' | Línea: 19
+ 88. Token: VARIABLE        | Valor: '$persona' | Línea: 19
+ 89. Token: PAREN_DER       | Valor: ')' | Línea: 19
+ 90. Token: LLAVE_IZQ       | Valor: '{' | Línea: 19
+ 91. Token: VARIABLE        | Valor: '$edades' | Línea: 21
+ 92. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 21
+ 93. Token: CORCHETE_DER    | Valor: ']' | Línea: 21
+ 94. Token: ASIGNAR         | Valor: '=' | Línea: 21
+ 95. Token: VARIABLE        | Valor: '$persona' | Línea: 21
+ 96. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 21
+ 97. Token: CADENA          | Valor: '"edad"' | Línea: 21
+ 98. Token: CORCHETE_DER    | Valor: ']' | Línea: 21
+ 99. Token: PUNTO_COMA      | Valor: ';' | Línea: 21
+100. Token: VARIABLE        | Valor: '$totalEdades' | Línea: 23
+101. Token: MAS             | Valor: '+' | Línea: 23
+102. Token: ASIGNAR         | Valor: '=' | Línea: 23
+103. Token: VARIABLE        | Valor: '$persona' | Línea: 23
+104. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 23
+105. Token: CADENA          | Valor: '"edad"' | Línea: 23
+106. Token: CORCHETE_DER    | Valor: ']' | Línea: 23
+107. Token: PUNTO_COMA      | Valor: ';' | Línea: 23
+108. Token: IF              | Valor: 'if' | Línea: 26
+109. Token: PAREN_IZQ       | Valor: '(' | Línea: 26
+110. Token: VARIABLE        | Valor: '$persona' | Línea: 26
+111. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 26
+112. Token: CADENA          | Valor: '"edad"' | Línea: 26
+113. Token: CORCHETE_DER    | Valor: ']' | Línea: 26
+114. Token: MAYOR_IGUAL     | Valor: '>=' | Línea: 26
+115. Token: IDENTIFICADOR   | Valor: 'EDAD_MINIMA' | Línea: 26
+116. Token: PAREN_DER       | Valor: ')' | Línea: 26
+117. Token: LLAVE_IZQ       | Valor: '{' | Línea: 26
+118. Token: VARIABLE        | Valor: '$adultos' | Línea: 27
+119. Token: MAS             | Valor: '+' | Línea: 27
+120. Token: MAS             | Valor: '+' | Línea: 27
+121. Token: PUNTO_COMA      | Valor: ';' | Línea: 27
+122. Token: ECHO            | Valor: 'echo' | Línea: 28
+123. Token: VARIABLE        | Valor: '$persona' | Línea: 28
+124. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 28
+125. Token: CADENA          | Valor: '"nombre"' | Línea: 28
+126. Token: CORCHETE_DER    | Valor: ']' | Línea: 28
+127. Token: PUNTO           | Valor: '.' | Línea: 28
+128. Token: CADENA          | Valor: '" es mayor de edad\n"' | Línea: 28
+129. Token: PUNTO_COMA      | Valor: ';' | Línea: 28
+130. Token: LLAVE_DER       | Valor: '}' | Línea: 29
+131. Token: ELSE            | Valor: 'else' | Línea: 29
+132. Token: LLAVE_IZQ       | Valor: '{' | Línea: 29
+133. Token: ECHO            | Valor: 'echo' | Línea: 30
+134. Token: VARIABLE        | Valor: '$persona' | Línea: 30
+135. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 30
+136. Token: CADENA          | Valor: '"nombre"' | Línea: 30
+137. Token: CORCHETE_DER    | Valor: ']' | Línea: 30
+138. Token: PUNTO           | Valor: '.' | Línea: 30
+139. Token: CADENA          | Valor: '" es menor de edad\n"' | Línea: 30
+140. Token: PUNTO_COMA      | Valor: ';' | Línea: 30
+141. Token: LLAVE_DER       | Valor: '}' | Línea: 31
+142. Token: LLAVE_DER       | Valor: '}' | Línea: 32
+143. Token: IF              | Valor: 'if' | Línea: 35
+144. Token: PAREN_IZQ       | Valor: '(' | Línea: 35
+145. Token: VARIABLE        | Valor: '$cantidadPersonas' | Línea: 35
+146. Token: MAYOR           | Valor: '>' | Línea: 35
+147. Token: NUMERO          | Valor: '0' | Línea: 35
+148. Token: PAREN_DER       | Valor: ')' | Línea: 35
+149. Token: LLAVE_IZQ       | Valor: '{' | Línea: 35
+150. Token: VARIABLE        | Valor: '$promedio' | Línea: 36
+151. Token: ASIGNAR         | Valor: '=' | Línea: 36
+152. Token: VARIABLE        | Valor: '$totalEdades' | Línea: 36
+153. Token: DIVIDIR         | Valor: '/' | Línea: 36
+154. Token: VARIABLE        | Valor: '$cantidadPersonas' | Línea: 36
+155. Token: PUNTO_COMA      | Valor: ';' | Línea: 36
+156. Token: LLAVE_DER       | Valor: '}' | Línea: 37
+157. Token: ELSE            | Valor: 'else' | Línea: 37
+158. Token: LLAVE_IZQ       | Valor: '{' | Línea: 37
+159. Token: VARIABLE        | Valor: '$promedio' | Línea: 38
+160. Token: ASIGNAR         | Valor: '=' | Línea: 38
+161. Token: NUMERO          | Valor: '0' | Línea: 38
+162. Token: PUNTO_COMA      | Valor: ';' | Línea: 38
+163. Token: LLAVE_DER       | Valor: '}' | Línea: 39
+164. Token: ECHO            | Valor: 'echo' | Línea: 42
+165. Token: CADENA          | Valor: '"\nCantidad de personas: "' | Línea: 42
+166. Token: PUNTO           | Valor: '.' | Línea: 42
+167. Token: VARIABLE        | Valor: '$cantidadPersonas' | Línea: 42
+168. Token: PUNTO_COMA      | Valor: ';' | Línea: 42
+169. Token: ECHO            | Valor: 'echo' | Línea: 43
+170. Token: CADENA          | Valor: '"\nCantidad de adultos: "' | Línea: 43
+171. Token: PUNTO           | Valor: '.' | Línea: 43
+172. Token: VARIABLE        | Valor: '$adultos' | Línea: 43
+173. Token: PUNTO_COMA      | Valor: ';' | Línea: 43
+174. Token: ECHO            | Valor: 'echo' | Línea: 44
+175. Token: CADENA          | Valor: '"\nPromedio de edad: "' | Línea: 44
+176. Token: PUNTO           | Valor: '.' | Línea: 44
+177. Token: VARIABLE        | Valor: '$promedio' | Línea: 44
+178. Token: PUNTO           | Valor: '.' | Línea: 44
+179. Token: CADENA          | Valor: '"\n"' | Línea: 44
+180. Token: PUNTO_COMA      | Valor: ';' | Línea: 44
+181. Token: FUNCTION        | Valor: 'function' | Línea: 47
+182. Token: IDENTIFICADOR   | Valor: 'sumar' | Línea: 47
+183. Token: PAREN_IZQ       | Valor: '(' | Línea: 47
+184. Token: VARIABLE        | Valor: '$num1' | Línea: 47
+185. Token: COMA            | Valor: ',' | Línea: 47
+186. Token: VARIABLE        | Valor: '$num2' | Línea: 47
+187. Token: PAREN_DER       | Valor: ')' | Línea: 47
+188. Token: LLAVE_IZQ       | Valor: '{' | Línea: 47
+189. Token: VARIABLE        | Valor: '$resultado' | Línea: 48
+190. Token: ASIGNAR         | Valor: '=' | Línea: 48
+191. Token: VARIABLE        | Valor: '$num1' | Línea: 48
+192. Token: MAS             | Valor: '+' | Línea: 48
+193. Token: VARIABLE        | Valor: '$num2' | Línea: 48
+194. Token: PUNTO_COMA      | Valor: ';' | Línea: 48
+195. Token: RETURN          | Valor: 'return' | Línea: 49
+196. Token: VARIABLE        | Valor: '$resultado' | Línea: 49
+197. Token: PUNTO_COMA      | Valor: ';' | Línea: 49
+198. Token: LLAVE_DER       | Valor: '}' | Línea: 50
+
+ESTADÍSTICAS LÉXICAS:
+-------------------------
+Total de tokens: 198
+Tipos únicos de tokens: 28
+
+FRECUENCIA DE TOKENS:
+--------------------
+ARRAY_ASOCIATIVO: 10
+AS             : 1
+ASIGNAR        : 10
+CADENA         : 27
+COMA           : 12
+CORCHETE_DER   : 13
+CORCHETE_IZQ   : 13
+DEFINE         : 1
+DIVIDIR        : 1
+ECHO           : 5
+ELSE           : 2
+FOREACH        : 1
+FUNCTION       : 1
+IDENTIFICADOR  : 3
+IF             : 2
+LLAVE_DER      : 6
+LLAVE_IZQ      : 6
+MAS            : 4
+MAYOR          : 1
+MAYOR_IGUAL    : 1
+NUMERO         : 10
+PAREN_DER      : 6
+PAREN_IZQ      : 6
+PUNTO          : 6
+PUNTO_COMA     : 18
+RETURN         : 1
+TAG_INICIO     : 1
+VARIABLE       : 30
+
+============================================================
+INFORMACIÓN ADICIONAL:
+-------------------------
+Archivo analizado: algoritmos/algoritmo_Fernando.php
+Análisis léxico completado sin errores
+Todos los tokens fueron reconocidos correctamente

@@ -20,11 +20,11 @@ foreach ($personas as $persona) {
     // Agregamos la edad al arreglo de edades
     $edades[] = $persona["edad"];
     // Sumamos la edad al total
-    $totalEdades += $persona["edad"];
+    $totalEdades = $totalEdades+ $persona["edad"];
 
     // Verificamos si es mayor de edad
     if ($persona["edad"] >= EDAD_MINIMA) {
-        $adultos++;
+        $adultos= $adultos + 1; 
         echo $persona["nombre"] . " es mayor de edad\n";
     } else {
         echo $persona["nombre"] . " es menor de edad\n";
