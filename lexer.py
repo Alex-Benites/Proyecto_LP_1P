@@ -12,7 +12,6 @@ tokens = [
     # === FIN CONTRIBUCIÓN FERNANDO ===
 
     # === INICIO CONTRIBUCIÓN NEHEMIAS - Operadores ===
-    # Definicion de operadores básicos
     'MAS',
     'MENOS',
     'MULTIPLICAR',
@@ -41,7 +40,6 @@ tokens = [
     'FLECHA',
     'DOBLE_DOS_PUNTOS',
     'ARRAY_ASOCIATIVO',
-    'FUNCION'
     # === FIN CONTRIBUCIÓN ALEX ===
 ]
 
@@ -63,14 +61,13 @@ reserved = {
     'new': 'NEW',
     'echo': 'ECHO',
     'print': 'PRINT',
-    'readline': 'READLINE',
+    'readline': 'READLINE',  # Agregar esta línea
     'define': 'DEFINE'
 }
 
 tokens += list(reserved.values())
 
 # === INICIO CONTRIBUCIÓN FERNANDO - Tokens básicos ===
-# Implementacion de los tokens básicos
 def t_VARIABLE(t):
     r'\$[a-zA-Z_][a-zA-Z_0-9]*'
     return t
@@ -93,7 +90,6 @@ def t_IDENTIFICADOR(t):
     return t
 # === FIN CONTRIBUCIÓN FERNANDO ===
 
-
 # === INICIO CONTRIBUCIÓN NEHEMIAS - Operadores ===
 # Definicion de mis tokens para los operadores básicos
 t_FUNCTION = r'function'
@@ -110,8 +106,6 @@ t_MAYOR = r'>'
 t_MENOR = r'<'
 t_MAYOR_IGUAL = r'>='
 t_MENOR_IGUAL = r'<='
-
-
 # === FIN CONTRIBUCIÓN NEHEMIAS ===
 
 # === INICIO CONTRIBUCIÓN ALEX - Delimitadores y estructura ===
@@ -129,35 +123,31 @@ t_DOBLE_DOS_PUNTOS = r'::'
 t_ARRAY_ASOCIATIVO = r'=>'
 # === FIN CONTRIBUCIÓN ALEX ===
 
-
-
-# ====Inicio contribucion Daniel Zavala====
-
+# === INICIO CONTRIBUCIÓN DANIEL ZAVALA ===
 t_ignore = ' \t'
 
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-
 def t_comment(t):
     r'//.*'
     pass
 
-errores_lexicos=[]
+errores_lexicos = []
+
 def t_error(t):
     print(f"Carácter ilegal '{t.value[0]}' en línea {t.lineno}")
     errores_lexicos.append(f"{t.value[0]} en línea {t.lineno}")
     t.lexer.skip(1)
+# === FIN CONTRIBUCIÓN DANIEL ZAVALA ===
 
-#===Fin contribucion Daniel Zavala====
-
-# CREAR EL LEXER GLOBAL 
+# CREAR EL LEXER GLOBAL
 lexer = lex.lex(debug=True)
 
-#Todos contribuimos
+# Función de análisis
 def analyze_file(filename, github_user):
-    local_lexer = lex.lex()  # Usar lexer local para esta función
+    local_lexer = lex.lex()
     try:
         with open(filename, 'r', encoding='utf-8') as file:
             data = file.read()
@@ -166,19 +156,17 @@ def analyze_file(filename, github_user):
         log_filename = f"logs/lexico-{github_user}-{timestamp}.txt"
 
         os.makedirs('logs', exist_ok=True)
-        local_lexer.input(data)  # Cambiar a local_lexer
+        local_lexer.input(data)
         tokens_reconocidos = []
 
         print(f"Analizando archivo: {filename}")
         print(f"github_user: {github_user}")
 
-        condicion=True
-        while condicion:
-            token = local_lexer.token()  # Cambiar a local_lexer
-            if token is not None:
-                tokens_reconocidos.append(f"Token: {token.type}, Valor: '{token.value}', Línea: {token.lineno}")
-            else:
-                condicion=False
+        while True:
+            token = local_lexer.token()
+            if token is None:
+                break
+            tokens_reconocidos.append(f"Token: {token.type}, Valor: '{token.value}', Línea: {token.lineno}")
 
         with open(log_filename, 'w', encoding='utf-8') as log_file:
             log_file.write(f"ANÁLISIS LÉXICO - {filename}\n")
@@ -189,14 +177,17 @@ def analyze_file(filename, github_user):
             log_file.write("TOKENS RECONOCIDOS:\n")
             for token in tokens_reconocidos:
                 log_file.write(token + "\n")
+
             log_file.write("\nERRORES LÉXICOS:\n")
-            if errores_lexicos != []:
+            if errores_lexicos:
                 for error in errores_lexicos:
                     log_file.write(f"{error}\n")
-            
+            else:
+                log_file.write("No se encontraron errores léxicos.\n")
+
             log_file.write(f"\nTotal tokens reconocidos: {len(tokens_reconocidos)}\n")
             log_file.write(f"Total errores léxicos: {len(errores_lexicos)}\n")
-            errores_lexicos.clear()  
+            errores_lexicos.clear()
 
         print(f"Log generado: {log_filename}")
         return log_filename
@@ -206,18 +197,10 @@ def analyze_file(filename, github_user):
     except Exception as e:
         print(f"Error al procesar el archivo: {e}")
 
+# COMENTAR O ELIMINAR ESTA SECCIÓN:
+"""
 if __name__ == "__main__":
-    # Mapeo de archivos y contribuidores
     algoritmos = {
-       # "Alex": {
-        #    "archivo": "algoritmos/algortimo_Alex.php",
-        #    "github":"Alex-Benites"
-        #},
-        #"Fernando": {
-        #    "archivo": "algoritmos/algoritmo_Fernando.php",
-        #    "github":"fzavala2003" 
-
-        #},
         "Nehemias": {
             "archivo": "algoritmos/algoritmo_Nehemias.php",
             "github":"NLindao2004"
@@ -230,4 +213,4 @@ if __name__ == "__main__":
             analyze_file(config["archivo"], config["github"])
         else:
             print(f"Archivo no encontrado: {config['archivo']}")
-
+"""

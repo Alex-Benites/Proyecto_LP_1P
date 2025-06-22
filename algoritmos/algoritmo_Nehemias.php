@@ -1,50 +1,51 @@
 <?php
-// Algoritmo de Pila (LIFO - Last In, First Out)
+
+// Algoritmo de Cola (FIFO) con Funciones
 // Contribuidor: NLindao2004
 
-// Definir tamaño máximo de la pila
+// Variables globales de la cola
+$cola = [];
+$frente = 0;
+$final = 0;
+$contador = 0;
 define("TAMAÑO_MAXIMO", 5);
 
-// Declarar la pila como array vacío
-$pila = [];
-
-// Variable para el tope de la pila
-$tope = 0;
-
-// Agregar elementos a la pila (PUSH)
-$elemento1 = 10;
-$pila[] = $elemento1;
-$tope = $tope + 1;
-
-$elemento2 = 20;
-$pila[] = $elemento2;
-$tope = $tope + 1;
-
-$elemento3 = 30;
-$pila[] = $elemento3;
-$tope = $tope + 1;
-
-// Mostrar estado de la pila
-echo "Elementos en la pila: ";
-echo $tope;
-
-// Remover elemento de la pila (POP)
-$elementoRemovido = $pila[$tope];
-$tope = $tope - 1;
-
-echo "Elemento removido: ";
-echo $elementoRemovido;
-
-// Mostrar nuevo estado
-echo "Nuevo tope: ";
-echo $tope;
-
-// Verificar si la pila está vacía
-$estaVacia = 0;
-if ($tope == 0) {
-    $estaVacia = 1;
+// Función para encolar (ENQUEUE)
+function encolar($elemento) {
+    $cola[] = $elemento;
+    $final = $final + 1;
+    $contador = $contador + 1;
 }
 
-echo "Pila vacia: ";
-echo $estaVacia;
+// Función para desencolar (DEQUEUE)
+function desencolar() {
+    $elementoRemovido = $cola[$frente];
+    $frente = $frente + 1;
+    $contador = $contador - 1;
+    return $elementoRemovido;
+}
+
+// Función para verificar si está vacía
+function estaVacia() {
+    if ($contador == 0) {
+        return 1;
+    }
+    return 0;
+}
+
+// Usar las funciones
+encolar(10);
+encolar(20);
+encolar(30);
+
+echo "Elementos en cola: ";
+echo $contador;
+
+$removido = desencolar();
+echo "Elemento removido: ";
+echo $removido;
+
+$vacia = estaVacia();
+echo "Cola vacia: ";
+echo $vacia;
 ?>
