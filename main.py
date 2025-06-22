@@ -132,7 +132,8 @@ if __name__ == "__main__":
     print("="*70)
     
     # Análisis individual del algoritmo de Nehemias
-    #resultado = analizar_archivo_completo('algoritmos/algoritmo_Nehemias.php', 'NLindao2004')
+    analizar_archivo_completo('algoritmos/algoritmo_Nehemias.php', 'NLindao2004')
     analizar_archivo_completo('algoritmos/algoritmo_Fernando.php', 'fzavala2003')
+    
     
     print("\n ANÁLISIS COMPLETADO")
