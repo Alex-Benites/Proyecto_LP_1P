@@ -1,50 +1,75 @@
 <?php
-// Algoritmo de Pila (LIFO - Last In, First Out)
+
+// Algoritmo de Cola (FIFO - First In, First Out)
 // Contribuidor: NLindao2004
 
-// Definir tamaño máximo de la pila
+// Definir tamaño máximo de la cola
 define("TAMAÑO_MAXIMO", 5);
 
-// Declarar la pila como array vacío
-$pila = [];
+// Declarar la cola como array vacío
+$cola = [];
 
-// Variable para el tope de la pila
-$tope = 0;
+// Variables para control de la cola
+$frente = 0;
+$final = 0;
+$contador = 0;
 
-// Agregar elementos a la pila (PUSH)
+// Agregar elementos a la cola (ENQUEUE)
 $elemento1 = 10;
-$pila[] = $elemento1;
-$tope = $tope + 1;
+$cola[] = $elemento1;
+$final = $final + 1;
+$contador = $contador + 1;
 
 $elemento2 = 20;
-$pila[] = $elemento2;
-$tope = $tope + 1;
+$cola[] = $elemento2;
+$final = $final + 1;
+$contador = $contador + 1;
 
 $elemento3 = 30;
-$pila[] = $elemento3;
-$tope = $tope + 1;
+$cola[] = $elemento3;
+$final = $final + 1;
+$contador = $contador + 1;
 
-// Mostrar estado de la pila
-echo "Elementos en la pila: ";
-echo $tope;
+// Mostrar estado de la cola
+echo "Elementos en cola: ";
+echo $contador;
 
-// Remover elemento de la pila (POP)
-$elementoRemovido = $pila[$tope];
-$tope = $tope - 1;
+echo "Frente: ";
+echo $frente;
+
+echo "Final: ";
+echo $final;
+
+// Remover elemento de la cola (DEQUEUE)
+$elementoRemovido = $cola[$frente];
+$frente = $frente + 1;
+$contador = $contador - 1;
 
 echo "Elemento removido: ";
 echo $elementoRemovido;
 
 // Mostrar nuevo estado
-echo "Nuevo tope: ";
-echo $tope;
+echo "Nuevo frente: ";
+echo $frente;
 
-// Verificar si la pila está vacía
+echo "Elementos restantes: ";
+echo $contador;
+
+// Verificar si la cola está vacía
 $estaVacia = 0;
-if ($tope == 0) {
+if ($contador == 0) {
     $estaVacia = 1;
 }
 
-echo "Pila vacia: ";
+echo "Cola vacia: ";
 echo $estaVacia;
+
+// Verificar si la cola está llena
+$estaLlena = 0;
+if ($contador == 5) {
+    $estaLlena = 1;
+}
+
+echo "Cola llena: ";
+echo $estaLlena;
 ?>

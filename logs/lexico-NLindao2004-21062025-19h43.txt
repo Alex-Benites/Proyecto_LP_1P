@@ -1,0 +1,235 @@
+ANÁLISIS LÉXICO - algoritmos/algoritmo_Nehemias.php
+Contribución de: NLindao2004
+Fecha: 21/06/2025 19:43:00
+============================================================
+
+ESTADO DEL ANÁLISIS:  ANÁLISIS EXITOSO
+
+TOKENS ENCONTRADOS:
+----------------------------------------
+  1. Token: TAG_INICIO      | Valor: '<?php' | Línea: 1
+  2. Token: DEFINE          | Valor: 'define' | Línea: 7
+  3. Token: PAREN_IZQ       | Valor: '(' | Línea: 7
+  4. Token: CADENA          | Valor: '"TAMAÑO_MAXIMO"' | Línea: 7
+  5. Token: COMA            | Valor: ',' | Línea: 7
+  6. Token: NUMERO          | Valor: '5' | Línea: 7
+  7. Token: PAREN_DER       | Valor: ')' | Línea: 7
+  8. Token: PUNTO_COMA      | Valor: ';' | Línea: 7
+  9. Token: VARIABLE        | Valor: '$cola' | Línea: 10
+ 10. Token: ASIGNAR         | Valor: '=' | Línea: 10
+ 11. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 10
+ 12. Token: CORCHETE_DER    | Valor: ']' | Línea: 10
+ 13. Token: PUNTO_COMA      | Valor: ';' | Línea: 10
+ 14. Token: VARIABLE        | Valor: '$frente' | Línea: 13
+ 15. Token: ASIGNAR         | Valor: '=' | Línea: 13
+ 16. Token: NUMERO          | Valor: '0' | Línea: 13
+ 17. Token: PUNTO_COMA      | Valor: ';' | Línea: 13
+ 18. Token: VARIABLE        | Valor: '$final' | Línea: 14
+ 19. Token: ASIGNAR         | Valor: '=' | Línea: 14
+ 20. Token: NUMERO          | Valor: '0' | Línea: 14
+ 21. Token: PUNTO_COMA      | Valor: ';' | Línea: 14
+ 22. Token: VARIABLE        | Valor: '$contador' | Línea: 15
+ 23. Token: ASIGNAR         | Valor: '=' | Línea: 15
+ 24. Token: NUMERO          | Valor: '0' | Línea: 15
+ 25. Token: PUNTO_COMA      | Valor: ';' | Línea: 15
+ 26. Token: VARIABLE        | Valor: '$elemento1' | Línea: 18
+ 27. Token: ASIGNAR         | Valor: '=' | Línea: 18
+ 28. Token: NUMERO          | Valor: '10' | Línea: 18
+ 29. Token: PUNTO_COMA      | Valor: ';' | Línea: 18
+ 30. Token: VARIABLE        | Valor: '$cola' | Línea: 19
+ 31. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 19
+ 32. Token: CORCHETE_DER    | Valor: ']' | Línea: 19
+ 33. Token: ASIGNAR         | Valor: '=' | Línea: 19
+ 34. Token: VARIABLE        | Valor: '$elemento1' | Línea: 19
+ 35. Token: PUNTO_COMA      | Valor: ';' | Línea: 19
+ 36. Token: VARIABLE        | Valor: '$final' | Línea: 20
+ 37. Token: ASIGNAR         | Valor: '=' | Línea: 20
+ 38. Token: VARIABLE        | Valor: '$final' | Línea: 20
+ 39. Token: MAS             | Valor: '+' | Línea: 20
+ 40. Token: NUMERO          | Valor: '1' | Línea: 20
+ 41. Token: PUNTO_COMA      | Valor: ';' | Línea: 20
+ 42. Token: VARIABLE        | Valor: '$contador' | Línea: 21
+ 43. Token: ASIGNAR         | Valor: '=' | Línea: 21
+ 44. Token: VARIABLE        | Valor: '$contador' | Línea: 21
+ 45. Token: MAS             | Valor: '+' | Línea: 21
+ 46. Token: NUMERO          | Valor: '1' | Línea: 21
+ 47. Token: PUNTO_COMA      | Valor: ';' | Línea: 21
+ 48. Token: VARIABLE        | Valor: '$elemento2' | Línea: 23
+ 49. Token: ASIGNAR         | Valor: '=' | Línea: 23
+ 50. Token: NUMERO          | Valor: '20' | Línea: 23
+ 51. Token: PUNTO_COMA      | Valor: ';' | Línea: 23
+ 52. Token: VARIABLE        | Valor: '$cola' | Línea: 24
+ 53. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 24
+ 54. Token: CORCHETE_DER    | Valor: ']' | Línea: 24
+ 55. Token: ASIGNAR         | Valor: '=' | Línea: 24
+ 56. Token: VARIABLE        | Valor: '$elemento2' | Línea: 24
+ 57. Token: PUNTO_COMA      | Valor: ';' | Línea: 24
+ 58. Token: VARIABLE        | Valor: '$final' | Línea: 25
+ 59. Token: ASIGNAR         | Valor: '=' | Línea: 25
+ 60. Token: VARIABLE        | Valor: '$final' | Línea: 25
+ 61. Token: MAS             | Valor: '+' | Línea: 25
+ 62. Token: NUMERO          | Valor: '1' | Línea: 25
+ 63. Token: PUNTO_COMA      | Valor: ';' | Línea: 25
+ 64. Token: VARIABLE        | Valor: '$contador' | Línea: 26
+ 65. Token: ASIGNAR         | Valor: '=' | Línea: 26
+ 66. Token: VARIABLE        | Valor: '$contador' | Línea: 26
+ 67. Token: MAS             | Valor: '+' | Línea: 26
+ 68. Token: NUMERO          | Valor: '1' | Línea: 26
+ 69. Token: PUNTO_COMA      | Valor: ';' | Línea: 26
+ 70. Token: VARIABLE        | Valor: '$elemento3' | Línea: 28
+ 71. Token: ASIGNAR         | Valor: '=' | Línea: 28
+ 72. Token: NUMERO          | Valor: '30' | Línea: 28
+ 73. Token: PUNTO_COMA      | Valor: ';' | Línea: 28
+ 74. Token: VARIABLE        | Valor: '$cola' | Línea: 29
+ 75. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 29
+ 76. Token: CORCHETE_DER    | Valor: ']' | Línea: 29
+ 77. Token: ASIGNAR         | Valor: '=' | Línea: 29
+ 78. Token: VARIABLE        | Valor: '$elemento3' | Línea: 29
+ 79. Token: PUNTO_COMA      | Valor: ';' | Línea: 29
+ 80. Token: VARIABLE        | Valor: '$final' | Línea: 30
+ 81. Token: ASIGNAR         | Valor: '=' | Línea: 30
+ 82. Token: VARIABLE        | Valor: '$final' | Línea: 30
+ 83. Token: MAS             | Valor: '+' | Línea: 30
+ 84. Token: NUMERO          | Valor: '1' | Línea: 30
+ 85. Token: PUNTO_COMA      | Valor: ';' | Línea: 30
+ 86. Token: VARIABLE        | Valor: '$contador' | Línea: 31
+ 87. Token: ASIGNAR         | Valor: '=' | Línea: 31
+ 88. Token: VARIABLE        | Valor: '$contador' | Línea: 31
+ 89. Token: MAS             | Valor: '+' | Línea: 31
+ 90. Token: NUMERO          | Valor: '1' | Línea: 31
+ 91. Token: PUNTO_COMA      | Valor: ';' | Línea: 31
+ 92. Token: ECHO            | Valor: 'echo' | Línea: 34
+ 93. Token: CADENA          | Valor: '"Elementos en cola: "' | Línea: 34
+ 94. Token: PUNTO_COMA      | Valor: ';' | Línea: 34
+ 95. Token: ECHO            | Valor: 'echo' | Línea: 35
+ 96. Token: VARIABLE        | Valor: '$contador' | Línea: 35
+ 97. Token: PUNTO_COMA      | Valor: ';' | Línea: 35
+ 98. Token: ECHO            | Valor: 'echo' | Línea: 37
+ 99. Token: CADENA          | Valor: '"Frente: "' | Línea: 37
+100. Token: PUNTO_COMA      | Valor: ';' | Línea: 37
+101. Token: ECHO            | Valor: 'echo' | Línea: 38
+102. Token: VARIABLE        | Valor: '$frente' | Línea: 38
+103. Token: PUNTO_COMA      | Valor: ';' | Línea: 38
+104. Token: ECHO            | Valor: 'echo' | Línea: 40
+105. Token: CADENA          | Valor: '"Final: "' | Línea: 40
+106. Token: PUNTO_COMA      | Valor: ';' | Línea: 40
+107. Token: ECHO            | Valor: 'echo' | Línea: 41
+108. Token: VARIABLE        | Valor: '$final' | Línea: 41
+109. Token: PUNTO_COMA      | Valor: ';' | Línea: 41
+110. Token: VARIABLE        | Valor: '$elementoRemovido' | Línea: 44
+111. Token: ASIGNAR         | Valor: '=' | Línea: 44
+112. Token: VARIABLE        | Valor: '$cola' | Línea: 44
+113. Token: CORCHETE_IZQ    | Valor: '[' | Línea: 44
+114. Token: VARIABLE        | Valor: '$frente' | Línea: 44
+115. Token: CORCHETE_DER    | Valor: ']' | Línea: 44
+116. Token: PUNTO_COMA      | Valor: ';' | Línea: 44
+117. Token: VARIABLE        | Valor: '$frente' | Línea: 45
+118. Token: ASIGNAR         | Valor: '=' | Línea: 45
+119. Token: VARIABLE        | Valor: '$frente' | Línea: 45
+120. Token: MAS             | Valor: '+' | Línea: 45
+121. Token: NUMERO          | Valor: '1' | Línea: 45
+122. Token: PUNTO_COMA      | Valor: ';' | Línea: 45
+123. Token: VARIABLE        | Valor: '$contador' | Línea: 46
+124. Token: ASIGNAR         | Valor: '=' | Línea: 46
+125. Token: VARIABLE        | Valor: '$contador' | Línea: 46
+126. Token: MENOS           | Valor: '-' | Línea: 46
+127. Token: NUMERO          | Valor: '1' | Línea: 46
+128. Token: PUNTO_COMA      | Valor: ';' | Línea: 46
+129. Token: ECHO            | Valor: 'echo' | Línea: 48
+130. Token: CADENA          | Valor: '"Elemento removido: "' | Línea: 48
+131. Token: PUNTO_COMA      | Valor: ';' | Línea: 48
+132. Token: ECHO            | Valor: 'echo' | Línea: 49
+133. Token: VARIABLE        | Valor: '$elementoRemovido' | Línea: 49
+134. Token: PUNTO_COMA      | Valor: ';' | Línea: 49
+135. Token: ECHO            | Valor: 'echo' | Línea: 52
+136. Token: CADENA          | Valor: '"Nuevo frente: "' | Línea: 52
+137. Token: PUNTO_COMA      | Valor: ';' | Línea: 52
+138. Token: ECHO            | Valor: 'echo' | Línea: 53
+139. Token: VARIABLE        | Valor: '$frente' | Línea: 53
+140. Token: PUNTO_COMA      | Valor: ';' | Línea: 53
+141. Token: ECHO            | Valor: 'echo' | Línea: 55
+142. Token: CADENA          | Valor: '"Elementos restantes: "' | Línea: 55
+143. Token: PUNTO_COMA      | Valor: ';' | Línea: 55
+144. Token: ECHO            | Valor: 'echo' | Línea: 56
+145. Token: VARIABLE        | Valor: '$contador' | Línea: 56
+146. Token: PUNTO_COMA      | Valor: ';' | Línea: 56
+147. Token: VARIABLE        | Valor: '$estaVacia' | Línea: 59
+148. Token: ASIGNAR         | Valor: '=' | Línea: 59
+149. Token: NUMERO          | Valor: '0' | Línea: 59
+150. Token: PUNTO_COMA      | Valor: ';' | Línea: 59
+151. Token: IF              | Valor: 'if' | Línea: 60
+152. Token: PAREN_IZQ       | Valor: '(' | Línea: 60
+153. Token: VARIABLE        | Valor: '$contador' | Línea: 60
+154. Token: IGUAL           | Valor: '==' | Línea: 60
+155. Token: NUMERO          | Valor: '0' | Línea: 60
+156. Token: PAREN_DER       | Valor: ')' | Línea: 60
+157. Token: LLAVE_IZQ       | Valor: '{' | Línea: 60
+158. Token: VARIABLE        | Valor: '$estaVacia' | Línea: 61
+159. Token: ASIGNAR         | Valor: '=' | Línea: 61
+160. Token: NUMERO          | Valor: '1' | Línea: 61
+161. Token: PUNTO_COMA      | Valor: ';' | Línea: 61
+162. Token: LLAVE_DER       | Valor: '}' | Línea: 62
+163. Token: ECHO            | Valor: 'echo' | Línea: 64
+164. Token: CADENA          | Valor: '"Cola vacia: "' | Línea: 64
+165. Token: PUNTO_COMA      | Valor: ';' | Línea: 64
+166. Token: ECHO            | Valor: 'echo' | Línea: 65
+167. Token: VARIABLE        | Valor: '$estaVacia' | Línea: 65
+168. Token: PUNTO_COMA      | Valor: ';' | Línea: 65
+169. Token: VARIABLE        | Valor: '$estaLlena' | Línea: 68
+170. Token: ASIGNAR         | Valor: '=' | Línea: 68
+171. Token: NUMERO          | Valor: '0' | Línea: 68
+172. Token: PUNTO_COMA      | Valor: ';' | Línea: 68
+173. Token: IF              | Valor: 'if' | Línea: 69
+174. Token: PAREN_IZQ       | Valor: '(' | Línea: 69
+175. Token: VARIABLE        | Valor: '$contador' | Línea: 69
+176. Token: IGUAL           | Valor: '==' | Línea: 69
+177. Token: NUMERO          | Valor: '5' | Línea: 69
+178. Token: PAREN_DER       | Valor: ')' | Línea: 69
+179. Token: LLAVE_IZQ       | Valor: '{' | Línea: 69
+180. Token: VARIABLE        | Valor: '$estaLlena' | Línea: 70
+181. Token: ASIGNAR         | Valor: '=' | Línea: 70
+182. Token: NUMERO          | Valor: '1' | Línea: 70
+183. Token: PUNTO_COMA      | Valor: ';' | Línea: 70
+184. Token: LLAVE_DER       | Valor: '}' | Línea: 71
+185. Token: ECHO            | Valor: 'echo' | Línea: 73
+186. Token: CADENA          | Valor: '"Cola llena: "' | Línea: 73
+187. Token: PUNTO_COMA      | Valor: ';' | Línea: 73
+188. Token: ECHO            | Valor: 'echo' | Línea: 74
+189. Token: VARIABLE        | Valor: '$estaLlena' | Línea: 74
+190. Token: PUNTO_COMA      | Valor: ';' | Línea: 74
+191. Token: TAG_FIN         | Valor: '?>' | Línea: 75
+
+ESTADÍSTICAS LÉXICAS:
+-------------------------
+Total de tokens: 191
+Tipos únicos de tokens: 20
+
+FRECUENCIA DE TOKENS:
+--------------------
+ASIGNAR        : 23
+CADENA         : 9
+COMA           : 1
+CORCHETE_DER   : 5
+CORCHETE_IZQ   : 5
+DEFINE         : 1
+ECHO           : 16
+IF             : 2
+IGUAL          : 2
+LLAVE_DER      : 2
+LLAVE_IZQ      : 2
+MAS            : 7
+MENOS          : 1
+NUMERO         : 21
+PAREN_DER      : 3
+PAREN_IZQ      : 3
+PUNTO_COMA     : 40
+TAG_FIN        : 1
+TAG_INICIO     : 1
+VARIABLE       : 46
+
+============================================================
+INFORMACIÓN ADICIONAL:
+-------------------------
+Archivo analizado: algoritmos/algoritmo_Nehemias.php
+Análisis léxico completado sin errores
+Todos los tokens fueron reconocidos correctamente
