@@ -35,9 +35,9 @@ def p_sentencia(p):
                  | sentencia_echo
                  | asignacion_array
                  | sentencia_if
-                 | definicion_funcion
-                 | llamada_funcion
-                 | sentencia_return'''
+                 | sentencia_foreach
+                 | declaracion_funcion
+                 | sentencia_readline'''
     p[0] = p[1]
 
 # 4. ASIGNACIÓN DE VARIABLES
@@ -173,6 +173,86 @@ def p_lista_elementos(p):
 def p_expresion_acceso_array(p):
     '''expresion : VARIABLE CORCHETE_IZQ expresion CORCHETE_DER'''
     p[0] = ('acceso_array', p[1], p[3])
+
+# === CONTRIBUCIÓN ALEX - Estructuras avanzadas con delimitadores ===
+
+# 1. ARRAYS ASOCIATIVOS (tu especialidad)
+def p_expresion_array_asociativo(p):
+    '''expresion : CORCHETE_IZQ lista_elementos_asociativos CORCHETE_DER'''
+    p[0] = ('array_asociativo', p[2])
+
+def p_lista_elementos_asociativos(p):
+    '''lista_elementos_asociativos : elemento_asociativo
+                                   | lista_elementos_asociativos COMA elemento_asociativo'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[1].append(p[3])
+        p[0] = p[1]
+
+def p_elemento_asociativo(p):
+    '''elemento_asociativo : expresion ARRAY_ASOCIATIVO expresion'''
+    p[0] = ('par_clave_valor', p[1], p[3])
+
+# 2. FOREACH (estructura de control con arrays asociativos)
+def p_sentencia_foreach(p):
+    '''sentencia_foreach : FOREACH PAREN_IZQ VARIABLE AS VARIABLE ARRAY_ASOCIATIVO VARIABLE PAREN_DER LLAVE_IZQ sentencias LLAVE_DER'''
+    p[0] = ('foreach_asociativo', p[3], p[5], p[7], p[10])
+
+def p_sentencia_foreach_simple(p):
+    '''sentencia_foreach : FOREACH PAREN_IZQ VARIABLE AS VARIABLE PAREN_DER LLAVE_IZQ sentencias LLAVE_DER'''
+    p[0] = ('foreach_simple', p[3], p[5], p[8])
+
+# 3. FUNCIONES (definición y llamada con paréntesis)
+def p_declaracion_funcion(p):
+    '''declaracion_funcion : FUNCTION IDENTIFICADOR PAREN_IZQ parametros PAREN_DER LLAVE_IZQ sentencias LLAVE_DER
+                           | FUNCTION IDENTIFICADOR PAREN_IZQ PAREN_DER LLAVE_IZQ sentencias LLAVE_DER'''
+    if len(p) == 9:
+        p[0] = ('funcion', p[2], p[4], p[7])
+    else:
+        p[0] = ('funcion', p[2], [], p[6])
+
+def p_parametros(p):
+    '''parametros : VARIABLE
+                  | parametros COMA VARIABLE'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[1].append(p[3])
+        p[0] = p[1]
+
+def p_llamada_funcion(p):
+    '''expresion : IDENTIFICADOR PAREN_IZQ argumentos PAREN_DER
+                 | IDENTIFICADOR PAREN_IZQ PAREN_DER'''
+    if len(p) == 5:
+        p[0] = ('llamada_funcion', p[1], p[3])
+    else:
+        p[0] = ('llamada_funcion', p[1], [])
+
+def p_argumentos(p):
+    '''argumentos : expresion
+                  | argumentos COMA expresion'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[1].append(p[3])
+        p[0] = p[1]
+
+# 4. ESTRUCTURAS DE CONTROL AVANZADAS
+def p_sentencia_if_else(p):
+    '''sentencia_if : IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER ELSE LLAVE_IZQ sentencias LLAVE_DER'''
+    p[0] = ('if_else', p[3], p[6], p[10])
+
+def p_sentencia_if_elseif(p):
+    '''sentencia_if : IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER ELSEIF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER'''
+    p[0] = ('if_elseif', p[3], p[6], p[10], p[13])
+
+# 5. INGRESO DE DATOS (readline)
+def p_sentencia_readline(p):
+    '''sentencia_readline : VARIABLE ASIGNAR READLINE PAREN_IZQ PAREN_DER PUNTO_COMA'''
+    p[0] = ('readline', p[1])
+
+# === FIN CONTRIBUCIÓN ALEX ===
 
 # === MANEJO DE ERRORES ===
 def p_error(p):

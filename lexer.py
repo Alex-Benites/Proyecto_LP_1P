@@ -61,7 +61,7 @@ reserved = {
     'new': 'NEW',
     'echo': 'ECHO',
     'print': 'PRINT',
-    'readline': 'READLINE',
+    'readline': 'READLINE',  # Agregar esta línea
     'define': 'DEFINE'
 }
 
@@ -144,7 +144,7 @@ def t_error(t):
     t.lexer.skip(1)
 # === FIN CONTRIBUCIÓN DANIEL ZAVALA ===
 
-# CREAR EL LEXER GLOBAL 
+# CREAR EL LEXER GLOBAL
 lexer = lex.lex(debug=True)
 
 # Función de análisis
@@ -179,14 +179,14 @@ def analyze_file(filename, github_user):
             log_file.write("TOKENS RECONOCIDOS:\n")
             for token in tokens_reconocidos:
                 log_file.write(token + "\n")
-            
+
             log_file.write("\nERRORES LÉXICOS:\n")
             if errores_lexicos:
                 for error in errores_lexicos:
                     log_file.write(f"{error}\n")
             else:
                 log_file.write("No se encontraron errores léxicos.\n")
-            
+
             log_file.write(f"\nTotal tokens reconocidos: {len(tokens_reconocidos)}\n")
             log_file.write(f"Total errores léxicos: {len(errores_lexicos)}\n")
             errores_lexicos.clear()
