@@ -2,7 +2,7 @@ from lexer import lexer
 from reglas_sintacticas import analizar_sintactico, analizar_multiples_archivos
 import os
 from datetime import datetime
-from parser import obtener_errores_semanticos, limpiar_errores_semanticos, limpiar_tabla_simbolos
+from parser import obtener_errores_semanticos, limpiar_errores_semanticos, limpiar_tabla_simbolos,limpiar_tabla_tipos_arrays
 
 def generar_log_lexico(archivo_php, github_user, tokens):
     """
@@ -90,6 +90,7 @@ def analizar_archivo_completo(archivo_php, github_user):
         # Limpiar errores y tabla de símbolos antes de cada análisis
         limpiar_errores_semanticos()
         limpiar_tabla_simbolos()
+        limpiar_tabla_tipos_arrays()
         with open(archivo_php, 'r', encoding='utf-8') as file:
             codigo = file.read()
 

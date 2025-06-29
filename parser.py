@@ -1,13 +1,13 @@
 import ply.yacc as yacc
 from lexer import tokens
 
-# Regla inicial
 start = 'programa'
 
 errores_sintacticos = []
 errores_semanticos = []
 
 tabla_simbolos = {}
+tabla_tipos_arrays = {}
 
 def p_programa(p):
     '''programa : TAG_INICIO sentencias TAG_FIN
@@ -17,11 +17,7 @@ def p_programa(p):
 def p_sentencias(p):
     '''sentencias : sentencia
                   | sentencias sentencia'''
-    if len(p) == 2:
-        p[0] = [p[1]]
-    else:
-        p[1].append(p[2])
-        p[0] = p[1]
+    p[0] = [p[1]] if len(p) == 2 else p[1] + [p[2]]
 
 def p_sentencia(p):
     '''sentencia : asignacion
@@ -45,21 +41,28 @@ def p_asignacion(p):
     if tipo is None:
         registrar_error_semantico(f"Error semántico: No se puede determinar el tipo de la expresión para {var}")
         tipo = 'mixed'
+    if var in tabla_simbolos:
+        if (tabla_simbolos[var], tipo) in [('int', 'float'), ('float', 'int')]:
+            tabla_simbolos[var] = tipo
+        elif tabla_simbolos[var] != tipo:
+            registrar_error_semantico(f"Error semántico: Asignación incompatible para {var}. Esperado {tabla_simbolos[var]}, encontrado {tipo}")
+        else:
+            tabla_simbolos[var] = tipo
     else:
-        if var in tabla_simbolos:
-            if tabla_simbolos[var] != tipo:
-                registrar_error_semantico(f"Error semántico: Asignación incompatible para {var}. Esperado {tabla_simbolos[var]}, encontrado {tipo}")
-    tabla_simbolos[var] = tipo
+        tabla_simbolos[var] = tipo
     p[0] = ('asignacion', var, expr)
-
-
-# contribucion de Alex - inicio
 
 def p_asignacion_array(p):
     '''asignacion_array : VARIABLE CORCHETE_IZQ CORCHETE_DER ASIGNAR expresion PUNTO_COMA'''
-    p[0] = ('asignacion_array', p[1], p[5])
-
-# contribucion de Alex - fin
+    var = p[1]
+    expr = p[5]
+    tipo = tipo_expresion(expr)
+    if var not in tabla_simbolos:
+        tabla_simbolos[var] = 'array'
+        tabla_tipos_arrays[var] = {}
+    elif tabla_simbolos[var] != 'array':
+        registrar_error_semantico(f"Error semántico: {var} ya fue declarado con un tipo incompatible con array.")
+    p[0] = ('asignacion_array', var, expr)
 
 def p_declaracion_define(p):
     '''declaracion_define : DEFINE PAREN_IZQ CADENA COMA expresion PAREN_DER PUNTO_COMA'''
@@ -69,18 +72,10 @@ def p_sentencia_echo(p):
     '''sentencia_echo : ECHO expresion PUNTO_COMA'''
     p[0] = ('echo', p[2])
 
-
-# contribucion de Alex - inicio
-
 def p_sentencia_if(p):
     '''sentencia_if : IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER
                     | IF PAREN_IZQ condicion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER ELSE LLAVE_IZQ sentencias LLAVE_DER'''
-    if len(p) == 8:
-        p[0] = ('if', p[3], p[6], None)  # if sin else
-    else:
-        p[0] = ('if_else', p[3], p[6], p[10])  # if con else
-
-# contribucion de Alex - fin
+    p[0] = ('if', p[3], p[6], None) if len(p) == 8 else ('if_else', p[3], p[6], p[10])
 
 def p_condicion(p):
     '''condicion : expresion IGUAL expresion
@@ -118,38 +113,24 @@ def p_expresion_simple(p):
     else:
         p[0] = ('literal', p[1])
 
-# Expresión para llamada a función sin punto y coma, para uso dentro de expresiones
 def p_expresion_llamada_funcion(p):
     '''expresion : IDENTIFICADOR PAREN_IZQ lista_argumentos PAREN_DER'''
     p[0] = ('llamada_funcion', p[1], p[3])
-
-# contribucion de Alex - inicio
 
 def p_expresion_array(p):
     '''expresion : CORCHETE_IZQ elementos_array_coma_opt CORCHETE_DER'''
     p[0] = ('array', p[2])
 
-# contribucion de Alex - fin
-
 def p_elementos_array_coma_opt(p):
     '''elementos_array_coma_opt : elementos_array
                                | elementos_array COMA
                                | '''
-    if len(p) == 2:
-        p[0] = p[1]
-    elif len(p) == 3:
-        p[0] = p[1]
-    else:
-        p[0] = []
+    p[0] = p[1] if len(p) in [2, 3] else []
 
 def p_elementos_array(p):
     '''elementos_array : elemento_array
                       | elementos_array COMA elemento_array'''
-    if len(p) == 2:
-        p[0] = [p[1]]
-    else:
-        p[1].append(p[3])
-        p[0] = p[1]
+    p[0] = [p[1]] if len(p) == 2 else p[1] + [p[3]]
 
 def p_elemento_array(p):
     '''elemento_array : expresion
@@ -157,7 +138,15 @@ def p_elemento_array(p):
     if len(p) == 2:
         p[0] = p[1]
     else:
-        p[0] = ('asociativo', p[1], p[3])
+        clave = p[1].strip('"')
+        valor = p[3]
+        tipo_valor = tipo_expresion(valor)
+        array_name = '$persona'  # <- Puedes hacer esto dinámico si lo deseas
+        if array_name not in tabla_tipos_arrays:
+            tabla_tipos_arrays[array_name] = {}
+        tabla_tipos_arrays[array_name][clave] = tipo_valor
+        p[0] = ('asociativo', clave, valor)
+
 
 def p_expresion_acceso_array(p):
     '''expresion : VARIABLE CORCHETE_IZQ expresion CORCHETE_DER'''
@@ -177,10 +166,25 @@ def p_sentencia_foreach(p):
 
 def p_sentencia_funcion(p):
     '''sentencia_funcion : FUNCTION IDENTIFICADOR PAREN_IZQ parametros_funcion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER'''
-    # Declarar parámetros como variables locales con tipo 'mixed'
-    for param in p[4]:
-        tabla_simbolos[param] = 'mixed'
-    p[0] = ('funcion', p[2], p[4], p[7])
+    
+    nombre_funcion = p[2]
+    parametros = p[4]
+
+    # Guardamos el estado de la tabla de símbolos (ámbito global)
+    tabla_simbolos_global = tabla_simbolos.copy()
+
+    # Creamos ámbito local y registramos los parámetros como variables válidas
+    for param in parametros:
+        if param.startswith('$'):
+            tabla_simbolos[param] = 'mixed'  # Tipo por defecto
+
+    cuerpo = p[7]
+    p[0] = ('funcion', nombre_funcion, parametros, cuerpo)
+
+    # Restauramos el estado global del ámbito
+    tabla_simbolos.clear()
+    tabla_simbolos.update(tabla_simbolos_global)
+
 
 def p_parametros_funcion(p):
     '''parametros_funcion : VARIABLE
@@ -189,8 +193,7 @@ def p_parametros_funcion(p):
     if len(p) == 2:
         p[0] = [p[1]]
     elif len(p) == 4:
-        p[1].append(p[3])
-        p[0] = p[1]
+        p[0] = p[1] + [p[3]]
     else:
         p[0] = []
 
@@ -206,23 +209,17 @@ def p_lista_argumentos(p):
     '''lista_argumentos : expresion
                        | lista_argumentos COMA expresion
                        | '''
-    if len(p) == 2:
-        p[0] = [p[1]]
-    elif len(p) == 4:
-        p[1].append(p[3])
-        p[0] = p[1]
-    else:
-        p[0] = []
+    p[0] = [p[1]] if len(p) == 2 else (p[1] + [p[3] if len(p) == 4 else []])
 
 def p_sentencia_comentario(p):
     '''sentencia_comentario : '''
     pass
 
 def p_error(p):
-    global errores_sintacticos
     if p:
-        print(f"Contexto: {p.lexer.lexdata[max(0, p.lexpos-20):p.lexpos+20]}")
+        contexto = p.lexer.lexdata[max(0, p.lexpos - 20):p.lexpos + 20]
         error_msg = f"Error sintáctico en token {p.type} ('{p.value}') en línea {p.lineno}"
+        print("Contexto:", contexto)
         print(error_msg)
         errores_sintacticos.append(error_msg)
     else:
@@ -230,19 +227,17 @@ def p_error(p):
         print(error_msg)
         errores_sintacticos.append(error_msg)
 
-def limpiar_errores():
-    global errores_sintacticos
-    errores_sintacticos = []
-
-def obtener_errores():
-    global errores_sintacticos
-    return errores_sintacticos.copy()
-
 def registrar_error_semantico(msg):
     errores_semanticos.append(msg)
 
+def obtener_errores():
+    return errores_sintacticos.copy()
+
 def obtener_errores_semanticos():
     return errores_semanticos.copy()
+
+def limpiar_errores():
+    errores_sintacticos.clear()
 
 def limpiar_errores_semanticos():
     errores_semanticos.clear()
@@ -250,12 +245,13 @@ def limpiar_errores_semanticos():
 def limpiar_tabla_simbolos():
     tabla_simbolos.clear()
 
+def limpiar_tabla_tipos_arrays():
+    tabla_tipos_arrays.clear()
+
 def tipo_expresion(expr):
     if isinstance(expr, tuple):
         if expr[0] == 'literal':
             valor = expr[1]
-            if valor is None:
-                return None
             if isinstance(valor, int) or (isinstance(valor, str) and valor.isdigit()):
                 return 'int'
             elif isinstance(valor, float):
@@ -267,27 +263,34 @@ def tipo_expresion(expr):
         elif expr[0] == 'binaria':
             t1 = tipo_expresion(expr[2])
             t2 = tipo_expresion(expr[3])
-            if expr[1] == '/':
-                # División: resultado float si ambos son numéricos
-                if t1 in ('int', 'float') and t2 in ('int', 'float'):
-                    return 'float'
-            if t1 == t2:
-                return t1
-            else:
-                return None
+            if expr[1] == '/' and t1 in ('int', 'float') and t2 in ('int', 'float'):
+                return 'float'
+            return t1 if t1 == t2 and t1 is not None else 'mixed'
         elif expr[0] == 'array':
             return 'array'
         elif expr[0] == 'llamada_funcion':
-            nombre_funcion = expr[1]
-            if nombre_funcion == 'array_shift':
-                return 'string'
-            if nombre_funcion == 'count':
+            if expr[1] == 'count':
                 return 'int'
+            if expr[1] == 'array_shift':
+                return 'string'
             return 'mixed'
         elif expr[0] == 'acceso_array':
+            array_var = expr[1]
+            clave_expr = expr[2]
+            clave = None
+            if isinstance(clave_expr, tuple) and clave_expr[0] == 'literal':
+                clave = clave_expr[1]
+                if isinstance(clave, str) and clave.startswith('"') and clave.endswith('"'):
+                    clave = clave.strip('"')
+            if clave and array_var in tabla_tipos_arrays and clave in tabla_tipos_arrays[array_var]:
+                return tabla_tipos_arrays[array_var][clave]
             return 'mixed'
     elif isinstance(expr, str) and expr.startswith('$'):
         return tabla_simbolos.get(expr, None)
+    elif isinstance(expr, int):
+        return 'int'
+    elif isinstance(expr, float):
+        return 'float'
     return None
 
 parser = yacc.yacc()
