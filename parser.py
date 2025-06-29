@@ -231,6 +231,25 @@ def p_sentencia_llamada_funcion(p):
             registrar_error_semantico(
                 f"Error semántico: La función '{nombre_funcion}' espera {esperados} argumentos, pero se recibieron {recibidos}."
             )
+ 
+    # Regla semántica: Underflow de cola (Nehemias Lindao)
+    if nombre_funcion == "desencolar":
+        # Busca el valor de $contador en el ámbito global
+        contador_val = tabla_simbolos.get("$contador", None)
+        if contador_val == 0:
+            registrar_error_semantico("Error semántico: No se puede desencolar, la cola está vacía (underflow).")
+
+    # Regla semántica: Overflow de cola (Nehemias Lindao)
+    if nombre_funcion == "encolar":
+        contador_val = tabla_simbolos.get("$contador", None)
+        max_val = None
+        # Busca el valor de la constante TAMAÑO_MAXIMO
+        for k, v in tabla_simbolos.items():
+            if k == "TAMAÑO_MAXIMO":
+                max_val = v
+        if max_val is not None and contador_val == max_val:
+            registrar_error_semantico("Error semántico: No se puede encolar, la cola está llena (overflow).")
+
     p[0] = ('llamada_funcion', nombre_funcion, argumentos)
 
 
