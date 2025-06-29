@@ -216,4 +216,33 @@ def obtener_errores():
     global errores_sintacticos
     return errores_sintacticos.copy()
 
+tabla_simbolos = {}
+
+def tipo_expresion(expr):
+    # Determina el tipo de una expresión
+    if isinstance(expr, tuple):
+        if expr[0] == 'literal':
+            valor = expr[1]
+            if isinstance(valor, int) or (isinstance(valor, str) and valor.isdigit()):
+                return 'int'
+            elif isinstance(valor, float):
+                return 'float'
+            elif isinstance(valor, str) and valor.startswith('"') and valor.endswith('"'):
+                return 'string'
+            elif isinstance(valor, str) and valor.startswith('$'):
+                # Variable: buscar en tabla de símbolos
+                return tabla_simbolos.get(valor, None)
+        elif expr[0] == 'binaria':
+            t1 = tipo_expresion(expr[2])
+            t2 = tipo_expresion(expr[3])
+            if t1 == t2:
+                return t1
+            else:
+                return None
+        elif expr[0] == 'array':
+            return 'array'
+    elif isinstance(expr, str) and expr.startswith('$'):
+        return tabla_simbolos.get(expr, None)
+    return None
+
 parser = yacc.yacc()
