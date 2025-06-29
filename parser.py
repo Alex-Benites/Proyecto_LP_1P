@@ -42,9 +42,13 @@ def p_asignacion(p):
     if tipo is None:
         print(f"Error semántico: No se puede determinar el tipo de la expresión para {var}")
     else:
-        # Verifica si la variable ya existe y si el tipo es compatible
-        if var in tabla_simbolos and tabla_simbolos[var] != tipo:
-            print(f"Error semántico: Asignación incompatible para {var}. Esperado {tabla_simbolos[var]}, encontrado {tipo}")
+        if var in tabla_simbolos:
+            if tabla_simbolos[var] != tipo:
+                print(f"Error semántico: Asignación incompatible para {var}. Esperado {tabla_simbolos[var]}, encontrado {tipo}")
+            else:
+                print(f"Variable {var} asignada correctamente con tipo {tipo}")
+        else:
+            print(f"Variable {var} declarada correctamente con tipo {tipo}")
         tabla_simbolos[var] = tipo
     p[0] = ('asignacion', var, expr)
 
