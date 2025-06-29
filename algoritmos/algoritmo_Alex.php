@@ -34,4 +34,27 @@ if (empty($cola)) {
 $siguienteCliente = $cola[0]; // Primer elemento de la cola
 
 echo "\nEl siguiente cliente en la cola es: " . $siguienteCliente . "\n";
+
+// ✅ PRUEBAS SEMÁNTICAS DE ALEX: División por cero
+echo "\n=== PRUEBAS DE VALIDACIÓN SEMÁNTICA ===\n";
+
+// Casos que DEBEN generar error semántico:
+echo "Realizando operaciones matemáticas...\n";
+$clientes_total = 10;
+$divisor_cero = 0;
+
+// División directa por cero
+$promedio1 = 100 / 0;        // Error semántico esperado
+
+// División con variable cero
+$promedio2 = $clientes_total / 0;  // Error semántico esperado
+
+// División con decimal cero
+$promedio3 = 50 / 0.0;       // Error semántico esperado
+
+// Casos VÁLIDOS (no deben generar error):
+$promedio_valido = $clientes_total / 2;  // Válido
+$tiempo_atencion = 60 / count($cola);    // Válido si $cola no está vacía
+
+echo "Promedio de atención por cliente: " . $promedio_valido . " minutos\n";
 ?>

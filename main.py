@@ -112,7 +112,7 @@ def generar_log_semantico(archivo_php, github_user, errores_semanticos):
 
     return log_filename
 
-    
+
 def analizar_archivo_completo(archivo_php, github_user):
     """
     Realiza análisis léxico y sintáctico completo de un archivo PHP
@@ -150,7 +150,7 @@ def analizar_archivo_completo(archivo_php, github_user):
         print(f" Contribuidor: {github_user}")
         print(f" Tokens encontrados: {len(tokens)}")
 
-        if resultado_sintactico_semantico['exito_sintactico']:
+        if resultado_sintactico_semantico['exito']:
             print(" Análisis sintáctico: EXITOSO")
         else:
             print(f" Análisis sintáctico: FALLIDO ({len(resultado_sintactico_semantico['errores'])} errores)")
@@ -159,7 +159,7 @@ def analizar_archivo_completo(archivo_php, github_user):
             print(" Análisis semántico: EXITOSO")
         else:
             print(" Análisis semántico: FALLIDO")
-        
+
         print(f" Log léxico: {log_lexico}")
         print(f" Log sintáctico: {resultado_sintactico_semantico.get('log_archivo_sintactico', 'No generado')}")
         print(f" Log semántico: {log_semantico}")

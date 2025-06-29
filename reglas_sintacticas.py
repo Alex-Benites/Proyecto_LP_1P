@@ -1,4 +1,4 @@
-from parser import parser, limpiar_errores, obtener_errores,obtener_errores_semanticos
+from parser import parser, limpiar_errores, obtener_errores, obtener_errores_semanticos
 import os
 from datetime import datetime
 
@@ -49,9 +49,12 @@ def analizar_sintactico(archivo_php, github_user):
         # Obtener errores encontrados
         errores_sintacticos = obtener_errores()
 
+        # ✅ AGREGAR ESTA LÍNEA:
+        errores_semanticos = obtener_errores_semanticos()
+
         # Determinar estado del análisis
         if errores_sintacticos:
-            estado_analisis = "❌ ANÁLISIS FALLIDO - ERRORES SINTÁCTICOS ENCONTRADOS"
+            estado_analisis = "❌ ANÁLISIS FALLIDO"
             print(f" Se encontraron {len(errores_sintacticos)} errores sintácticos")
             for error in errores_sintacticos:
                 print(f"  - {error}")
@@ -59,9 +62,11 @@ def analizar_sintactico(archivo_php, github_user):
             estado_analisis = "✅ ANÁLISIS EXITOSO"
             print("✅ Análisis sintáctico completado sin errores")
 
-        errores_semanticos = obtener_errores_semanticos()
+        # ✅ AGREGAR VERIFICACIÓN SEMÁNTICA:
         if errores_semanticos:
-            print(f"❌ Análisis semántico completado con errores ({len(errores_semanticos)} errores encontrados)")
+            print(f" Se encontraron {len(errores_semanticos)} errores semánticos")
+            for error in errores_semanticos:
+                print(f"  - {error}")
         else:
             print("✅ Análisis semántico completado sin errores")
 
@@ -80,12 +85,12 @@ def analizar_sintactico(archivo_php, github_user):
         print(f"📁 Log sintáctico generado: {log_filename}")
         print(f"📁 Log semántico generado: {log_semantico}")
 
-        return {         
-            'exito_sintactico': len(errores_sintacticos) == 0,
-            'exito_semantico': len(errores_semanticos) == 0,
+        return {
+            'exito': len(errores_sintacticos) == 0,
+            'exito_semantico': len(errores_semanticos) == 0,  # ✅ AGREGAR
             'errores': errores_sintacticos,
-            'log_archivo_sintactico': log_filename,
-            'log_archivo_semantico': log_semantico,
+            'errores_semanticos': errores_semanticos,  # ✅ AGREGAR
+            'log_archivo': log_filename,
             'ast': resultado,
             'total_errores': len(errores_sintacticos)
         }
@@ -98,7 +103,7 @@ def analizar_sintactico(archivo_php, github_user):
         error_msg = f"❌ Error durante el análisis: {e}"
         print(error_msg)
         return {'exito': False, 'errores': [error_msg], 'total_errores': 1}
-    
+
 def guardar_log_semantico(errores, github_user, archivo_php):
     """
     Guarda los errores semánticos en un archivo de log.

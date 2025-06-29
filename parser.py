@@ -13,7 +13,7 @@ pila_simbolos = [tabla_simbolos]  # Manejamos scopes con una pila
 # Conjunto para almacenar nombres de funciones definidas
 funciones_definidas = set()
 # Diccionario para almacenar funciones y sus cuerpos
-firma_funciones = {} 
+firma_funciones = {}
 
 def p_programa(p):
     '''programa : TAG_INICIO sentencias TAG_FIN
@@ -90,7 +90,12 @@ def p_expresion_binaria(p):
                  | expresion MENOS expresion
                  | expresion MULTIPLICAR expresion
                  | expresion DIVIDIR expresion'''
-    p[0] = ('binaria', p[2], p[1], p[3])
+
+    expresion_binaria = ('binaria', p[2], p[1], p[3])
+
+    validar_division_por_cero(expresion_binaria)
+
+    p[0] = expresion_binaria
 
 def p_expresion_parentesis(p):
     '''expresion : PAREN_IZQ expresion PAREN_DER'''
@@ -231,7 +236,7 @@ def p_sentencia_llamada_funcion(p):
             registrar_error_semantico(
                 f"Error semántico: La función '{nombre_funcion}' espera {esperados} argumentos, pero se recibieron {recibidos}."
             )
- 
+
     # Regla semántica: Underflow de cola (Nehemias Lindao)
     if nombre_funcion == "desencolar":
         # Busca el valor de $contador en el ámbito global
@@ -348,6 +353,24 @@ def tipo_expresion(expr, simbolos=None):
     elif isinstance(expr, float):
         return 'float'
     return None
+
+def validar_division_por_cero(expr):
+    """
+    Regla semántica de Alex: Detectar división por cero
+    """
+    if isinstance(expr, tuple) and expr[0] == 'binaria':
+        operador = expr[1]
+        operando_izq = expr[2]
+        operando_der = expr[3]
+
+        if operador == '/':
+            # Verificar si el operando derecho es cero
+            if isinstance(operando_der, tuple) and operando_der[0] == 'literal':
+                valor = operando_der[1]
+                if valor == 0 or valor == 0.0:
+                    registrar_error_semantico("Error semántico: División por cero detectada.")
+                    return True
+    return False
 
 
 parser = yacc.yacc()
