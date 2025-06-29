@@ -30,7 +30,6 @@ def analizar_sintactico(archivo_php, github_user):
         # Asegurar que la carpeta logs existe
         os.makedirs('logs', exist_ok=True)
 
-        # ✅ CREAR LEXER NUEVO PARA CADA ARCHIVO (SOLUCIÓN)
         import ply.lex as lex
         from lexer import tokens, reserved, t_VARIABLE, t_NUMERO, t_CADENA, t_IDENTIFICADOR
         from lexer import t_TAG_INICIO, t_TAG_FIN, t_MAS, t_MENOS, t_MULTIPLICAR, t_DIVIDIR
@@ -87,9 +86,9 @@ def analizar_sintactico(archivo_php, github_user):
 
         return {
             'exito': len(errores_sintacticos) == 0,
-            'exito_semantico': len(errores_semanticos) == 0,  # ✅ AGREGAR
+            'exito_semantico': len(errores_semanticos) == 0,
             'errores': errores_sintacticos,
-            'errores_semanticos': errores_semanticos,  # ✅ AGREGAR
+            'errores_semanticos': errores_semanticos,
             'log_archivo': log_filename,
             'ast': resultado,
             'total_errores': len(errores_sintacticos)

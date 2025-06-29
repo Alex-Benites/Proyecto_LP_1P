@@ -328,7 +328,7 @@ def limpiar_tabla_tipos_arrays():
 
 def tipo_expresion(expr, simbolos=None):
     if simbolos is None:
-        simbolos = pila_simbolos[-1]  # Usamos el scope actual
+        simbolos = pila_simbolos[-1]
 
     if isinstance(expr, tuple):
         if expr[0] == 'literal':
@@ -384,7 +384,6 @@ def validar_division_por_cero(expr):
         operando_der = expr[3]
 
         if operador == '/':
-            # Verificar si el operando derecho es cero
             if isinstance(operando_der, tuple) and operando_der[0] == 'literal':
                 valor = operando_der[1]
                 if valor == 0 or valor == 0.0:
@@ -396,38 +395,33 @@ def validar_acceso_array_seguro(variable_array, indice_expr):
     """
     Segunda regla semántica de Alex: Validar acceso seguro a arrays
     """
-    # ✅ CASO 1: Verificar índice literal negativo directo
+    # CASO 1: Verificar índice literal negativo directo
     if isinstance(indice_expr, tuple) and indice_expr[0] == 'literal':
         valor_indice = indice_expr[1]
-
-        # ✅ SUB-CASO 1A: Variables como índices
         if isinstance(valor_indice, str) and valor_indice.startswith('$'):
-            # Verificar si la variable contiene un valor negativo
+            # Verifico si la variable contiene un valor negativo
             if valor_indice in tabla_simbolos:
                 valor = tabla_simbolos[valor_indice]
                 if isinstance(valor, (int, float)) and valor < 0:
                     registrar_error_semantico(f"Error semántico: Variable {valor_indice} contiene índice negativo ({valor}) para acceso a array {variable_array}.")
                     return True
 
-        # ✅ SUB-CASO 1B: Números negativos directos
         elif isinstance(valor_indice, (int, float)) and valor_indice < 0:
             registrar_error_semantico(f"Error semántico: Acceso a array {variable_array} con índice negativo ({valor_indice}).")
             return True
 
-        # ✅ SUB-CASO 1C: Strings como índices en arrays simples
         elif isinstance(valor_indice, str) and valor_indice.startswith('"') and valor_indice.endswith('"'):
             contenido = valor_indice.strip('"')
             if not contenido.isdigit():
                 registrar_error_semantico(f"Error semántico: Índice string '{contenido}' usado en array simple {variable_array}.")
                 return True
 
-    # ✅ CASO 2: Detectar expresiones que resultan en negativo (0 - N)
+    # CASO 2: Detectar expresiones que resultan en negativo (0 - N)
     elif isinstance(indice_expr, tuple) and indice_expr[0] == 'binaria':
         operador = indice_expr[1]
         izq = indice_expr[2]
         der = indice_expr[3]
 
-        # Detectar 0 - N (que resulta en negativo)
         if (operador == '-' and
             isinstance(izq, tuple) and izq[0] == 'literal' and izq[1] == 0 and
             isinstance(der, tuple) and der[0] == 'literal' and der[1] > 0):
