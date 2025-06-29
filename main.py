@@ -82,6 +82,37 @@ def realizar_analisis_lexico(codigo, archivo_php, github_user):
 
     return tokens, log_lexico
 
+def generar_log_semantico(archivo_php, github_user, errores_semanticos):
+    """
+    Genera el log del análisis semántico
+    """
+    timestamp = datetime.now().strftime("%d%m%Y-%Hh%M")
+    log_filename = f"logs/semantico-{github_user}-{timestamp}.txt"
+
+    os.makedirs('logs', exist_ok=True)
+
+    with open(log_filename, 'w', encoding='utf-8') as log_file:
+        log_file.write(f"ANÁLISIS SEMÁNTICO - {archivo_php}\n")
+        log_file.write(f"Contribución de: {github_user}\n")
+        log_file.write(f"Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n")
+        log_file.write("="*60 + "\n\n")
+
+        if not errores_semanticos:
+            log_file.write("ESTADO DEL ANÁLISIS: ✅ ANÁLISIS SEMÁNTICO EXITOSO\n\n")
+            log_file.write("No se encontraron errores semánticos.\n")
+        else:
+            log_file.write("ESTADO DEL ANÁLISIS: ❌ ANÁLISIS SEMÁNTICO FALLIDO\n\n")
+            log_file.write("ERRORES SEMÁNTICOS ENCONTRADOS:\n")
+            for err in errores_semanticos:
+                log_file.write(f"- {err}\n")
+            log_file.write(f"\nTotal errores semánticos: {len(errores_semanticos)}\n")
+
+        log_file.write("="*60 + "\n")
+        log_file.write(f"Archivo analizado: {archivo_php}\n")
+
+    return log_filename
+
+    
 def analizar_archivo_completo(archivo_php, github_user):
     """
     Realiza análisis léxico y sintáctico completo de un archivo PHP
@@ -106,7 +137,11 @@ def analizar_archivo_completo(archivo_php, github_user):
         print("\n INICIANDO ANÁLISIS SINTÁCTICO Y SEMÁNTICO...")
         resultado_sintactico_semantico = analizar_sintactico(archivo_php, github_user)
 
-        # === ANÁLISIS SEMÁNTICO ===
+        # === GENERAR LOG SEMÁNTICO ===
+        errores_semanticos = resultado_sintactico_semantico.get('errores_semanticos', [])
+        log_semantico = generar_log_semantico(archivo_php, github_user, errores_semanticos)
+        print(f" Log semántico generado: {log_semantico}")
+
         # === RESUMEN FINAL ===
         print("\n" + "="*70)
         print(" RESUMEN DEL ANÁLISIS")
@@ -125,10 +160,9 @@ def analizar_archivo_completo(archivo_php, github_user):
         else:
             print(" Análisis semántico: FALLIDO")
         
-
         print(f" Log léxico: {log_lexico}")
         print(f" Log sintáctico: {resultado_sintactico_semantico.get('log_archivo_sintactico', 'No generado')}")
-        print(f" Log semántico: {resultado_sintactico_semantico.get('log_archivo_semantico', 'No generado')}")
+        print(f" Log semántico: {log_semantico}")
         print("="*70)
 
         return {
