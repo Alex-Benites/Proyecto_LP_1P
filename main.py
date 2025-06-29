@@ -161,7 +161,7 @@ def analizar_archivo_completo(archivo_php, github_user):
             print(" Análisis semántico: FALLIDO")
 
         print(f" Log léxico: {log_lexico}")
-        print(f" Log sintáctico: {resultado_sintactico_semantico.get('log_archivo_sintactico', 'No generado')}")
+        print(f" Log sintáctico: {resultado_sintactico_semantico.get('log_archivo', 'No generado')}")
         print(f" Log semántico: {log_semantico}")
         print("="*70)
 

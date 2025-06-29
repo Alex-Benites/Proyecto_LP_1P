@@ -57,4 +57,23 @@ $promedio_valido = $clientes_total / 2;  // Válido
 $tiempo_atencion = 60 / count($cola);    // Válido si $cola no está vacía
 
 echo "Promedio de atención por cliente: " . $promedio_valido . " minutos\n";
+
+// ✅ SEGUNDA REGLA SEMÁNTICA DE ALEX: Validación de acceso a arrays
+echo "\n=== PRUEBAS DE ACCESO A ARRAYS ===\n";
+
+// Casos que DEBEN generar error semántico:
+$indice_negativo = 0 - 1;    // Crea -1 usando expresión
+$error1 = $cola[$indice_negativo];     // Índice negativo a través de variable
+
+$indice_negativo2 = 0 - 5;   // Crea -5 usando expresión
+$error2 = $cola[$indice_negativo2];    // Índice negativo mayor
+
+$error3 = $cola["texto"];    // Índice string en array simple (este sí funciona)
+
+// Casos VÁLIDOS (no deben generar error):
+$valido1 = $cola[0];        // Índice válido
+$valido2 = $cola[1];        // Índice válido
+$valido3 = $cola[2];        // Índice válido
+
+echo "Acceso válido completado\n";
 ?>
