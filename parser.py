@@ -5,6 +5,9 @@ from lexer import tokens
 start = 'programa'
 
 errores_sintacticos = []
+errores_semanticos = []
+
+tabla_simbolos = {}
 
 def p_programa(p):
     '''programa : TAG_INICIO sentencias TAG_FIN
@@ -40,16 +43,13 @@ def p_asignacion(p):
     expr = p[3]
     tipo = tipo_expresion(expr)
     if tipo is None:
-        print(f"Error semántico: No se puede determinar el tipo de la expresión para {var}")
+        registrar_error_semantico(f"Error semántico: No se puede determinar el tipo de la expresión para {var}")
+        tipo = 'mixed'
     else:
         if var in tabla_simbolos:
             if tabla_simbolos[var] != tipo:
-                print(f"Error semántico: Asignación incompatible para {var}. Esperado {tabla_simbolos[var]}, encontrado {tipo}")
-            else:
-                print(f"Variable {var} asignada correctamente con tipo {tipo}")
-        else:
-            print(f"Variable {var} declarada correctamente con tipo {tipo}")
-        tabla_simbolos[var] = tipo
+                registrar_error_semantico(f"Error semántico: Asignación incompatible para {var}. Esperado {tabla_simbolos[var]}, encontrado {tipo}")
+    tabla_simbolos[var] = tipo
     p[0] = ('asignacion', var, expr)
 
 
@@ -113,7 +113,7 @@ def p_expresion_simple(p):
                  | IDENTIFICADOR'''
     if isinstance(p[1], str) and p[1].startswith('$'):
         if p[1] not in tabla_simbolos:
-            print(f"Error semántico: Variable {p[1]} no declarada")
+            registrar_error_semantico(f"Error semántico: Variable {p[1]} no declarada. Debe asignarse antes de usarse.")
         p[0] = ('literal', p[1])
     else:
         p[0] = ('literal', p[1])
@@ -177,6 +177,9 @@ def p_sentencia_foreach(p):
 
 def p_sentencia_funcion(p):
     '''sentencia_funcion : FUNCTION IDENTIFICADOR PAREN_IZQ parametros_funcion PAREN_DER LLAVE_IZQ sentencias LLAVE_DER'''
+    # Declarar parámetros como variables locales con tipo 'mixed'
+    for param in p[4]:
+        tabla_simbolos[param] = 'mixed'
     p[0] = ('funcion', p[2], p[4], p[7])
 
 def p_parametros_funcion(p):
@@ -235,13 +238,24 @@ def obtener_errores():
     global errores_sintacticos
     return errores_sintacticos.copy()
 
-tabla_simbolos = {}
+def registrar_error_semantico(msg):
+    errores_semanticos.append(msg)
+
+def obtener_errores_semanticos():
+    return errores_semanticos.copy()
+
+def limpiar_errores_semanticos():
+    errores_semanticos.clear()
+
+def limpiar_tabla_simbolos():
+    tabla_simbolos.clear()
 
 def tipo_expresion(expr):
-    # Determina el tipo de una expresión
     if isinstance(expr, tuple):
         if expr[0] == 'literal':
             valor = expr[1]
+            if valor is None:
+                return None
             if isinstance(valor, int) or (isinstance(valor, str) and valor.isdigit()):
                 return 'int'
             elif isinstance(valor, float):
@@ -249,17 +263,29 @@ def tipo_expresion(expr):
             elif isinstance(valor, str) and valor.startswith('"') and valor.endswith('"'):
                 return 'string'
             elif isinstance(valor, str) and valor.startswith('$'):
-                # Variable: buscar en tabla de símbolos
                 return tabla_simbolos.get(valor, None)
         elif expr[0] == 'binaria':
             t1 = tipo_expresion(expr[2])
             t2 = tipo_expresion(expr[3])
+            if expr[1] == '/':
+                # División: resultado float si ambos son numéricos
+                if t1 in ('int', 'float') and t2 in ('int', 'float'):
+                    return 'float'
             if t1 == t2:
                 return t1
             else:
                 return None
         elif expr[0] == 'array':
             return 'array'
+        elif expr[0] == 'llamada_funcion':
+            nombre_funcion = expr[1]
+            if nombre_funcion == 'array_shift':
+                return 'string'
+            if nombre_funcion == 'count':
+                return 'int'
+            return 'mixed'
+        elif expr[0] == 'acceso_array':
+            return 'mixed'
     elif isinstance(expr, str) and expr.startswith('$'):
         return tabla_simbolos.get(expr, None)
     return None

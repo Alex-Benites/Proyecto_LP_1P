@@ -2,6 +2,7 @@ from lexer import lexer
 from reglas_sintacticas import analizar_sintactico, analizar_multiples_archivos
 import os
 from datetime import datetime
+from parser import obtener_errores_semanticos, limpiar_errores_semanticos, limpiar_tabla_simbolos
 
 def generar_log_lexico(archivo_php, github_user, tokens):
     """
@@ -86,6 +87,9 @@ def analizar_archivo_completo(archivo_php, github_user):
     Realiza análisis léxico y sintáctico completo de un archivo PHP
     """
     try:
+        # Limpiar errores y tabla de símbolos antes de cada análisis
+        limpiar_errores_semanticos()
+        limpiar_tabla_simbolos()
         with open(archivo_php, 'r', encoding='utf-8') as file:
             codigo = file.read()
 
@@ -98,9 +102,10 @@ def analizar_archivo_completo(archivo_php, github_user):
         tokens, log_lexico = realizar_analisis_lexico(codigo, archivo_php, github_user)
 
         # === ANÁLISIS SINTÁCTICO SEPARADO ===
-        print("\n INICIANDO ANÁLISIS SINTÁCTICO...")
-        resultado_sintactico = analizar_sintactico(archivo_php, github_user)
+        print("\n INICIANDO ANÁLISIS SINTÁCTICO Y SEMÁNTICO...")
+        resultado_sintactico_semantico = analizar_sintactico(archivo_php, github_user)
 
+        # === ANÁLISIS SEMÁNTICO ===
         # === RESUMEN FINAL ===
         print("\n" + "="*70)
         print(" RESUMEN DEL ANÁLISIS")
@@ -109,18 +114,25 @@ def analizar_archivo_completo(archivo_php, github_user):
         print(f" Contribuidor: {github_user}")
         print(f" Tokens encontrados: {len(tokens)}")
 
-        if resultado_sintactico['exito']:
+        if resultado_sintactico_semantico['exito_sintactico']:
             print(" Análisis sintáctico: EXITOSO")
         else:
-            print(f" Análisis sintáctico: FALLIDO ({len(resultado_sintactico['errores'])} errores)")
+            print(f" Análisis sintáctico: FALLIDO ({len(resultado_sintactico_semantico['errores'])} errores)")
+
+        if resultado_sintactico_semantico['exito_semantico']:
+            print(" Análisis semántico: EXITOSO")
+        else:
+            print(" Análisis semántico: FALLIDO")
+        
 
         print(f" Log léxico: {log_lexico}")
-        print(f" Log sintáctico: {resultado_sintactico.get('log_archivo', 'No generado')}")
+        print(f" Log sintáctico: {resultado_sintactico_semantico.get('log_archivo_sintactico', 'No generado')}")
+        print(f" Log semántico: {resultado_sintactico_semantico.get('log_archivo_semantico', 'No generado')}")
         print("="*70)
 
         return {
             'lexico': {'exito': True, 'tokens': len(tokens), 'log': log_lexico},
-            'sintactico': resultado_sintactico
+            'sintactico': resultado_sintactico_semantico
         }
 
     except Exception as e:
