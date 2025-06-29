@@ -36,7 +36,17 @@ def p_sentencia(p):
 
 def p_asignacion(p):
     '''asignacion : VARIABLE ASIGNAR expresion PUNTO_COMA'''
-    p[0] = ('asignacion', p[1], p[3])
+    var = p[1]
+    expr = p[3]
+    tipo = tipo_expresion(expr)
+    if tipo is None:
+        print(f"Error semántico: No se puede determinar el tipo de la expresión para {var}")
+    else:
+        # Verifica si la variable ya existe y si el tipo es compatible
+        if var in tabla_simbolos and tabla_simbolos[var] != tipo:
+            print(f"Error semántico: Asignación incompatible para {var}. Esperado {tabla_simbolos[var]}, encontrado {tipo}")
+        tabla_simbolos[var] = tipo
+    p[0] = ('asignacion', var, expr)
 
 
 # contribucion de Alex - inicio
