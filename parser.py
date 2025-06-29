@@ -10,6 +10,10 @@ tabla_simbolos = {}
 tabla_tipos_arrays = {}
 pila_simbolos = [tabla_simbolos]  # Manejamos scopes con una pila
 
+# Conjunto para almacenar nombres de funciones definidas
+funciones_definidas = set()
+# Diccionario para almacenar funciones y sus cuerpos
+firma_funciones = {} 
 
 def p_programa(p):
     '''programa : TAG_INICIO sentencias TAG_FIN
@@ -163,6 +167,17 @@ def p_sentencia_funcion(p):
     nuevo_ambito = {}
     pila_simbolos.append(nuevo_ambito)
 
+    # Guardar firma de la función
+    firma_funciones[nombre_funcion] = len(parametros)
+
+    # Regla semántica: No permitir redefinir funciones (Nehemias Lindao)
+    if nombre_funcion in funciones_definidas:
+        registrar_error_semantico(f"Error semántico: La función '{nombre_funcion}' ya está definida.")
+    else:
+        funciones_definidas.add(nombre_funcion)
+
+
+
     # Registrar los parámetros en el ámbito local
     for param in parametros:
         if param.startswith('$'):
@@ -202,9 +217,22 @@ def p_sentencia_return(p):
     '''sentencia_return : RETURN expresion PUNTO_COMA'''
     p[0] = ('return', p[2])
 
+
 def p_sentencia_llamada_funcion(p):
     '''sentencia_llamada_funcion : IDENTIFICADOR PAREN_IZQ lista_argumentos PAREN_DER PUNTO_COMA'''
-    p[0] = ('llamada_funcion', p[1], p[3])
+    nombre_funcion = p[1]
+    argumentos = p[3]
+
+    # Regla semántica: Verificar número de argumentos (Nehemias Lindao)
+    if nombre_funcion in firma_funciones:
+        esperados = firma_funciones[nombre_funcion]
+        recibidos = len(argumentos)
+        if esperados != recibidos:
+            registrar_error_semantico(
+                f"Error semántico: La función '{nombre_funcion}' espera {esperados} argumentos, pero se recibieron {recibidos}."
+            )
+    p[0] = ('llamada_funcion', nombre_funcion, argumentos)
+
 
 def p_lista_argumentos(p):
     '''lista_argumentos : expresion
