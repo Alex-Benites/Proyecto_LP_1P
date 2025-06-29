@@ -107,7 +107,12 @@ def p_expresion_simple(p):
                  | CADENA
                  | VARIABLE
                  | IDENTIFICADOR'''
-    p[0] = ('literal', p[1])
+    if isinstance(p[1], str) and p[1].startswith('$'):
+        if p[1] not in tabla_simbolos:
+            print(f"Error semántico: Variable {p[1]} no declarada")
+        p[0] = ('literal', p[1])
+    else:
+        p[0] = ('literal', p[1])
 
 # Expresión para llamada a función sin punto y coma, para uso dentro de expresiones
 def p_expresion_llamada_funcion(p):
