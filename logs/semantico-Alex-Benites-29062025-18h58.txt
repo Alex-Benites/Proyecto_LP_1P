@@ -1,0 +1,18 @@
+ANÁLISIS SEMÁNTICO - algoritmos/algoritmo_Alex.php
+Contribución de: Alex-Benites
+Fecha: 29/06/2025 18:58:36
+============================================================
+
+ESTADO DEL ANÁLISIS: ❌ ANÁLISIS SEMÁNTICO FALLIDO
+
+ERRORES SEMÁNTICOS ENCONTRADOS:
+- Error semántico: División por cero detectada.
+- Error semántico: División por cero detectada.
+- Error semántico: División por cero detectada.
+- Error semántico: Variable $indice_negativo contiene índice negativo (-1) para acceso a array $cola.
+- Error semántico: Variable $indice_negativo2 contiene índice negativo (-5) para acceso a array $cola.
+- Error semántico: Índice string 'texto' usado en array simple $cola.
+
+Total errores semánticos: 6
+============================================================
+Archivo analizado: algoritmos/algoritmo_Alex.php

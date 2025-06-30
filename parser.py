@@ -44,7 +44,6 @@ def p_asignacion(p):
     var = p[1]
     expr = p[3]
 
-    # ✅ REGISTRAR VALORES EN TABLA DE SÍMBOLOS PARA VALIDACIÓN SEMÁNTICA
     if isinstance(expr, tuple) and expr[0] == 'binaria':
         # Si es una expresión binaria como 0 - 1
         operador = expr[1]
@@ -54,9 +53,16 @@ def p_asignacion(p):
         if (operador == '-' and
             isinstance(izq, tuple) and izq[0] == 'literal' and
             isinstance(der, tuple) and der[0] == 'literal'):
-            # Calcular el resultado
-            resultado = izq[1] - der[1]
-            tabla_simbolos[var] = resultado
+
+            val_izq = izq[1]
+            val_der = der[1]
+
+            if isinstance(val_izq, (int, float)) and isinstance(val_der, (int, float)):
+                resultado = val_izq - val_der
+                tabla_simbolos[var] = resultado
+            else:
+                tabla_simbolos[var] = 'mixed'
+
     elif isinstance(expr, tuple) and expr[0] == 'literal':
         tabla_simbolos[var] = expr[1]
 
