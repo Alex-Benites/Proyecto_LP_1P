@@ -1,6 +1,0 @@
-ANÁLISIS SEMÁNTICO - algoritmos/algoritmo_Alex.php
-Contribución de: Alex-Benites
-Fecha: 29/06/2025 01:50:36
-============================================================
-
-No se encontraron errores semánticos.
