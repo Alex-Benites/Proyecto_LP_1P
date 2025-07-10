@@ -1,0 +1,21 @@
+# Ignorar archivos generados automáticamente
+__pycache__/
+*.pyc
+
+# Ignorar logs
+logs/
+
+# Ignorar archivos temporales
+parser.out
+parsetab.py
+
+# Ignorar archivos de sistema
+*.zip
+*.exe
+*.dll
+.DS_Store
+Thumbs.db
+
+# Ignorar librerías instaladas
+venv/
+.env/
