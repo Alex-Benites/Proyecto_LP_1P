@@ -68,13 +68,13 @@ echo "Promedio de procesamiento calculado\n";
 echo "\n=== PRUEBAS DE ACCESO A ARRAYS ===\n";
 
 // Casos que DEBEN generar error semántico:
-$indice_negativo = 0 - 1;
+$indice_negativo = 0 - 1; // Índice negativo
 $error1 = $pila[$indice_negativo];       // Índice negativo via variable
 
-$indice_negativo2 = 0 - 5;
+$indice_negativo2 = 0 - 2; // Índice negativo mayor
 $error2 = $pila[$indice_negativo2];      // Índice negativo mayor
 
-$error3 = $pila["texto"];                // Índice string en array simple
+$error3 = $pila["Texto"];                // Índice string en array simple
 
 // Casos válidos (no deben generar error):
 $valido1 = $pila[0];                     // Índice válido

@@ -317,7 +317,7 @@ class AnalizadorGUI:
         try:
             # ✅ DETECTAR AUTOMÁTICAMENTE EL AUTOR DEL CÓDIGO
             github_user = self.detectar_autor_codigo(codigo)
-            
+
             # Guardar archivo temporal
             archivo_temp = f"temp_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}.php"
             with open(archivo_temp, 'w', encoding='utf-8') as file:
@@ -341,38 +341,36 @@ class AnalizadorGUI:
         Detecta automáticamente el autor del código basándose en patrones característicos
         """
         codigo_lower = codigo.lower()
-        
-        # ✅ DETECTAR CÓDIGO DE NEHEMIAS (COLA)
-        if any(palabra in codigo_lower for palabra in ['cola', 'encolar', 'desencolar', 'estavacia']):
+
+        # ✅ DETECTAR POR COMENTARIOS ESPECÍFICOS (más preciso)
+        if any(nombre in codigo_lower for nombre in ['nehemias', 'lindao', 'nlindao']):
             return 'NLindao2004'
-        
-        # ✅ DETECTAR CÓDIGO DE FERNANDO (ARRAY ASOCIATIVO)
-        elif any(palabra in codigo_lower for palabra in ['$persona', '"nombre"', '"edad"', '=>']):
+        elif any(nombre in codigo_lower for nombre in ['fernando', 'zavala', 'fzavala']):
             return 'fzavala2003'
-        
-        # ✅ DETECTAR CÓDIGO DE ALEX (PILA)
-        elif any(palabra in codigo_lower for palabra in ['$pila', 'array_push', 'array_pop', 'stack']):
+        elif any(nombre in codigo_lower for nombre in ['alex', 'benites']):
             return 'Alex-Benites-GUI'
-        
-        # ✅ DETECTAR POR COMENTARIOS (más preciso)
-        elif 'nehemias' in codigo_lower or 'lindao' in codigo_lower:
+
+        # ✅ DETECTAR CÓDIGO DE NEHEMIAS (COLA) - Muy específico
+        elif ('cola' in codigo_lower and 'encolar' in codigo_lower and 'desencolar' in codigo_lower):
             return 'NLindao2004'
-        elif 'fernando' in codigo_lower or 'zavala' in codigo_lower:
+
+        # ✅ DETECTAR CÓDIGO DE FERNANDO (ARRAY ASOCIATIVO) - Muy específico
+        elif ('$persona' in codigo and '"nombre"' in codigo and '"edad"' in codigo):
             return 'fzavala2003'
-        elif 'alex' in codigo_lower or 'benites' in codigo_lower:
+
+        # ✅ DETECTAR CÓDIGO DE ALEX (PILA) - Muy específico
+        elif ('$pila' in codigo and 'array_push' in codigo and 'array_pop' in codigo):
             return 'Alex-Benites-GUI'
-        
-        # ✅ DETECTAR POR ESTRUCTURAS ESPECÍFICAS
-        elif 'function encolar' in codigo_lower or 'function desencolar' in codigo_lower:
+
+        # ✅ DETECTAR POR ESTRUCTURAS MUY ESPECÍFICAS
+        elif ('function encolar' in codigo_lower and 'function desencolar' in codigo_lower):
             return 'NLindao2004'
-        elif '"edad"' in codigo and '"nombre"' in codigo:
-            return 'fzavala2003'
-        elif 'división por cero' in codigo_lower or '$indice_negativo' in codigo_lower:
+        elif ('simulación de pila' in codigo_lower and 'stack' in codigo_lower):
             return 'Alex-Benites-GUI'
-        
-        # ✅ POR DEFECTO: Alex (cuando se usa la GUI)
+
+        # ✅ PARA CÓDIGOS GENÉRICOS O DE PRUEBA
         else:
-            return 'Alex-Benites-GUI'
+            return 'Usuario-Prueba'
 
     def mostrar_resultados(self, resultado):
         """Mostrar resultados del análisis"""
