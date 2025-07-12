@@ -354,17 +354,19 @@ class AnalizadorGUI:
 
                 if sintactico.get('errores'):
                     self.escribir_consola(f"  - Errores encontrados: {len(sintactico['errores'])}")
-                    for i, error in enumerate(sintactico['errores'][:5], 1):  # Mostrar máximo 5 errores
+                    # ✅ MOSTRAR TODOS LOS ERRORES SINTÁCTICOS (sin límite)
+                    for i, error in enumerate(sintactico['errores'], 1):
                         self.escribir_consola(f"    {i}. {error}")
 
-                # Mostrar análisis semántico
-                if sintactico.get('errores_semanticos'):
-                    self.escribir_consola(f"🧠 Análisis Semántico:")
-                    self.escribir_consola(f"  - Errores semánticos: {len(sintactico['errores_semanticos'])}")
-                    for i, error in enumerate(sintactico['errores_semanticos'][:5], 1):
-                        self.escribir_consola(f"    {i}. {error}")
-                else:
-                    self.escribir_consola(f"🧠 Análisis Semántico: ✅ SIN ERRORES")
+            # Mostrar análisis semántico
+            if sintactico.get('errores_semanticos'):
+                self.escribir_consola(f"🧠 Análisis Semántico:")
+                self.escribir_consola(f"  - Errores semánticos: {len(sintactico['errores_semanticos'])}")
+                # ✅ MOSTRAR TODOS LOS ERRORES SEMÁNTICOS (sin límite)
+                for i, error in enumerate(sintactico['errores_semanticos'], 1):
+                    self.escribir_consola(f"    {i}. {error}")
+            else:
+                self.escribir_consola(f"🧠 Análisis Semántico: ✅ SIN ERRORES")
 
         self.escribir_consola("="*60)
         self.actualizar_estado("Análisis completado")
