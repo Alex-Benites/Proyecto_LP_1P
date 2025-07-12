@@ -20,6 +20,7 @@ class AnalizadorGUI:
         # Variables
         self.archivo_actual = None
         self.contenido_modificado = False
+        self.historial_corridas = []  # Historial de corridas (código ejecutado)
 
         self.crear_interfaz()
 
@@ -31,33 +32,34 @@ class AnalizadorGUI:
         self.crear_area_trabajo()
 
     def crear_toolbar(self):
-        """Crear barra de herramientas con botones Save, Upload, Run, Download"""
+        """Crear barra de herramientas con botones Save, Upload, Clean Editor, Historial y Run (a la derecha)"""
         toolbar = tk.Frame(self.root, bg='#34495e', height=50)
         toolbar.pack(fill=tk.X, side=tk.TOP)
 
-        # Botón Save
+        # Botón Save (azul oscuro)
         btn_save = tk.Button(toolbar, text="💾 Save", command=self.guardar_archivo,
-                            bg='#3498db', fg='white', font=('Arial', 10, 'bold'),
+                            bg='#2980b9', fg='white', font=('Arial', 10, 'bold'),
                             padx=15, pady=5)
         btn_save.pack(side=tk.LEFT, padx=5, pady=5)
 
-        # Botón Upload
+        # Botón Upload (verde)
         btn_upload = tk.Button(toolbar, text="📁 Upload", command=self.subir_archivo,
-                              bg='#2ecc71', fg='white', font=('Arial', 10, 'bold'),
+                              bg='#27ae60', fg='white', font=('Arial', 10, 'bold'),
                               padx=15, pady=5)
         btn_upload.pack(side=tk.LEFT, padx=5, pady=5)
 
-        # Botón Run
-        btn_run = tk.Button(toolbar, text="▶️ Run", command=self.ejecutar_analisis,
-                           bg='#e74c3c', fg='white', font=('Arial', 10, 'bold'),
-                           padx=15, pady=5)
-        btn_run.pack(side=tk.LEFT, padx=5, pady=5)
+        # Botón Clean Editor (rojo)
+        btn_clean_editor = tk.Button(toolbar, text="🧹 Clean Editor", command=self.limpiar_editor,
+                                    bg='#c0392b', fg='white', font=('Arial', 10, 'bold'),
+                                    padx=15, pady=5)
+        btn_clean_editor.pack(side=tk.LEFT, padx=5, pady=5)
 
-        # Botón Download
-        btn_download = tk.Button(toolbar, text="💾 Download", command=self.descargar_archivo,
-                                bg='#9b59b6', fg='white', font=('Arial', 10, 'bold'),
-                                padx=15, pady=5)
-        btn_download.pack(side=tk.LEFT, padx=5, pady=5)
+        # Botón Historial de Corridas (gris)
+        btn_historial = tk.Menubutton(toolbar, text="🕑 Historial", bg='#7f8c8d', fg='white',
+                                      font=('Arial', 10, 'bold'), padx=15, pady=5, relief=tk.RAISED)
+        self.menu_historial = tk.Menu(btn_historial, tearoff=0)
+        btn_historial.config(menu=self.menu_historial)
+        btn_historial.pack(side=tk.LEFT, padx=5, pady=5)
 
         # Separador
         separator = tk.Frame(toolbar, width=2, bg='#7f8c8d')
@@ -67,6 +69,43 @@ class AnalizadorGUI:
         self.label_estado = tk.Label(toolbar, text="Listo", bg='#34495e', fg='white',
                                     font=('Arial', 10))
         self.label_estado.pack(side=tk.LEFT, padx=10)
+
+        # Botón Run (naranja) - alineado a la derecha
+        btn_run = tk.Button(toolbar, text="▶️ Run", command=self.ejecutar_analisis,
+                           bg='#f39c12', fg='white', font=('Arial', 10, 'bold'),
+                           padx=15, pady=5)
+        btn_run.pack(side=tk.RIGHT, padx=5, pady=5)
+
+    def agregar_a_historial_corridas(self, codigo):
+        """Agrega el código ejecutado al historial de corridas"""
+        if codigo.strip():
+            # Limitar a 10 corridas recientes
+            self.historial_corridas.insert(0, codigo.strip())
+            self.historial_corridas = self.historial_corridas[:10]
+            self.actualizar_menu_historial()
+
+    def actualizar_menu_historial(self):
+        """Actualiza el menú de historial de corridas"""
+        self.menu_historial.delete(0, tk.END)
+        for idx, codigo in enumerate(self.historial_corridas, 1):
+            resumen = codigo[:40].replace('\n', ' ') + ('...' if len(codigo) > 40 else '')
+            self.menu_historial.add_command(
+                label=f"{idx}: {resumen}",
+                command=lambda c=codigo: self.cargar_codigo_historial(c)
+            )
+        if not self.historial_corridas:
+            self.menu_historial.add_command(label="Sin historial", state=tk.DISABLED)
+
+    def cargar_codigo_historial(self, codigo):
+        """Carga código desde el historial al editor"""
+        self.text_editor.delete(1.0, tk.END)
+        self.text_editor.insert(1.0, codigo)
+        self.actualizar_estado("Código cargado desde historial")
+
+    def limpiar_editor(self):
+        """Limpiar el área de edición de PHP"""
+        self.text_editor.delete(1.0, tk.END)
+        self.actualizar_estado("Editor limpio")
 
     def crear_area_trabajo(self):
         """Crear área dividida: Editor (izquierda) y Consola (derecha)"""
@@ -266,6 +305,9 @@ class AnalizadorGUI:
         if not codigo.strip():
             messagebox.showwarning("Advertencia", "No hay código para analizar")
             return
+
+        # Guardar en historial de corridas
+        self.agregar_a_historial_corridas(codigo)
 
         # Ejecutar en hilo separado para no bloquear la interfaz
         threading.Thread(target=self._ejecutar_analisis_thread, args=(codigo,), daemon=True).start()
