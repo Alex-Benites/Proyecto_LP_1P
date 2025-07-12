@@ -2,48 +2,7 @@ import ply.lex as lex
 import os
 from datetime import datetime
 
-# Definir tokens para PHP
-tokens = [
-    # === INICIO CONTRIBUCIÓN FERNANDO - Tokens básicos ===
-    'VARIABLE',
-    'NUMERO',
-    'CADENA',
-    'IDENTIFICADOR',
-    # === FIN CONTRIBUCIÓN FERNANDO ===
-
-    # === INICIO CONTRIBUCIÓN NEHEMIAS - Operadores ===
-    'MAS',
-    'MENOS',
-    'MULTIPLICAR',
-    'DIVIDIR',
-    'ASIGNAR',
-    'IGUAL',
-    'NO_IGUAL',
-    'MAYOR',
-    'MENOR',
-    'MAYOR_IGUAL',
-    'MENOR_IGUAL',
-    'TAG_INICIO',
-    "TAG_FIN",
-    # === FIN CONTRIBUCIÓN NEHEMIAS ===
-
-    # === INICIO CONTRIBUCIÓN ALEX - Delimitadores y estructura ===
-    'PAREN_IZQ',
-    'PAREN_DER',
-    'LLAVE_IZQ',
-    'LLAVE_DER',
-    'CORCHETE_IZQ',
-    'CORCHETE_DER',
-    'PUNTO_COMA',
-    'COMA',
-    'PUNTO',
-    'FLECHA',
-    'DOBLE_DOS_PUNTOS',
-    'ARRAY_ASOCIATIVO',
-    # === FIN CONTRIBUCIÓN ALEX ===
-]
-
-# Definicion de palabras reservadas
+# === PALABRAS RESERVADAS ===
 reserved = {
     'if': 'IF',
     'else': 'ELSE',
@@ -61,11 +20,54 @@ reserved = {
     'new': 'NEW',
     'echo': 'ECHO',
     'print': 'PRINT',
-    'readline': 'READLINE',  # Agregar esta línea
-    'define': 'DEFINE'
+    'readline': 'READLINE',
+    'define': 'DEFINE',
+
+    # === INICIO CONTRIBUCIÓN ALEX - Tokens específicos para PILA ===
+    'push': 'PUSH',
+    'pop': 'POP',
+    'peek': 'PEEK',
+    'array_push': 'ARRAY_PUSH',
+    'array_pop': 'ARRAY_POP',
+    'count': 'COUNT'
+    # === FIN CONTRIBUCIÓN ALEX ===
 }
 
-tokens += list(reserved.values())
+# Lista de tokens
+tokens = [
+    'VARIABLE',
+    'NUMERO',
+    'CADENA',
+    'IDENTIFICADOR',
+    # Operadores aritméticos
+    'MAS',
+    'MENOS',
+    'MULTIPLICAR',
+    'DIVIDIR',
+    'ASIGNAR',
+    # Operadores de comparación
+    'IGUAL',
+    'NO_IGUAL',
+    'MAYOR',
+    'MENOR',
+    'MAYOR_IGUAL',
+    'MENOR_IGUAL',
+    # Delimitadores
+    'TAG_INICIO',
+    'TAG_FIN',
+    'PAREN_IZQ',
+    'PAREN_DER',
+    'LLAVE_IZQ',
+    'LLAVE_DER',
+    'CORCHETE_IZQ',
+    'CORCHETE_DER',
+    'PUNTO_COMA',
+    'COMA',
+    'PUNTO',
+    'FLECHA',
+    'DOBLE_DOS_PUNTOS',
+    'ARRAY_ASOCIATIVO',
+] + list(reserved.values())  # ✅ AGREGAR LAS PALABRAS RESERVADAS
 
 # === INICIO CONTRIBUCIÓN FERNANDO - Tokens básicos ===
 def t_VARIABLE(t):

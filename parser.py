@@ -36,37 +36,59 @@ def p_sentencia(p):
                  | sentencia_return
                  | sentencia_llamada_funcion
                  | sentencia_incremento
-                 | sentencia_comentario'''
+                 | sentencia_comentario
+                 | operacion_pila'''  # ✅ AGREGAR ESTA LÍNEA
     p[0] = p[1]
 
 def p_asignacion(p):
-    '''asignacion : VARIABLE ASIGNAR expresion PUNTO_COMA'''
+    '''asignacion : VARIABLE ASIGNAR expresion PUNTO_COMA
+                 | VARIABLE ASIGNAR IDENTIFICADOR PAREN_IZQ lista_argumentos PAREN_DER PUNTO_COMA
+                 | VARIABLE ASIGNAR ARRAY_POP PAREN_IZQ VARIABLE PAREN_DER PUNTO_COMA
+                 | VARIABLE ASIGNAR ARRAY_PUSH PAREN_IZQ VARIABLE COMA expresion PAREN_DER PUNTO_COMA'''
     var = p[1]
-    expr = p[3]
 
-    if isinstance(expr, tuple) and expr[0] == 'binaria':
-        # Si es una expresión binaria como 0 - 1
-        operador = expr[1]
-        izq = expr[2]
-        der = expr[3]
+    if len(p) == 5:  # Asignación simple: $var = expresion;
+        expr = p[3]
+        if isinstance(expr, tuple) and expr[0] == 'binaria':
+            # Si es una expresión binaria como 0 - 1
+            operador = expr[1]
+            izq = expr[2]
+            der = expr[3]
 
-        if (operador == '-' and
-            isinstance(izq, tuple) and izq[0] == 'literal' and
-            isinstance(der, tuple) and der[0] == 'literal'):
+            if (operador == '-' and
+                isinstance(izq, tuple) and izq[0] == 'literal' and
+                isinstance(der, tuple) and der[0] == 'literal'):
 
-            val_izq = izq[1]
-            val_der = der[1]
+                val_izq = izq[1]
+                val_der = der[1]
 
-            if isinstance(val_izq, (int, float)) and isinstance(val_der, (int, float)):
-                resultado = val_izq - val_der
-                tabla_simbolos[var] = resultado
-            else:
-                tabla_simbolos[var] = 'mixed'
+                if isinstance(val_izq, (int, float)) and isinstance(val_der, (int, float)):
+                    resultado = val_izq - val_der
+                    tabla_simbolos[var] = resultado
+                else:
+                    tabla_simbolos[var] = 'mixed'
 
-    elif isinstance(expr, tuple) and expr[0] == 'literal':
-        tabla_simbolos[var] = expr[1]
+        elif isinstance(expr, tuple) and expr[0] == 'literal':
+            tabla_simbolos[var] = expr[1]
 
-    p[0] = ('asignacion', var, expr)
+        p[0] = ('asignacion', var, expr)
+
+    elif len(p) == 7 and p[3] == 'array_pop':  # $var = array_pop($array);
+        array_var = p[5]
+        tabla_simbolos[var] = 'mixed'  # Resultado de array_pop
+        p[0] = ('asignacion_array_pop', var, array_var)
+
+    elif len(p) == 8:  # Asignación con llamada a función: $var = funcion(args);
+        nombre_funcion = p[3]
+        argumentos = p[5]
+        tabla_simbolos[var] = 'mixed'
+        p[0] = ('asignacion_funcion', var, nombre_funcion, argumentos)
+
+    elif len(p) == 9 and p[3] == 'array_push':  # $var = array_push($array, elemento);
+        array_var = p[5]
+        elemento = p[7]
+        tabla_simbolos[var] = 'mixed'  # Resultado de array_push
+        p[0] = ('asignacion_array_push', var, array_var, elemento)
 
 
 def p_asignacion_array(p):
@@ -170,7 +192,7 @@ def p_elemento_array(p):
 def p_expresion_acceso_array(p):
     '''expresion : VARIABLE CORCHETE_IZQ expresion CORCHETE_DER'''
 
-    #SEGUNDA REGLA SEMÁNTICA DE ALEX: Validación de acceso a arrays
+    # ✅ LLAMAR a la validación de acceso seguro de Alex
     validar_acceso_array_seguro(p[1], p[3])
 
     p[0] = ('acceso_array', p[1], p[3])
@@ -400,22 +422,31 @@ def validar_division_por_cero(expr):
 def validar_acceso_array_seguro(variable_array, indice_expr):
     """
     Segunda regla semántica de Alex: Validar acceso seguro a arrays
+    SOLO SE APLICA a la variable $pila (específica de Alex)
     """
-    # CASO 1: Verificar índice literal negativo directo
+
+    # ✅ SOLO aplicar esta regla a la variable $pila de Alex
+    if variable_array != '$pila':
+        return False  # No aplicar esta regla para otros arrays
+
+    # CASO 1: Verificar índice literal
     if isinstance(indice_expr, tuple) and indice_expr[0] == 'literal':
         valor_indice = indice_expr[1]
+
+        # Verificar variable que contiene índice negativo
         if isinstance(valor_indice, str) and valor_indice.startswith('$'):
-            # Verifico si la variable contiene un valor negativo
             if valor_indice in tabla_simbolos:
                 valor = tabla_simbolos[valor_indice]
                 if isinstance(valor, (int, float)) and valor < 0:
                     registrar_error_semantico(f"Error semántico: Variable {valor_indice} contiene índice negativo ({valor}) para acceso a array {variable_array}.")
                     return True
 
+        # Verificar índice negativo directo
         elif isinstance(valor_indice, (int, float)) and valor_indice < 0:
             registrar_error_semantico(f"Error semántico: Acceso a array {variable_array} con índice negativo ({valor_indice}).")
             return True
 
+        # Verificar índice string en array simple (SOLO para $pila)
         elif isinstance(valor_indice, str) and valor_indice.startswith('"') and valor_indice.endswith('"'):
             contenido = valor_indice.strip('"')
             if not contenido.isdigit():
@@ -438,4 +469,82 @@ def validar_acceso_array_seguro(variable_array, indice_expr):
     return False
 
 
-parser = yacc.yacc()
+# === INICIO CONTRIBUCIÓN ALEX - Reglas sintácticas para PILA ===
+def p_operacion_pila(p):
+    '''operacion_pila : operacion_push
+                     | operacion_pop
+                     | operacion_peek'''
+    p[0] = p[1]
+
+def p_operacion_push(p):
+    '''operacion_push : ARRAY_PUSH PAREN_IZQ VARIABLE COMA expresion PAREN_DER PUNTO_COMA
+                     | PUSH PAREN_IZQ VARIABLE COMA expresion PAREN_DER PUNTO_COMA'''
+    # Regla semántica: Verificar overflow de pila
+    validar_overflow_pila(p[3])
+    p[0] = ('push', p[3], p[5])
+
+def p_operacion_pop(p):
+    '''operacion_pop : ARRAY_POP PAREN_IZQ VARIABLE PAREN_DER PUNTO_COMA
+                    | POP PAREN_IZQ VARIABLE PAREN_DER PUNTO_COMA'''
+    # Regla semántica: Verificar underflow de pila
+    validar_underflow_pila(p[3])
+    p[0] = ('pop', p[3])
+
+def p_operacion_peek(p):
+    '''operacion_peek : PEEK PAREN_IZQ VARIABLE PAREN_DER
+                     | VARIABLE CORCHETE_IZQ COUNT PAREN_IZQ VARIABLE PAREN_DER MENOS NUMERO CORCHETE_DER'''
+    if len(p) == 5:
+        # Regla semántica: Verificar pila vacía para peek
+        validar_pila_vacia_peek(p[3])
+        p[0] = ('peek', p[3])
+    else:
+        p[0] = ('peek_complex', p[1], p[5], p[8])
+
+def p_expresion_count(p):
+    '''expresion : COUNT PAREN_IZQ VARIABLE PAREN_DER'''
+    p[0] = ('count', p[3])
+# === FIN CONTRIBUCIÓN ALEX ===
+
+# === REGLAS SEMÁNTICAS ESPECÍFICAS PARA PILA DE ALEX ===
+def validar_overflow_pila(pila_var):
+    """
+    Tercera regla semántica de Alex: Verificar overflow en operaciones push
+    """
+    tamaño_actual = tabla_simbolos.get(f"{pila_var}_tamaño", 0)
+    tamaño_maximo = tabla_simbolos.get("$tamaño_maximo", 10)  # Default 10
+
+    if isinstance(tamaño_actual, int) and isinstance(tamaño_maximo, int):
+        if tamaño_actual >= tamaño_maximo:
+            registrar_error_semantico(f"Error semántico: Overflow de pila {pila_var} - tamaño máximo {tamaño_maximo} alcanzado.")
+            return True
+    return False
+
+def validar_underflow_pila(pila_var):
+    """
+    Cuarta regla semántica de Alex: Verificar underflow en operaciones pop
+    """
+    tamaño_actual = tabla_simbolos.get(f"{pila_var}_tamaño", 0)
+
+    if isinstance(tamaño_actual, int) and tamaño_actual <= 0:
+        registrar_error_semantico(f"Error semántico: Underflow de pila {pila_var} - no se puede hacer pop en pila vacía.")
+        return True
+    return False
+
+def validar_pila_vacia_peek(pila_var):
+    """
+    Quinta regla semántica de Alex: Verificar peek en pila vacía
+    """
+    tamaño_actual = tabla_simbolos.get(f"{pila_var}_tamaño", 0)
+
+    if isinstance(tamaño_actual, int) and tamaño_actual <= 0:
+        registrar_error_semantico(f"Error semántico: Peek en pila vacía {pila_var} - no hay elementos para consultar.")
+        return True
+    return False
+
+# === CREACIÓN DEL PARSER ===
+def crear_parser():
+    """Crea y retorna el objeto parser"""
+    return yacc.yacc()
+
+# Crear el parser global
+parser = crear_parser()

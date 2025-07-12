@@ -1,71 +1,97 @@
 <?php
-// Algoritmo que simula el comportamiento de una cola en PHP
-$cola = [];
+// Algoritmo que simula el comportamiento de una PILA (Stack) en PHP
+// Contribución de: Alex Benites
 
-// Mostramos estado inicial
-echo "Estado inicial de la cola:\n";
-print_r($cola);
-$cola[] = "Cliente 1";
-$cola[] = "Cliente 2";
-$cola[] = "Cliente 3";
+echo "=== SIMULACIÓN DE PILA (STACK) EN PHP ===\n";
 
-echo "\nEstado de la cola después de hacer ENQUEUE:\n";
-print_r($cola);
+// Inicializar pila vacía
+$pila = [];
+$tamano_maximo = 5;
 
-$clienteAtendido = array_shift($cola);
+echo "Estado inicial de la pila:\n";
+print_r($pila);
 
-echo "\nCliente atendido (DEQUEUE): " . $clienteAtendido . "\n";
-echo "Estado de la cola después del DEQUEUE:\n";
-print_r($cola);
+// === OPERACIONES DE PILA ===
+echo "\n=== OPERACIONES PUSH (APILAR) ===\n";
 
-if (empty($cola)) {
-    echo "\nLa cola está vacía.\n";
+// Push: Agregar elementos al tope de la pila
+array_push($pila, "Documento A");
+array_push($pila, "Documento B");
+array_push($pila, "Documento C");
+array_push($pila, "Documento D");
+
+echo "Estado de la pila después de agregar elementos:\n";
+print_r($pila);
+
+echo "\n=== OPERACIONES POP (DESAPILAR) ===\n";
+
+// Pop: Remover elementos del tope de la pila
+$documento_removido = array_pop($pila);
+echo "Documento removido: " . $documento_removido . "\n";
+
+$documento_removido2 = array_pop($pila);
+echo "Documento removido: " . $documento_removido2 . "\n";
+
+echo "Estado de la pila después de remover elementos:\n";
+print_r($pila);
+
+echo "\n=== OPERACIONES ADICIONALES ===\n";
+
+// Peek: Ver el elemento del tope sin removerlo
+$tamano_actual = count($pila);
+if ($tamano_actual > 0) {
+    $tope = $pila[$tamano_actual - 1];
+    echo "Elemento en el tope: " . $tope . "\n";
 } else {
-    echo "\nQuedan " . count($cola) . " clientes en la cola.\n";
+    echo "La pila está vacía\n";
 }
 
-$siguienteCliente = $cola[0];
+// Verificar tamaño
+echo "La pila tiene " . count($pila) . " elementos\n";
 
-echo "\nEl siguiente cliente en la cola es: " . $siguienteCliente . "\n";
-
-//Pruebas semanticas de Alex: División por cero
+// === PRUEBAS SEMÁNTICAS DE ALEX ===
 echo "\n=== PRUEBAS DE VALIDACIÓN SEMÁNTICA ===\n";
 
-// Casos que me deberiann generar error semántico:
+// Primera regla semántica: División por cero
 echo "Realizando operaciones matemáticas...\n";
-$clientes_total = 10;
+$documentos_total = 10;
 $divisor_cero = 0;
 
-// División directa por cero
-$promedio1 = 100 / 0;
+// Casos que DEBEN generar error semántico:
+$promedio1 = 100 / 0;                    // División directa por cero
+$promedio2 = $documentos_total / 0;      // División con variable cero
+$promedio3 = 50 / 0.0;                   // División por cero decimal
 
-// División con variable cero
-$promedio2 = $clientes_total / 0;
+echo "Promedio de procesamiento calculado\n";
 
-// División con decimal cero
-$promedio3 = 50 / 0.0;
-
-// Casos validos que no deben generar error:
-$promedio_valido = $clientes_total / 2;
-$tiempo_atencion = 60 / count($cola);
-
-echo "Promedio de atención por cliente: " . $promedio_valido . " minutos\n";
-
-// Segunda regla semantica de ALex: Validación de acceso a arrays
+// Segunda regla semántica: Acceso a arrays con índices problemáticos
 echo "\n=== PRUEBAS DE ACCESO A ARRAYS ===\n";
 
-// Casos que si me van a generar error en el analisis semántico:
+// Casos que DEBEN generar error semántico:
 $indice_negativo = 0 - 1;
-$error1 = $cola[$indice_negativo];
+$error1 = $pila[$indice_negativo];       // Índice negativo via variable
 
 $indice_negativo2 = 0 - 5;
-$error2 = $cola[$indice_negativo2];
+$error2 = $pila[$indice_negativo2];      // Índice negativo mayor
 
-$error3 = $cola["texto"];
-// Casos validos que no deben generar error:
-$valido1 = $cola[0];
-$valido2 = $cola[1];
-$valido3 = $cola[2];
+$error3 = $pila["texto"];                // Índice string en array simple
 
-echo "Acceso válido completado\n";
+// Casos válidos (no deben generar error):
+$valido1 = $pila[0];                     // Índice válido
+$valido2 = $pila[1];                     // Índice válido
+
+echo "Acceso a elementos completado\n";
+
+// === DEMOSTRACIÓN FINAL DE PILA ===
+echo "\n=== DEMOSTRACIÓN FINAL ===\n";
+
+// Agregar más elementos para mostrar el comportamiento
+array_push($pila, "Último Documento");
+echo "Agregado elemento final a la pila\n";
+
+echo "Estado final de la pila:\n";
+print_r($pila);
+
+echo "Tamaño final de la pila: " . count($pila) . " elementos\n";
+echo "\n=== ANÁLISIS DE PILA COMPLETADO ===\n";
 ?>
