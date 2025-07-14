@@ -299,12 +299,9 @@ def p_sentencia_llamada_funcion(p):
     # Regla semántica: Overflow de cola (Nehemias Lindao)
     if nombre_funcion == "encolar":
         contador_val = tabla_simbolos.get("$contador", None)
-        max_val = None
-        # Busca el valor de la constante TAMAÑO_MAXIMO
-        for k, v in tabla_simbolos.items():
-            if k == "TAMAÑO_MAXIMO":
-                max_val = v
-        if max_val is not None and contador_val == max_val:
+        max_val = tabla_simbolos.get("TAMAÑO_MAXIMO", 5)  # ✅ Buscar directamente
+
+        if contador_val is not None and contador_val >= max_val:  # ✅ Cambiar == por >=
             registrar_error_semantico("Error semántico: No se puede encolar, la cola está llena (overflow).")
 
     p[0] = ('llamada_funcion', nombre_funcion, argumentos)
