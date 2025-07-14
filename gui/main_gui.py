@@ -9,6 +9,7 @@ from datetime import datetime
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from main import analizar_archivo_completo
 from lexer import lexer
+lexer.lineno = 1
 
 class AnalizadorGUI:
     def __init__(self):
@@ -300,6 +301,11 @@ class AnalizadorGUI:
         self.limpiar_consola()
         self.actualizar_estado("Ejecutando...")
 
+        # Limpiar errores léxicos antes de cada análisis
+        from lexer import errores_lexicos, lexer
+        errores_lexicos.clear()
+        lexer.lineno = 1  # Reinicia el contador de líneas
+
         # Crear archivo temporal
         codigo = self.text_editor.get(1.0, tk.END)
         if not codigo.strip():
@@ -320,6 +326,7 @@ class AnalizadorGUI:
 
             # Guardar archivo temporal
             archivo_temp = f"temp_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}.php"
+            codigo = codigo.rstrip()  # Elimina espacios y saltos de línea al final
             with open(archivo_temp, 'w', encoding='utf-8') as file:
                 file.write(codigo)
 
