@@ -15,6 +15,7 @@ echo "\n=== OPERACIONES PUSH (APILAR) ===\n";
 array_push($pila, "Documento A");
 array_push($pila, "Documento B");
 
+
 echo "\n=== OPERACIONES POP (DESAPILAR) ===\n";
 $documento_removido = array_pop($pila);
 echo "Documento removido: " . $documento_removido . "\n";
