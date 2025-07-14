@@ -402,9 +402,52 @@ def tipo_expresion(expr, simbolos=None):
         return 'float'
     return None
 
+
+
+# === INICIO CONTRIBUCIÓN ALEX - Reglas sintácticas para PILA ===
+
+# Regla sintactica 1: Verificar que la pila existe
+def p_operacion_pila(p):
+    '''operacion_pila : operacion_push
+                     | operacion_pop'''
+    p[0] = p[1]
+
+
+# Regla sintactica 2
+def p_operacion_push(p):
+    '''operacion_push : ARRAY_PUSH PAREN_IZQ VARIABLE COMA expresion PAREN_DER PUNTO_COMA
+                     | PUSH PAREN_IZQ VARIABLE COMA expresion PAREN_DER PUNTO_COMA'''
+    # Validar sintaxis de operación push
+    p[0] = ('push', p[3], p[5])
+
+# Regla sintactica 3
+def p_operacion_pop(p):
+    '''operacion_pop : ARRAY_POP PAREN_IZQ VARIABLE PAREN_DER PUNTO_COMA
+                    | POP PAREN_IZQ VARIABLE PAREN_DER PUNTO_COMA'''
+    # Verificar underflow de pila
+    validar_underflow_pila(p[3])
+    p[0] = ('pop', p[3])
+
+
+# === FIN CONTRIBUCIÓN ALEX ===
+
+# === REGLAS SEMÁNTICAS ESPECÍFICAS PARA PILA DE ALEX ===
+
+def validar_underflow_pila(pila_var):
+    """
+    Primera regla semántica de Alex: Verificar underflow en operaciones pop
+    """
+    tamaño_actual = tabla_simbolos.get(f"{pila_var}_tamaño", 0)
+
+    if isinstance(tamaño_actual, int) and tamaño_actual <= 0:
+        registrar_error_semantico(f"Error semántico: Underflow de pila {pila_var} - no se puede hacer pop en pila vacía.")
+        return True
+    return False
+
+
 def validar_division_por_cero(expr):
     """
-    Regla semántica de Alex: Detectar división por cero
+    Segunda regla semántica de Alex: Detectar división por cero
     """
     if isinstance(expr, tuple) and expr[0] == 'binaria':
         operador = expr[1]
@@ -421,7 +464,7 @@ def validar_division_por_cero(expr):
 
 def validar_acceso_array_seguro(variable_array, indice_expr):
     """
-    Segunda regla semántica de Alex: Validar acceso seguro a arrays
+    Tercera regla semántica de Alex: Validar acceso seguro a arrays
     SOLO SE APLICA a la variable $pila (específica de Alex)
     """
 
@@ -466,79 +509,6 @@ def validar_acceso_array_seguro(variable_array, indice_expr):
             registrar_error_semantico(f"Error semántico: Expresión de índice resulta en valor negativo ({resultado}) para array {variable_array}.")
             return True
 
-    return False
-
-
-# === INICIO CONTRIBUCIÓN ALEX - Reglas sintácticas para PILA ===
-def p_operacion_pila(p):
-    '''operacion_pila : operacion_push
-                     | operacion_pop
-                     | operacion_peek'''
-    p[0] = p[1]
-
-def p_operacion_push(p):
-    '''operacion_push : ARRAY_PUSH PAREN_IZQ VARIABLE COMA expresion PAREN_DER PUNTO_COMA
-                     | PUSH PAREN_IZQ VARIABLE COMA expresion PAREN_DER PUNTO_COMA'''
-    # Regla semántica: Verificar overflow de pila
-    validar_overflow_pila(p[3])
-    p[0] = ('push', p[3], p[5])
-
-def p_operacion_pop(p):
-    '''operacion_pop : ARRAY_POP PAREN_IZQ VARIABLE PAREN_DER PUNTO_COMA
-                    | POP PAREN_IZQ VARIABLE PAREN_DER PUNTO_COMA'''
-    # Regla semántica: Verificar underflow de pila
-    validar_underflow_pila(p[3])
-    p[0] = ('pop', p[3])
-
-def p_operacion_peek(p):
-    '''operacion_peek : PEEK PAREN_IZQ VARIABLE PAREN_DER
-                     | VARIABLE CORCHETE_IZQ COUNT PAREN_IZQ VARIABLE PAREN_DER MENOS NUMERO CORCHETE_DER'''
-    if len(p) == 5:
-        # Regla semántica: Verificar pila vacía para peek
-        validar_pila_vacia_peek(p[3])
-        p[0] = ('peek', p[3])
-    else:
-        p[0] = ('peek_complex', p[1], p[5], p[8])
-
-def p_expresion_count(p):
-    '''expresion : COUNT PAREN_IZQ VARIABLE PAREN_DER'''
-    p[0] = ('count', p[3])
-# === FIN CONTRIBUCIÓN ALEX ===
-
-# === REGLAS SEMÁNTICAS ESPECÍFICAS PARA PILA DE ALEX ===
-def validar_overflow_pila(pila_var):
-    """
-    Tercera regla semántica de Alex: Verificar overflow en operaciones push
-    """
-    tamaño_actual = tabla_simbolos.get(f"{pila_var}_tamaño", 0)
-    tamaño_maximo = tabla_simbolos.get("$tamaño_maximo", 10)  # Default 10
-
-    if isinstance(tamaño_actual, int) and isinstance(tamaño_maximo, int):
-        if tamaño_actual >= tamaño_maximo:
-            registrar_error_semantico(f"Error semántico: Overflow de pila {pila_var} - tamaño máximo {tamaño_maximo} alcanzado.")
-            return True
-    return False
-
-def validar_underflow_pila(pila_var):
-    """
-    Cuarta regla semántica de Alex: Verificar underflow en operaciones pop
-    """
-    tamaño_actual = tabla_simbolos.get(f"{pila_var}_tamaño", 0)
-
-    if isinstance(tamaño_actual, int) and tamaño_actual <= 0:
-        registrar_error_semantico(f"Error semántico: Underflow de pila {pila_var} - no se puede hacer pop en pila vacía.")
-        return True
-    return False
-
-def validar_pila_vacia_peek(pila_var):
-    """
-    Quinta regla semántica de Alex: Verificar peek en pila vacía
-    """
-    tamaño_actual = tabla_simbolos.get(f"{pila_var}_tamaño", 0)
-
-    if isinstance(tamaño_actual, int) and tamaño_actual <= 0:
-        registrar_error_semantico(f"Error semántico: Peek en pila vacía {pila_var} - no hay elementos para consultar.")
-        return True
     return False
 
 # === CREACIÓN DEL PARSER ===

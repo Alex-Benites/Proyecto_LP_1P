@@ -30,13 +30,13 @@ foreach ($personas as $persona) {
 
     // Verificamos si es mayor de edad
     if ($persona["edad"] >= EDAD_MINIMA) {
-        $adultos= $adultos + 1; 
+        $adultos= $adultos + 1;
         echo $persona["nombre"] . " es mayor de edad\n";
     } else {
         echo $persona["nombre"] . " es menor de edad\n";
     }
 // Error sintáctico: falta llave de cierre
-}{
+}
     echo "Error: Falta llave de cierre en el bloque de código\n";
 
 

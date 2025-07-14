@@ -75,9 +75,12 @@ def realizar_analisis_lexico(codigo, archivo_php, github_user):
     print(" INICIANDO ANÁLISIS LÉXICO...")
     tokens = []
 
+    # ✅ LIMPIAR ERRORES LÉXICOS ANTES DE CADA ANÁLISIS
+    from lexer import errores_lexicos
+    errores_lexicos.clear()  # ← AGREGAR ESTA LÍNEA
+
     # Crear una nueva instancia del lexer para evitar conflictos
     from lexer import lexer
-    from lexer import errores_lexicos
     lexer.input(codigo)
 
     while True:
@@ -86,7 +89,7 @@ def realizar_analisis_lexico(codigo, archivo_php, github_user):
             break
         tokens.append(tok)
         print(f"Token: {tok.type:15} | Valor: '{tok.value}' | Línea: {tok.lineno}")
-    
+
     print(f" Análisis léxico completado: {len(tokens)} tokens encontrados")
 
     # Generar log léxico INMEDIATAMENTE
