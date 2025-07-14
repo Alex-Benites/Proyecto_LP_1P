@@ -14,7 +14,7 @@ lexer.lineno = 1
 class AnalizadorGUI:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("Analizador Léxico-Sintáctico-Semántico - Alex Benites")
+        self.root.title("Analizador Léxico-Sintáctico-Semántico")
         self.root.geometry("1200x800")
         self.root.configure(bg='#2c3e50')
 
