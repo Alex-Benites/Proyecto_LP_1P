@@ -42,7 +42,7 @@ foreach ($personas as $persona) {
 
 // Calculamos el promedio de edad (evitando división por cero)
 if ($cantidadPersonas > 0) {
-    $promedio = $totalEdades / $cantidadPersonas
+    $promedio = $totalEdades / $cantidadPersonas;
 } else {
     $promedio = 0;
 }

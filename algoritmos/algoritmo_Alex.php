@@ -22,20 +22,20 @@ echo "Documento removido: " . $documento_removido . "\n";
 
 // === PRUEBA REGLA SEMÁNTICA 1: División por cero ===
 echo "\n=== PRUEBA DIVISIÓN POR CERO ===\n";
-$resultado1 = 100 / 0;          // ❌ Error semántico
-$resultado2 = 50 / 0.0;         // ❌ Error semántico
+$resultado1 = 100 / 0;
+$resultado2 = 50 / 0.0;
 
 // === PRUEBA REGLA SEMÁNTICA 2: Acceso seguro a arrays ===
 echo "\n=== PRUEBA ACCESO SEGURO A ARRAYS ===\n";
-$indice_negativo = 0 - 1;       // Índice negativo
-$error1 = $pila[$indice_negativo];    // ❌ Error semántico (índice negativo)
-$error2 = $pila["Texto"];             // ❌ Error semántico (string en array simple)
+$indice_negativo = 0 - 1;
+$error1 = $pila[$indice_negativo];
+$error2 = $pila["Texto"];
 
 // === PRUEBA REGLA SEMÁNTICA 3: Underflow de pila ===
 echo "\n=== PRUEBA UNDERFLOW DE PILA ===\n";
 // Simular pila vacía
 $pila_tamano = 0;
-array_pop($pila); // ❌ Error semántico (underflow)
+array_pop($pila);
 
 echo "Estado final de la pila:\n";
 print_r($pila);

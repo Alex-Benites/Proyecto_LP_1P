@@ -188,6 +188,10 @@ def p_elemento_array(p):
         tabla_tipos_arrays[array_name][clave] = tipo_valor
         p[0] = ('asociativo', clave, valor)
 
+def p_expresion_count(p):
+    '''expresion : COUNT PAREN_IZQ VARIABLE PAREN_DER'''
+    p[0] = ('count', p[3])
+
 
 def p_expresion_acceso_array(p):
     '''expresion : VARIABLE CORCHETE_IZQ expresion CORCHETE_DER'''
