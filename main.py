@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 from parser import obtener_errores_semanticos, limpiar_errores_semanticos, limpiar_tabla_simbolos,limpiar_tabla_tipos_arrays
 
-def generar_log_lexico(archivo_php, github_user, tokens):
+def generar_log_lexico(archivo_php, github_user, tokens,errores_lexicos):
     """
     Genera el log del análisis léxico
     """
@@ -29,6 +29,14 @@ def generar_log_lexico(archivo_php, github_user, tokens):
         log_file.write("-" * 40 + "\n")
         for i, token in enumerate(tokens, 1):
             log_file.write(f"{i:3d}. Token: {token.type:15} | Valor: '{token.value}' | Línea: {token.lineno}\n")
+        #errores lexicos
+        log_file.write("\nERRORES LÉXICOS:\n")
+        if not errores_lexicos:
+            log_file.write("No se encontraron errores léxicos.\n")
+        else:
+            for error in errores_lexicos:
+                log_file.write(f"- {error}\n")
+            log_file.write(f"\nTotal errores léxicos: {len(errores_lexicos)}\n")
 
         # Estadísticas
         log_file.write(f"\nESTADÍSTICAS LÉXICAS:\n")
@@ -51,8 +59,12 @@ def generar_log_lexico(archivo_php, github_user, tokens):
         log_file.write("INFORMACIÓN ADICIONAL:\n")
         log_file.write("-" * 25 + "\n")
         log_file.write(f"Archivo analizado: {archivo_php}\n")
-        log_file.write("Análisis léxico completado sin errores\n")
-        log_file.write("Todos los tokens fueron reconocidos correctamente\n")
+        if not errores_lexicos:
+            log_file.write("Análisis léxico completado sin errores\n")
+            log_file.write("Todos los tokens fueron reconocidos correctamente\n")
+        else:
+            log_file.write("Análisis léxico completado con errores\n")
+            log_file.write(f"Se encontraron {len(errores_lexicos)} errores léxicos\n")
 
     return log_filename
 
@@ -65,6 +77,7 @@ def realizar_analisis_lexico(codigo, archivo_php, github_user):
 
     # Crear una nueva instancia del lexer para evitar conflictos
     from lexer import lexer
+    from lexer import errores_lexicos
     lexer.input(codigo)
 
     while True:
@@ -73,11 +86,11 @@ def realizar_analisis_lexico(codigo, archivo_php, github_user):
             break
         tokens.append(tok)
         print(f"Token: {tok.type:15} | Valor: '{tok.value}' | Línea: {tok.lineno}")
-
+    
     print(f" Análisis léxico completado: {len(tokens)} tokens encontrados")
 
     # Generar log léxico INMEDIATAMENTE
-    log_lexico = generar_log_lexico(archivo_php, github_user, tokens)
+    log_lexico = generar_log_lexico(archivo_php, github_user, tokens,errores_lexicos)
     print(f" Log léxico generado: {log_lexico}")
 
     return tokens, log_lexico

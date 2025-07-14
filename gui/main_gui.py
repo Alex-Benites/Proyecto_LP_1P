@@ -381,9 +381,28 @@ class AnalizadorGUI:
             # Mostrar información del análisis léxico
             if 'lexico' in resultado:
                 lexico = resultado['lexico']
-                self.escribir_consola(f"📊 Análisis Léxico:")
-                self.escribir_consola(f"  - Tokens encontrados: {lexico.get('tokens', 'N/A')}")
-                self.escribir_consola(f"  - Estado: {'✅ EXITOSO' if lexico.get('exito', False) else '❌ FALLIDO'}")
+                # Mostrar estado según errores léxicos
+                log_path = lexico.get('log', '')
+                errores_lexicos = []
+                # Leer errores léxicos del log si existe
+                if log_path and os.path.exists(log_path):
+                    with open(log_path, 'r', encoding='utf-8') as f:
+                        contenido = f.read()
+                        # Buscar la sección de errores léxicos
+                        if "ERRORES LÉXICOS:" in contenido:
+                            errores_lexicos = []
+                            lines = contenido.split("ERRORES LÉXICOS:")[1].splitlines()
+                            for line in lines:
+                                if line.startswith("- "):
+                                    errores_lexicos.append(line[2:])
+                if errores_lexicos:
+                    self.escribir_consola(f"📊 Análisis Léxico: ❌ FALLIDO")
+                    self.escribir_consola(f"  - Errores léxicos encontrados: {len(errores_lexicos)}")
+                    for i, error in enumerate(errores_lexicos, 1):
+                        self.escribir_consola(f"    {i}. {error}")
+                else:
+                    self.escribir_consola(f"📊 Análisis Léxico: ✅ EXITOSO")
+                    self.escribir_consola(f"  - Tokens encontrados: {lexico.get('tokens', 'N/A')}")
 
             # Mostrar información del análisis sintáctico
             if 'sintactico' in resultado:
